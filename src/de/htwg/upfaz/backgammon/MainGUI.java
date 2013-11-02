@@ -9,9 +9,6 @@ import de.htwg.upfaz.backgammon.gui.Tui;
 
 import java.util.Scanner;
 
-/**
- * Class GUI
- */
 public final class MainGUI {
 
     private static BackgammonFrame bf;

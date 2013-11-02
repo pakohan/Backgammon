@@ -1,8 +1,5 @@
 package de.htwg.upfaz.backgammon.entities;
 
-/**
- * Class Field
- */
 public class Field
         implements IField {
 
@@ -14,7 +11,6 @@ public class Field
     private int numberStones;
     private int stoneColor;
 
-    /* for to string method */
     private static final int TEN_STONES = 10;
 
     //

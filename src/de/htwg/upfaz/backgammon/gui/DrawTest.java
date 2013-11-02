@@ -8,9 +8,6 @@ import java.awt.*;
 public class DrawTest
         extends JPanel {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
     private static final int BORDER = 30;
     private static final int DRAW_STONE_STEP = 25;

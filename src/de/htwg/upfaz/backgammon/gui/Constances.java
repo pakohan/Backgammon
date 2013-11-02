@@ -1,8 +1,5 @@
 package de.htwg.upfaz.backgammon.gui;
 
-/**
- * @author Bfcm
- */
 public final class Constances {
 
     private Constances() {}

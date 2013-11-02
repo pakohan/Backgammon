@@ -9,9 +9,6 @@ import de.htwg.util.observer.Observable;
 import java.util.Arrays;
 import java.util.Random;
 
-/**
- * Class Game
- */
 public class Game
         extends Observable
         implements IGame {
@@ -109,13 +106,6 @@ public class Game
 		 */
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * de.htwg.upfaz.backgammon.controller.IGame#setGameMap(de.htwg.upfaz.backgammon
-     * .entities.Field[])
-     */
     @Override
     public void setGameMap(Field[] newGameMap) {
 
@@ -126,21 +116,11 @@ public class Game
         }
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see de.htwg.upfaz.backgammon.controller.IGame#getGameMap()
-     */
     @Override
     public Field[] getGameMap() {
         return gameMap;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see de.htwg.upfaz.backgammon.controller.IGame#rollTheDice()
-     */
     @Override
     public int[] rollTheDice() {
         int[] jumpsToReturn = new int[MAX_JUMPS];
@@ -161,14 +141,6 @@ public class Game
         return jumpsToReturn;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * de.htwg.upfaz.backgammon.controller.IGame#eatStone(de.htwg.upfaz.backgammon
-     * .entities.Field[], de.htwg.upfaz.backgammon.entities.Player,
-     * java.lang.int, java.lang.int)
-     */
     @Override
     public Field[] eatStone(Field[] gameMap, IPlayer plr, int startNumber, int targetNumber) {
         setCurrentMethodName("eatStone");
@@ -186,14 +158,6 @@ public class Game
         return gameMap;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * de.htwg.upfaz.backgammon.controller.IGame#moveStone(de.htwg.upfaz.backgammon
-     * .entities.Field[], de.htwg.upfaz.backgammon.entities.Player,
-     * java.lang.int, java.lang.int)
-     */
     @Override
     public Field[] moveStone(Field[] gameMap, IPlayer plr, int startNumber, int targetNumber) {
         setCurrentMethodName("moveStone");
@@ -207,13 +171,6 @@ public class Game
         return gameMap;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * de.htwg.upfaz.backgammon.controller.IGame#checkForWinner(de.htwg.upfaz
-     * .backgammon.entities.Field[])
-     */
     @Override
     public boolean checkForWinner(IField[] gameMap) {
         // if (gameMap[FIELD_END_BLACK].getNumberStones() == 15
@@ -226,14 +183,6 @@ public class Game
         return (gameMap[FIELD_END_BLACK].getNumberStones() == STONES_TO_WIN || gameMap[FIELD_END_WHITE].getNumberStones() == STONES_TO_WIN);
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * de.htwg.upfaz.backgammon.controller.IGame#takeOutStone(de.htwg.upfaz.
-     * backgammon.entities.Field[], de.htwg.upfaz.backgammon.entities.Player,
-     * java.lang.int, java.lang.int)
-     */
     @Override
     public Field[] takeOutStone(Field[] gameMap, IPlayer plr, int startNumber, int targetNumber) {
         setCurrentMethodName("takeOutStone");
@@ -246,15 +195,6 @@ public class Game
         return gameMap;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * de.htwg.upfaz.backgammon.controller.IGame#doSomethingWithStones(de.htwg
-     * .upfaz.backgammon.entities.Field[],
-     * de.htwg.upfaz.backgammon.entities.Player, java.lang.int,
-     * java.lang.int, boolean)
-     */
     @Override
     public Field[] doSomethingWithStones(Field[] gm, IPlayer plr, int startNumber, int targetNumber, boolean endPhase) {
         setCurrentMethodName("doSomethingWithStones");
@@ -274,57 +214,26 @@ public class Game
         return gameMap;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see de.htwg.upfaz.backgammon.controller.IGame#getStartNumber()
-     */
     @Override
     public int getStartNumber() {
         return startNumber;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * de.htwg.upfaz.backgammon.controller.IGame#setStartNumber(java.lang.int
-     * )
-     */
     @Override
     public void setStartNumber(int number) {
         startNumber = number;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see de.htwg.upfaz.backgammon.controller.IGame#getTargetNumber()
-     */
     @Override
     public int getTargetNumber() {
         return targetNumber;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * de.htwg.upfaz.backgammon.controller.IGame#setTargetNumber(java.lang.int
-     * )
-     */
     @Override
     public void setTargetNumber(int number) {
         targetNumber = number;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * de.htwg.upfaz.backgammon.controller.IGame#checkDirection(de.htwg.upfaz
-     * .backgammon.entities.Player, java.lang.int, java.lang.int)
-     */
     @Override
     public boolean checkDirection(IPlayer plr, int start, int target) {
         if ((plr.getColor() == 0 && targetNumber <= startNumber) || (plr.getColor() == 1 && targetNumber >= startNumber)) {
@@ -334,13 +243,6 @@ public class Game
         return true;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * de.htwg.upfaz.backgammon.controller.IGame#renewJumps(java.lang.int,
-     * java.lang.int)
-     */
     @Override
     public void renewJumps(int start, int target) {
         setCurrentMethodName("renewJumps");
@@ -367,14 +269,6 @@ public class Game
         }
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * de.htwg.upfaz.backgammon.controller.IGame#calcStoneInEndPhase(de.htwg
-     * .upfaz.backgammon.entities.Player,
-     * de.htwg.upfaz.backgammon.entities.Field[])
-     */
     @Override
     public int calcStoneInEndPhase(IPlayer plr, IField[] gm) {
         setCurrentMethodName("calcStoneInEndPhase");
@@ -398,12 +292,6 @@ public class Game
         return stonesInEndPhase;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * de.htwg.upfaz.backgammon.controller.IGame#setJumps(java.lang.int[])
-     */
     @Override
     public void setJumps(int[] newJumps) {
 
@@ -414,97 +302,47 @@ public class Game
         }
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see de.htwg.upfaz.backgammon.controller.IGame#getJumps()
-     */
     @Override
     public int[] getJumps() {
         return jumps;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see de.htwg.upfaz.backgammon.controller.IGame#getWinner()
-     */
     @Override
     public int getWinner() {
         return winner;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see de.htwg.upfaz.backgammon.controller.IGame#getPlayer1()
-     */
     @Override
     public IPlayer getPlayer1() {
         return player1;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see de.htwg.upfaz.backgammon.controller.IGame#getPlayer2()
-     */
     @Override
     public IPlayer getPlayer2() {
         return player2;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see de.htwg.upfaz.backgammon.controller.IGame#getCurrentPlayer()
-     */
     @Override
     public IPlayer getCurrentPlayer() {
         return currentPlayer;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * de.htwg.upfaz.backgammon.controller.IGame#setCurrentPlayer(de.htwg.upfaz
-     * .backgammon.entities.Player)
-     */
     @Override
     public void setCurrentPlayer(IPlayer currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see de.htwg.upfaz.backgammon.controller.IGame#getStatus()
-     */
     @Override
     public String getStatus() {
         return status;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * de.htwg.upfaz.backgammon.controller.IGame#setStatus(java.lang.String)
-     */
     @Override
     public void setStatus(final String s) {
         status = s;
         notifyObservers();
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * de.htwg.upfaz.backgammon.controller.IGame#checkStartNumber(java.lang.
-     * int)
-     */
     @Override
     public boolean checkStartNumber(int number) {
         setCurrentMethodName("checkStartNumber");
@@ -516,46 +354,23 @@ public class Game
         }
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * de.htwg.upfaz.backgammon.controller.IGame#printJumpsStatus(java.lang.
-     * int[])
-     */
     @Override
     public void printJumpsStatus(int[] jumps) {
 
         setStatus("So, youre moves are: " + jumps[0] + ", " + jumps[1] + ", " + jumps[2] + ", " + jumps[3]);
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see de.htwg.upfaz.backgammon.controller.IGame#printJumpsString()
-     */
     @Override
     public String printJumpsString() {
 
         return "Jumps: " + jumps[0] + ", " + jumps[1] + ", " + jumps[2] + ", " + jumps[3];
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see de.htwg.upfaz.backgammon.controller.IGame#getJumpsT()
-     */
     @Override
     public int[] getJumpsT() {
         return jumpsT;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * de.htwg.upfaz.backgammon.controller.IGame#setJumpsT(java.lang.int[])
-     */
     @Override
     public void setJumpsT(int[] j) {
         jumpsT = new int[2];
@@ -563,13 +378,6 @@ public class Game
         jumpsT[1] = j[1];
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * de.htwg.upfaz.backgammon.controller.IGame#eatenWhiteCheck(java.lang.int
-     * )
-     */
     @Override
     public boolean eatenWhiteCheck(int target) {
 
@@ -583,13 +391,6 @@ public class Game
         return false;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * de.htwg.upfaz.backgammon.controller.IGame#checkNormalEndTarget(java.lang
-     * .int)
-     */
     @Override
     public boolean checkNormalEndTarget(int newTarget) {
 
@@ -602,13 +403,6 @@ public class Game
         return false;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * de.htwg.upfaz.backgammon.controller.IGame#checkEndphaseWhiteTarget(java
-     * .lang.int)
-     */
     @Override
     public boolean checkEndphaseWhiteTarget(int newTarget) {
         setCurrentMethodName("checkEndphaseWhiteTarget");
@@ -631,13 +425,6 @@ public class Game
         return false;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * de.htwg.upfaz.backgammon.controller.IGame#checkEndphaseBlackTarget(java
-     * .lang.int)
-     */
     @Override
     public boolean checkEndphaseBlackTarget(int newTarget) {
         setCurrentMethodName("checkEndphaseBlackTarget");
@@ -657,11 +444,6 @@ public class Game
         return false;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see de.htwg.upfaz.backgammon.controller.IGame#checkStartValidnessLoop()
-     */
     @Override
     public boolean checkStartValidnessLoop() {
         boolean toReturn = false;
@@ -689,63 +471,31 @@ public class Game
         return true;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see de.htwg.upfaz.backgammon.controller.IGame#getCurrentMethodName()
-     */
     @Override
     public String getCurrentMethodName() {
         return currentMehtodName;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * de.htwg.upfaz.backgammon.controller.IGame#setCurrentMethodName(java.lang
-     * .String)
-     */
     @Override
     public void setCurrentMethodName(String newName) {
         currentMehtodName = newName;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see de.htwg.upfaz.backgammon.controller.IGame#isEndPhase()
-     */
     @Override
     public boolean isEndPhase() {
         return endPhase;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see de.htwg.upfaz.backgammon.controller.IGame#setEndPhase(boolean)
-     */
     @Override
     public void setEndPhase(boolean endPhase) {
         this.endPhase = endPhase;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see de.htwg.upfaz.backgammon.controller.IGame#setWinner(int)
-     */
     @Override
     public void setWinner(int winner) {
         this.winner = winner;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see de.htwg.upfaz.backgammon.controller.IGame#getTurnsNumber()
-     */
     @Override
     public int getTurnsNumber() {
         if (getJumps()[3] == 0) {
@@ -755,11 +505,6 @@ public class Game
         }
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see de.htwg.upfaz.backgammon.controller.IGame#checkEndPhase()
-     */
     @Override
     public void checkEndPhase() {
         if (calcStoneInEndPhase(getCurrentPlayer(), getGameMap()) == STONES_TO_WIN) {
@@ -768,11 +513,6 @@ public class Game
         }
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see de.htwg.upfaz.backgammon.controller.IGame#checkIfMovesPossible()
-     */
     @Override
     public boolean checkIfMovesPossible() {
 
@@ -796,11 +536,6 @@ public class Game
         return toReturn;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see de.htwg.upfaz.backgammon.controller.IGame#automaticTakeOut()
-     */
     @Override
     public int automaticTakeOut() {
         int counter = 6;
