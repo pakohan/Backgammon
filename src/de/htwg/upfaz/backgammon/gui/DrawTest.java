@@ -20,9 +20,10 @@ public class DrawTest
     private Image stoneb;
     private Image stonew;
     private Image background;
-    private IGame currentGame;
+    private final IGame currentGame;
 
-    public DrawTest(IGame game) {
+    public DrawTest(final IGame game) {
+
         currentGame = game;
 
         setBackground(Toolkit.getDefaultToolkit().createImage("res/background.png"));
@@ -36,9 +37,9 @@ public class DrawTest
         setStoneW(Toolkit.getDefaultToolkit().createImage("res/weiss.png"));
     }
 
-    public void paintStones(Graphics g, Image image, int x, int y, int a) {
+    void paintStones(final Graphics g, final Image image, final int x, final int y, final int a) {
         for (int i = 0; i < currentGame.getGameMap()[a].getNumberStones(); i++) {
-            if (a < 12 || a == Constances.FIELD_EATEN_BLACK || a == Constances.FIELD_END_BLACK) {
+            if (12 > a || Constances.FIELD_EATEN_BLACK == a || Constances.FIELD_END_BLACK == a) {
                 g.drawImage(image, x, y + i * DRAW_STONE_STEP, null);
             } else {
                 g.drawImage(image, x, y - i * DRAW_STONE_STEP, null);
@@ -46,10 +47,10 @@ public class DrawTest
         }
     }
 
-    private void getCoordinates(Graphics g, Image imageToDraw, int a) {
-        int xCoordinate = 645, yCoordinate;
+    private void getCoordinates(final Graphics g, final Image imageToDraw, final int a) {
+        int xCoordinate = 645;
 
-        if (a >= 6 && a < 18) {
+        if (6 <= a && 18 > a) {
             xCoordinate -= 2 * BORDER;
         } else {
             switch (a) {
@@ -70,21 +71,22 @@ public class DrawTest
             }
         }
 
-        if (a < 12) {
+        final int yCoordinate;
+        if (12 > a) {
             yCoordinate = 35;
-            xCoordinate -= (a % 12) * Constances.FIELD_SIZE_PXL;
+            xCoordinate -= a % 12 * Constances.FIELD_SIZE_PXL;
             paintStones(g, imageToDraw, xCoordinate, yCoordinate, a);
-        } else if (a > 11 && a < 24) {
+        } else if (11 < a && 24 > a) {
             yCoordinate = 565;
-            xCoordinate -= ((23 - a) % 12) * Constances.FIELD_SIZE_PXL;
+            xCoordinate -= (23 - a) % 12 * Constances.FIELD_SIZE_PXL;
             paintStones(g, imageToDraw, xCoordinate, yCoordinate, a);
         }
     }
 
-    private void drawStones(Graphics g) {
-        Image imageToDraw;
-        for (int i = 0; i < Constances.TOTAL_FIELDS_NR; i++) {
-            if (currentGame.getGameMap()[i].getStoneColor() == 0) {
+    private void drawStones(final Graphics g) {
+        for (int i = 0; Constances.TOTAL_FIELDS_NR > i; i++) {
+            final Image imageToDraw;
+            if (0 == currentGame.getGameMap()[i].getStoneColor()) {
                 imageToDraw = getStoneW();
             } else {
                 imageToDraw = getStoneB();
@@ -93,19 +95,20 @@ public class DrawTest
         }
     }
 
-    public void paintComponent(Graphics g) {
+    @Override
+    public void paintComponent(final Graphics g) {
 
         g.drawImage(getBack(), 0, 0, null);
         drawStones(g);
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; 2 > i; i++) {
 
             drawDices(g, i);
         }
     }
 
-    private void drawDices(Graphics g, int i) {
-        int diceX = Constances.DICE_X + i * Constances.DICE_SIZE;
+    private void drawDices(final Graphics g, final int i) {
+        final int diceX = Constances.DICE_X + i * Constances.DICE_SIZE;
 
         try {
 
@@ -132,44 +135,44 @@ public class DrawTest
                 // System.out.println("dafuq?");
                 break;
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
             System.out.println("Dices.paint() - something went wrong");
         }
     }
 
-    private void setDice1(Image newImage) {
+    private void setDice1(final Image newImage) {
         dice1 = newImage;
     }
 
-    private void setDice2(Image newImage) {
+    private void setDice2(final Image newImage) {
         dice2 = newImage;
     }
 
-    private void setDice3(Image newImage) {
+    private void setDice3(final Image newImage) {
         dice3 = newImage;
     }
 
-    private void setDice4(Image newImage) {
+    private void setDice4(final Image newImage) {
         dice4 = newImage;
     }
 
-    private void setDice5(Image newImage) {
+    private void setDice5(final Image newImage) {
         dice5 = newImage;
     }
 
-    private void setDice6(Image newImage) {
+    private void setDice6(final Image newImage) {
         dice6 = newImage;
     }
 
-    private void setStoneB(Image newImage) {
+    private void setStoneB(final Image newImage) {
         stoneb = newImage;
     }
 
-    private void setStoneW(Image newImage) {
+    private void setStoneW(final Image newImage) {
         stonew = newImage;
     }
 
-    private void setBackground(Image newImage) {
+    private void setBackground(final Image newImage) {
         background = newImage;
     }
 

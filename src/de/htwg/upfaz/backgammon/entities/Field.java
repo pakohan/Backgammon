@@ -16,7 +16,8 @@ public class Field
     //
     // Constructors
     //
-    public Field(int fn) {
+    public Field(final int fn) {
+
         fieldNr = fn;
         numberStones = 0;
         stoneColor = -1;
@@ -28,14 +29,14 @@ public class Field
     }
 
     @Override
-    public void setFieldNr(int newFieldNr) {
+    public void setFieldNr(final int newFieldNr) {
         fieldNr = newFieldNr;
     }
 
     @Override
-    public void setNumberStones(int newVar) {
+    public void setNumberStones(final int newVar) {
         numberStones = newVar;
-        if (newVar == 0) {
+        if (0 == newVar) {
             stoneColor = -1;
         }
     }
@@ -51,37 +52,41 @@ public class Field
     }
 
     @Override
-    public void setStoneColor(int newColor) {
+    public void setStoneColor(final int newColor) {
         stoneColor = newColor;
     }
 
     @Override
-    public boolean isJumpable(int color) {
-        return getNumberStones() <= 1 || color == getStoneColor();
+    public boolean isNotJumpable(final int color) {
+        return 1 < getNumberStones() && color != getStoneColor();
     }
 
-    @Override
-    public boolean isNotJumpable(int color) {
-        return getNumberStones() > 1 && color != getStoneColor();
-    }
+    // --Commented out by Inspection START (02.11.13 18:14):
+    //    @Override
+    //    public boolean isNotJumpable(int color) {
+    //        return getNumberStones() > 1 && color != getStoneColor();
+    //    }
+    // --Commented out by Inspection STOP (02.11.13 18:14)
 
-    @Override
-    public boolean isEmpty() {
-        return numberStones == 0;
-    }
+    // --Commented out by Inspection START (02.11.13 18:14):
+    //    @Override
+    //    public boolean isEmpty() {
+    //        return numberStones == 0;
+    //    }
+    // --Commented out by Inspection STOP (02.11.13 18:14)
 
     @Override
     public String toString() {
 
-        StringBuilder b = new StringBuilder();
-        if (getNumberStones() == 0) {
+        final StringBuilder b = new StringBuilder();
+        if (0 == getNumberStones()) {
             return "   ";
         }
-        if (getNumberStones() < TEN_STONES) {
+        if (TEN_STONES > getNumberStones()) {
             b.append("0");
         }
         b.append(getNumberStones());
-        if (getStoneColor() == 0) {
+        if (0 == getStoneColor()) {
             b.append("w");
         } else {
             b.append("b");

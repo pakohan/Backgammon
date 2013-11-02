@@ -8,9 +8,10 @@ import junit.framework.TestCase;
 public class PlayerTest
         extends TestCase {
 
-    IPlayer player;
+    private IPlayer player;
     //IField f = new Field(5);
 
+    @Override
     public void setUp() {
         player = new Player(0);
     }

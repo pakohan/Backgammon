@@ -5,8 +5,9 @@ import junit.framework.TestCase;
 public class FieldTest
         extends TestCase {
 
-    IField field;
+    private IField field;
 
+    @Override
     public void setUp() {
         field = new Field(0);
     }

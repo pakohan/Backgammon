@@ -1,6 +1,6 @@
 package de.htwg.upfaz.backgammon.gui;
 
-public final class Constances {
+final class Constances {
 
     private Constances() {}
 

@@ -5,12 +5,12 @@ public class Player
 
     private int color;
 
-    public Player(int clr) {
+    public Player(final int clr) {
         color = clr;
     }
 
     @Override
-    public void setColor(int newVar) {
+    public void setColor(final int newVar) {
         color = newVar;
     }
 
@@ -21,7 +21,7 @@ public class Player
 
     @Override
     public String toString() {
-        if (color == 0) {
+        if (0 == color) {
             return "White";
         } else {
             return "Black";

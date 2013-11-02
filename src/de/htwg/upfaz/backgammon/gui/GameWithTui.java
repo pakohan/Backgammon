@@ -6,7 +6,7 @@ import de.htwg.upfaz.backgammon.entities.IPlayer;
 
 public class GameWithTui {
 
-    public void playTurn(IGame currentGame, IPlayer plr, Tui tui) {
+    public void playTurn(final IGame currentGame, final IPlayer plr, final Tui tui) {
 
         currentGame.setCurrentPlayer(plr);
         currentGame.setEndPhase(false);
@@ -20,14 +20,14 @@ public class GameWithTui {
         for (int index = currentGame.automaticTakeOut(); index < currentGame.getTurnsNumber(); index++) {
 
             currentGame.checkEndPhase();
-            if (!currentGame.checkIfMovesPossible()) {
+            if (currentGame.notCheckIfMovesPossible()) {
                 currentGame.setStatus("No moves available");
                 return;
             }
 
             tui.printField(currentGame.getGameMap());
 
-            if (!getStartAndTargetNumbers(currentGame, currentGame.getGameMap(), plr, tui)) {
+            if (notGetStartAndTargetNumbers(currentGame, currentGame.getGameMap(), plr, tui)) {
                 index--;
                 continue;
             }
@@ -47,16 +47,16 @@ public class GameWithTui {
         }
     }
 
-    public boolean getStartAndTargetNumbers(IGame currentGame, Field[] gm, IPlayer plr, Tui tui) {
+    boolean notGetStartAndTargetNumbers(final IGame currentGame, final Field[] gm, final IPlayer plr, final Tui tui) {
 
         currentGame.setGameMap(gm);
-        if (plr.getColor() == 0 && currentGame.getGameMap()[25].getNumberStones() > 0) {
+        if (0 == plr.getColor() && 0 < currentGame.getGameMap()[25].getNumberStones()) {
 
             // TO ADD: check if is possible to play turn
             currentGame.setStartNumber(25);
             // get targetNumber
             currentGame.setTargetNumber(tui.getTargetWhileEatenWhite(currentGame));
-        } else if (plr.getColor() == 1 && currentGame.getGameMap()[24].getNumberStones() > 0) {
+        } else if (1 == plr.getColor() && 0 < currentGame.getGameMap()[24].getNumberStones()) {
 
             currentGame.setStartNumber(24);
 
@@ -71,9 +71,9 @@ public class GameWithTui {
 
             tui.getStartNumber(currentGame);
 
-            if (!currentGame.checkStartValidnessLoop()) {
+            if (currentGame.notCheckStartValidnessLoop()) {
                 currentGame.setStatus("You can not play with this stone!");
-                return false;
+                return true;
             }
 
             // get targetNumber
@@ -81,10 +81,10 @@ public class GameWithTui {
         }
 
         // check direction
-        if (currentGame.getTargetNumber() < 24 && !currentGame.checkDirection(plr, currentGame.getStartNumber(), currentGame.getTargetNumber())) {
-            return false;
+        if (24 > currentGame.getTargetNumber() && currentGame.notCheckDirection(plr)) {
+            return true;
         }
         currentGame.setStatus("Setting startNumber to " + currentGame.getStartNumber() + " and targetNumber to " + currentGame.getTargetNumber());
-        return true;
+        return false;
     }
 }

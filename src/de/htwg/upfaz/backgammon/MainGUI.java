@@ -11,20 +11,17 @@ import java.util.Scanner;
 
 public final class MainGUI {
 
-    private static BackgammonFrame bf;
-    private static Tui tui;
     private static int curPl = 1;
-    private static IGame currentGame;
 
     private MainGUI() { }
 
-    public static void main(String[] args) {
-        currentGame = new Game();
+    public static void main(final String[] args) {
+        final IGame currentGame = new Game();
         System.out.println("Welcome to upfaz backgammon.");
 
-        int choiceNumber = chooseUI();
+        final int choiceNumber = chooseUI();
 
-        if (choiceNumber == 1) {
+        if (1 == choiceNumber) {
             playGameWithTui(currentGame);
         } else {
             playGameWithGui(currentGame);
@@ -32,35 +29,37 @@ public final class MainGUI {
     }
 
     private static int chooseUI() {
-        String choice;
-        Scanner scanner = new Scanner(System.in);
+        final Scanner scanner = new Scanner(System.in);
         try {
             System.out.println("Choose the UI:");
             System.out.println("\t1.Tui");
             System.out.println("\t2.Gui");
-            choice = scanner.nextLine();
-            int choiceNumber = Integer.valueOf(choice);
-            if (choiceNumber == 1 || choiceNumber == 2) {
+            final String choice = scanner.nextLine();
+            final int choiceNumber = Integer.valueOf(choice).intValue();
+            if (1 == choiceNumber || 2 == choiceNumber) {
                 return choiceNumber;
             } else {
                 System.out.println("Input doesn't match: " + choice);
                 return 0;
             }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return 0;
         } catch (Exception e) {
             System.err.println("Exception." + e.getMessage());
             return 0;
         }
     }
 
-    private static void playGameWithTui(IGame currentGame) {
+    private static void playGameWithTui(final IGame currentGame) {
 
-        GameWithTui tuiGame = new GameWithTui();
-        tui = new Tui(currentGame);
+        final GameWithTui tuiGame = new GameWithTui();
+        final Tui tui = new Tui(currentGame);
         currentGame.addObserver(tui);
         currentGame.notifyObservers();
-        while (currentGame.getWinner() == 0) {
+        while (0 == currentGame.getWinner()) {
 
-            if (curPl == 1) {
+            if (1 == curPl) {
                 tuiGame.playTurn(currentGame, currentGame.getPlayer1(), tui);
                 curPl = 2;
             } else {
@@ -72,14 +71,14 @@ public final class MainGUI {
         System.out.println(currentGame.getCurrentPlayer() + " is the winner!");
     }
 
-    private static void playGameWithGui(IGame currentGame) {
+    private static void playGameWithGui(final IGame currentGame) {
 
-        GameWithGui guiGame = new GameWithGui();
-        bf = new BackgammonFrame(currentGame);
+        final GameWithGui guiGame = new GameWithGui();
+        final BackgammonFrame bf = new BackgammonFrame(currentGame);
         currentGame.addObserver(bf);
         currentGame.notifyObservers();
-        while (currentGame.getWinner() == 0) {
-            if (curPl == 1) {
+        while (0 == currentGame.getWinner()) {
+            if (1 == curPl) {
                 guiGame.playTurn(currentGame, currentGame.getPlayer1(), bf);
                 curPl = 2;
             } else {

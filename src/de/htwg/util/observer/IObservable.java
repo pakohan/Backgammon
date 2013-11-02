@@ -2,11 +2,11 @@ package de.htwg.util.observer;
 
 public interface IObservable {
 
-    public abstract void addObserver(IObserver s);
+    void addObserver(IObserver s);
 
-    public abstract void removeObserver(IObserver s);
+    // --Commented out by Inspection (02.11.13 18:14):public abstract void removeObserver(IObserver s);
 
-    public abstract void removeAllObservers();
+    // --Commented out by Inspection (02.11.13 18:14):public abstract void removeAllObservers();
 
-    public abstract void notifyObservers();
+    void notifyObservers();
 }

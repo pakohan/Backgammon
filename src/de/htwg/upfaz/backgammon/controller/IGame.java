@@ -8,89 +8,87 @@ import de.htwg.util.observer.IObservable;
 public interface IGame
         extends IObservable {
 
-    public abstract void setGameMap(Field[] newGameMap);
+    void setGameMap(Field[] newGameMap);
 
-    public abstract Field[] getGameMap();
+    Field[] getGameMap();
 
-    public abstract int[] rollTheDice();
+    int[] rollTheDice();
 
-    public abstract IField[] eatStone(Field[] gameMap, IPlayer plr, int startNumber, int targetNumber);
+    // --Commented out by Inspection (02.11.13 18:14):public abstract IField[] moveStone(Field[] gameMap, IPlayer plr, int startNumber, int targetNumber);
 
-    public abstract IField[] moveStone(Field[] gameMap, IPlayer plr, int startNumber, int targetNumber);
+    boolean checkForWinner(IField[] gameMap);
 
-    public abstract boolean checkForWinner(IField[] gameMap);
+    // --Commented out by Inspection (02.11.13 18:14):public abstract IField[] takeOutStone(Field[] gameMap, IPlayer plr, int startNumber, int targetNumber);
 
-    public abstract IField[] takeOutStone(Field[] gameMap, IPlayer plr, int startNumber, int targetNumber);
+    Field[] doSomethingWithStones(Field[] gm, IPlayer plr, int startNumber, int targetNumber, boolean endPhase);
 
-    public abstract Field[] doSomethingWithStones(Field[] gm, IPlayer plr, int startNumber, int targetNumber, boolean endPhase);
+    int getStartNumber();
 
-    public abstract int getStartNumber();
+    void setStartNumber(int number);
 
-    public abstract void setStartNumber(int number);
+    int getTargetNumber();
 
-    public abstract int getTargetNumber();
+    void setTargetNumber(int number);
 
-    public abstract void setTargetNumber(int number);
+    boolean notCheckDirection(IPlayer plr);
 
-    public abstract boolean checkDirection(IPlayer plr, int start, int target);
+    void renewJumps(int start, int target);
 
-    public abstract void renewJumps(int start, int target);
+    // --Commented out by Inspection (02.11.13 18:14):public abstract int calcStoneInEndPhase(IPlayer plr, IField[] gm);
 
-    public abstract int calcStoneInEndPhase(IPlayer plr, IField[] gm);
+    void setJumps(int[] newJumps);
 
-    public abstract void setJumps(int[] newJumps);
+    int[] getJumps();
 
-    public abstract int[] getJumps();
+    int getWinner();
 
-    public abstract int getWinner();
+    IPlayer getPlayer1();
 
-    public abstract IPlayer getPlayer1();
+    IPlayer getPlayer2();
 
-    public abstract IPlayer getPlayer2();
+    IPlayer getCurrentPlayer();
 
-    public abstract IPlayer getCurrentPlayer();
+    void setCurrentPlayer(IPlayer currentPlayer);
 
-    public abstract void setCurrentPlayer(IPlayer currentPlayer);
+    String getStatus();
 
-    public abstract String getStatus();
+    void setStatus(final String s);
 
-    public abstract void setStatus(final String s);
+    boolean checkStartNumber(int number);
 
-    public abstract boolean checkStartNumber(int number);
+    void printJumpsStatus(int[] jumps);
 
-    public abstract void printJumpsStatus(int[] jumps);
+    String printJumpsString();
 
-    public abstract String printJumpsString();
+    int[] getJumpsT();
 
-    public abstract int[] getJumpsT();
+    void setJumpsT(int[] j);
 
-    public abstract void setJumpsT(int[] j);
+    boolean eatenWhiteCheck(int target);
 
-    public abstract boolean eatenWhiteCheck(int target);
+    boolean checkNormalEndTarget(int newTarget);
 
-    public abstract boolean checkNormalEndTarget(int newTarget);
+    boolean checkEndphaseWhiteTarget(int newTarget);
 
-    public abstract boolean checkEndphaseWhiteTarget(int newTarget);
+    boolean checkEndphaseBlackTarget();
 
-    public abstract boolean checkEndphaseBlackTarget(int newTarget);
+    boolean notCheckStartValidnessLoop();
 
-    public abstract boolean checkStartValidnessLoop();
+    String getCurrentMethodName();
 
-    public abstract String getCurrentMethodName();
+    void setCurrentMethodName(String newName);
 
-    public abstract void setCurrentMethodName(String newName);
+    boolean isEndPhase();
 
-    public abstract boolean isEndPhase();
+    void setEndPhase(boolean endPhase);
 
-    public abstract void setEndPhase(boolean endPhase);
+    void setWinner(int winner);
 
-    public abstract void setWinner(int winner);
+    int getTurnsNumber();
 
-    public abstract int getTurnsNumber();
+    void checkEndPhase();
 
-    public abstract void checkEndPhase();
+    boolean notCheckIfMovesPossible();
 
-    public abstract boolean checkIfMovesPossible();
-
-    public abstract int automaticTakeOut();
+    int automaticTakeOut();
 }

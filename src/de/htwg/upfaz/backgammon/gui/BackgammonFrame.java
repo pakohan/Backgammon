@@ -14,22 +14,22 @@ public class BackgammonFrame
         implements MouseListener, MouseMotionListener, IObserver {
 
     private static final long serialVersionUID = 1L;
+    private static final String GET_TARGET_WHILE_EATEN_WHITE = "getTargetWhileEatenWhite";
 
-    private IGame currentGame;
-    private StatusPanel statusPanel;
+    private final IGame currentGame;
+    private final StatusPanel statusPanel;
     private String status = "";
     private int result = -1;
 
-    public BackgammonFrame(IGame gm) {
-        Container pane;
-        DrawTest test;
+    public BackgammonFrame(final IGame gm) {
+
         currentGame = gm;
 
         setTitle("Upfaz  backgammon");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(Constances.DEFAULT_X, Constances.DEFAULT_Y);
         setResizable(false);
-        pane = getContentPane();
+        final Container pane = getContentPane();
         pane.setLayout(new BorderLayout());
 
         // bp = new BackgroundPanel();
@@ -39,7 +39,7 @@ public class BackgammonFrame
         // ds = new DrawStones(currentGame.getGameMap());
         // pane.add(ds);
 
-        test = new DrawTest(currentGame);
+        final DrawTest test = new DrawTest(currentGame);
         pane.add(test);
         statusPanel = new StatusPanel();
         pane.add(statusPanel, BorderLayout.SOUTH);
@@ -52,28 +52,28 @@ public class BackgammonFrame
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
-        int x = e.getX();
-        int y = e.getY();
+    public void mouseClicked(final MouseEvent e) {
+        final int x = e.getX();
+        final int y = e.getY();
         setResult(getClickedField(x, y));
         mouseHandler(e);
     }
 
-    private int getLeft(int x) {
+    private int getLeft(final int x) {
         int left = 0;
         int candidate = 0;
 
-        for (int i = Constances.LEFT_BORDER; i <= Constances.LEFT_CENTER_BORDER; i += Constances.FIELD_SIZE_PXL) {
+        for (int i = Constances.LEFT_BORDER; Constances.LEFT_CENTER_BORDER >= i; i += Constances.FIELD_SIZE_PXL) {
             left = calcLeft(i, x, candidate);
-            if (left >= 0) {
+            if (0 <= left) {
                 break;
             }
             candidate++;
         }
-        if (left == -1) {
-            for (int i = Constances.RIGHT_CENTER_BORDER; i <= Constances.RIGHT_BORDER; i += Constances.FIELD_SIZE_PXL) {
+        if (-1 == left) {
+            for (int i = Constances.RIGHT_CENTER_BORDER; Constances.RIGHT_BORDER >= i; i += Constances.FIELD_SIZE_PXL) {
                 left = calcLeft(i, x, candidate);
-                if (left >= 0) {
+                if (0 <= left) {
                     break;
                 }
                 candidate++;
@@ -83,14 +83,14 @@ public class BackgammonFrame
         return left;
     }
 
-    private int getClickedField(int x, int y) {
+    private int getClickedField(final int x, final int y) {
 
-        int left = getLeft(x);
+        final int left = getLeft(x);
         int output = -1;
 
-        if (y <= Constances.UPPER_CENTER_BORDER && y >= Constances.UPPER_BORDER && left >= 0) {
+        if (Constances.UPPER_CENTER_BORDER >= y && Constances.UPPER_BORDER <= y && 0 <= left) {
             output = 11 - left;
-        } else if (y >= Constances.DOWN_CENTER_BORDER && y <= Constances.DOWN_BORDER && left >= 0) {
+        } else if (Constances.DOWN_CENTER_BORDER <= y && Constances.DOWN_BORDER >= y && 0 <= left) {
             output = 12 + left;
         }
 
@@ -99,12 +99,12 @@ public class BackgammonFrame
         return output;
     }
 
-    private int getClickedEndfield(int oldOutput, int x, int y) {
+    private int getClickedEndfield(final int oldOutput, final int x, final int y) {
 
         int newOutput = oldOutput;
 
-        if (x > Constances.LEFT_OUT_BORDER && y < Constances.RIGHT_OUT_BORDER) {
-            if (y < 340) {
+        if (Constances.LEFT_OUT_BORDER < x && Constances.RIGHT_OUT_BORDER > y) {
+            if (340 > y) {
                 newOutput = Constances.FIELD_END_BLACK;
             } else {
                 newOutput = Constances.FIELD_END_WHITE;
@@ -113,8 +113,8 @@ public class BackgammonFrame
         return newOutput;
     }
 
-    private int calcLeft(int i, int x, int candidate) {
-        if (x >= i && x <= (i + Constances.FIELD_STEP)) {
+    private int calcLeft(final int i, final int x, final int candidate) {
+        if (x >= i && x <= i + Constances.FIELD_STEP) {
             return candidate;
         } else {
             return -1;
@@ -122,23 +122,23 @@ public class BackgammonFrame
     }
 
     @Override
-    public void mouseEntered(MouseEvent e) {
+    public void mouseEntered(final MouseEvent e) {
         mouseHandler(e);
     }
 
     @Override
-    public void mouseExited(MouseEvent e) {
+    public void mouseExited(final MouseEvent e) {
         mouseHandler(e);
     }
 
     @Override
-    public void mousePressed(MouseEvent e) {
+    public void mousePressed(final MouseEvent e) {
         // do nothing
 
     }
 
     @Override
-    public void mouseReleased(MouseEvent e) {
+    public void mouseReleased(final MouseEvent e) {
         // do nothing
 
     }
@@ -150,56 +150,62 @@ public class BackgammonFrame
         repaint();
     }
 
-    public int getResult() {
+    int getResult() {
         return result;
     }
 
-    public void setResult(int newResult) {
+    public void setResult(final int newResult) {
         result = newResult;
     }
 
-    public int getTargetWhileEatenWhite(IGame currentGame) {
-        currentGame.setCurrentMethodName("getTargetWhileEatenWhite");
+    public int getTargetWhileEatenWhite(final IGame currentGame) {
+        currentGame.setCurrentMethodName(GET_TARGET_WHILE_EATEN_WHITE);
         int targetNumber = getResult();
         try {
 
-            while (targetNumber == -1 || targetNumber > 6) {
+            while (-1 == targetNumber || 6 < targetNumber) {
                 Thread.sleep(Constances.TIME_TO_SLEEP_IN_MS);
                 targetNumber = getResult();
             }
-        } catch (Exception e) {
-            System.out.println("getTargetWhileEatenWhite");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (Exception ignored) {
+            System.out.println(GET_TARGET_WHILE_EATEN_WHITE);
         }
 
         return targetNumber;
     }
 
-    public int getTargetWhileEatenBlack(IGame currentGame) {
+    public int getTargetWhileEatenBlack(final IGame currentGame) {
         currentGame.setCurrentMethodName("getTargetWhileEatenBlack");
         int targetNumber = getResult();
         try {
 
-            while (targetNumber >= Constances.FIELD_EATEN_BLACK || targetNumber < 18) {
+            while (Constances.FIELD_EATEN_BLACK <= targetNumber || 18 > targetNumber) {
                 Thread.sleep(Constances.TIME_TO_SLEEP_IN_MS);
                 targetNumber = getResult();
             }
-        } catch (Exception e) {
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (Exception ignored) {
             System.out.println("getTargetWhileEatenBlack");
         }
 
         return targetNumber;
     }
 
-    public void getStartNumber(IGame currentGame) {
+    public void getStartNumber(final IGame currentGame) {
         currentGame.setCurrentMethodName("getStartNumber");
         int startNumber = getResult();
         try {
 
-            while (startNumber < 0 || startNumber >= Constances.FIELD_EATEN_BLACK) {
+            while (0 > startNumber || Constances.FIELD_EATEN_BLACK <= startNumber) {
                 Thread.sleep(Constances.TIME_TO_SLEEP_IN_MS);
                 startNumber = getResult();
             }
-        } catch (Exception e) {
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (Exception ignored) {
             System.out.println("getStartNumber");
         }
 
@@ -212,30 +218,32 @@ public class BackgammonFrame
         }
     }
 
-    private int getTargetResult(int oldTarget) {
+    private int getTargetResult(final int oldTarget) {
 
         int newTarget = oldTarget;
         try {
 
-            while (newTarget < 0 || newTarget == Constances.FIELD_EATEN_BLACK || newTarget == Constances.FIELD_EATEN_WHITE || newTarget == currentGame.getStartNumber() || ((newTarget == Constances.FIELD_END_BLACK || newTarget == Constances.FIELD_END_WHITE) && !currentGame.isEndPhase())) {
+            while (0 > newTarget || Constances.FIELD_EATEN_BLACK == newTarget || Constances.FIELD_EATEN_WHITE == newTarget || newTarget == currentGame.getStartNumber() || (Constances.FIELD_END_BLACK == newTarget || Constances.FIELD_END_WHITE == newTarget) && !currentGame.isEndPhase()) {
                 Thread.sleep(Constances.TIME_TO_SLEEP_IN_MS);
                 newTarget = getResult();
             }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         } catch (Exception e) {
             System.out.println("getTargetResult: " + e);
         }
         return newTarget;
     }
 
-    private void checkColorProblem(int targetNumber) {
-        if (!currentGame.getGameMap()[targetNumber].isJumpable(currentGame.getCurrentPlayer().getColor())) {
+    private void checkColorProblem(final int targetNumber) {
+        if (currentGame.getGameMap()[targetNumber].isNotJumpable(currentGame.getCurrentPlayer().getColor())) {
             System.out.println("Can't jump this Field (Color problem)");
             setResult(-1);
             getEndNumber(currentGame);
         }
     }
 
-    private void checkTargetValidness(int targetNumber) {
+    private void checkTargetValidness(final int targetNumber) {
         if (currentGame.checkNormalEndTarget(targetNumber)) {
             currentGame.setTargetNumber(targetNumber);
         } else {
@@ -244,62 +252,60 @@ public class BackgammonFrame
         }
     }
 
-    private void checkEndphaseBlack(int targetNumber) {
+    private void checkEndphaseBlack() {
         // endphase black
-        if (currentGame.checkEndphaseBlackTarget(targetNumber)) {
-            currentGame.setTargetNumber(targetNumber);
+        if (currentGame.checkEndphaseBlackTarget()) {
+            currentGame.setTargetNumber(Constances.FIELD_END_BLACK);
         } else {
             setResult(-1);
             getEndNumber(currentGame);
         }
     }
 
-    private void checkEndphaseWhite(int targetNumber) {
+    private void checkEndphaseWhite() {
         // endphase white
-        if (currentGame.checkEndphaseWhiteTarget(targetNumber)) {
-            currentGame.setTargetNumber(targetNumber);
+        if (currentGame.checkEndphaseWhiteTarget(Constances.FIELD_END_WHITE)) {
+            currentGame.setTargetNumber(Constances.FIELD_END_WHITE);
         } else {
             setResult(-1);
             getEndNumber(currentGame);
         }
     }
 
-    public void getEndNumber(IGame currentGame) {
+    public void getEndNumber(final IGame currentGame) {
         currentGame.setCurrentMethodName("getEndNumber");
         int targetNumber = getResult();
         try {
 
             targetNumber = getTargetResult(targetNumber);
 
-            if (targetNumber >= 0 && targetNumber < Constances.FIELD_EATEN_BLACK) {
+            if (0 <= targetNumber && Constances.FIELD_EATEN_BLACK > targetNumber) {
 
                 checkColorProblem(targetNumber);
                 checkTargetValidness(targetNumber);
-            } else if (targetNumber == Constances.FIELD_END_BLACK) {
-
-                checkEndphaseBlack(targetNumber);
-            } else if (targetNumber == Constances.FIELD_END_WHITE) {
-
-                checkEndphaseWhite(targetNumber);
+            } else if (Constances.FIELD_END_BLACK == targetNumber) {
+                checkEndphaseBlack();
+            } else if (Constances.FIELD_END_WHITE == targetNumber) {
+                checkEndphaseWhite();
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
             System.out.println("getEndNumber");
         }
     }
 
     @Override
-    public void mouseDragged(MouseEvent e) {
+    public void mouseDragged(final MouseEvent e) {
         mouseHandler(e);
     }
 
     @Override
-    public void mouseMoved(MouseEvent e) {
+    public void mouseMoved(final MouseEvent e) {
         mouseHandler(e);
     }
 
-    private void mouseHandler(MouseEvent e) {
-        int x = e.getX();
-        int y = e.getY();
+    private void mouseHandler(final MouseEvent e) {
+        final int x = e.getX();
+        final int y = e.getY();
         status = "x = " + x + ", y = " + y + "\t start = " + currentGame.getStartNumber() + ", target = " + currentGame.getTargetNumber() + ", result = " + getResult() + "; Current player: " + currentGame.getCurrentPlayer() + "; " + currentGame.printJumpsString() + "; Method: " + currentGame.getCurrentMethodName();
         update();
     }

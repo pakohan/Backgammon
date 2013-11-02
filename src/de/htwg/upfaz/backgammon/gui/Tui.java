@@ -13,20 +13,21 @@ public class Tui
     private static final String YOUR_INPUT = "Your input is ";
     private IGame currentGame;
 
-    public Tui(IGame gm) {
+    public Tui(final IGame gm) {
+
         setCurrentGame(gm);
     }
 
-    public void printField(IField[] gameMap) {
+    public void printField(final IField[] gameMap) {
         System.out.println("||011-010-009-008-007-006|OUT|005-004-003-002-001-000||-s-|");
         System.out.println("||---------------------------------------------------||---|");
         System.out.printf("||");
-        for (int i = 11; i > 6; i--) {
+        for (int i = 11; 6 < i; i--) {
             // System.out.printf("%s-", gameMap[i].toString());
             stoneSyso(gameMap, i);
         }
         System.out.printf("%s|%s|", gameMap[6].toString(), gameMap[24].toString());
-        for (int i = 5; i > 0; i--) {
+        for (int i = 5; 0 < i; i--) {
             // System.out.printf("%s-", gameMap[i].toString());
             stoneSyso(gameMap, i);
         }
@@ -35,12 +36,12 @@ public class Tui
         System.out.println("||---------------------------------------------------||---|");
 
         System.out.printf("||");
-        for (int i = 12; i < 17; i++) {
+        for (int i = 12; 17 > i; i++) {
             // System.out.printf("%s-", gameMap[i].toString());
             stoneSyso(gameMap, i);
         }
         System.out.printf("%s|%s|", gameMap[17].toString(), gameMap[25].toString());
-        for (int i = 18; i < 23; i++) {
+        for (int i = 18; 23 > i; i++) {
             // System.out.printf("%s-", gameMap[i].toString());
             stoneSyso(gameMap, i);
         }
@@ -50,11 +51,11 @@ public class Tui
         System.out.println("||012-013-014-015-016-017|OUT|018-019-020-021-022-023||-w-|");
     }
 
-    public int getTargetWhileEatenWhite(IGame currentGame) {
+    public int getTargetWhileEatenWhite(final IGame currentGame) {
 
         String target;
         int targetNumber;
-        Scanner scanner = new Scanner(System.in);
+        final Scanner scanner = new Scanner(System.in);
 
         while (true) {
             System.out.println("Choose the target field");
@@ -63,9 +64,9 @@ public class Tui
                 if (target.matches("[0-6]")) {
                     // targetNumber = new int(target);
 
-                    targetNumber = Integer.valueOf(target); // sonar recommends
+                    targetNumber = Integer.valueOf(target).intValue(); // sonar recommends
 
-                    if (!currentGame.getGameMap()[targetNumber].isJumpable(currentGame.getCurrentPlayer().getColor())) {
+                    if (currentGame.getGameMap()[targetNumber].isNotJumpable(currentGame.getCurrentPlayer().getColor())) {
                         System.out.println("Can't jump this Field (Color problem)");
                         continue;
                     }
@@ -76,7 +77,9 @@ public class Tui
                 } else {
                     setStatusInputMismatch();
                 }
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            } catch (Exception ignored) {
                 setStatusInputMismatch();
             }
         }
@@ -85,11 +88,11 @@ public class Tui
         return targetNumber;
     }
 
-    public int getTargetWhileEatenBlack(IField[] gameMap, IPlayer plr, int[] jumps) {
+    public int getTargetWhileEatenBlack(final IField[] gameMap, final IPlayer plr, final int[] jumps) {
 
         String target;
         int targetNumber;
-        Scanner scanner = new Scanner(System.in);
+        final Scanner scanner = new Scanner(System.in);
 
         while (true) {
             try {
@@ -98,31 +101,33 @@ public class Tui
                 System.out.printf("Choose the target field: ");
                 target = scanner.nextLine();
                 if (target.matches("1[8-9]|2[0-3]")) {
-                    targetNumber = Integer.valueOf(target); // sonar recommends
+                    targetNumber = Integer.valueOf(target).intValue(); // sonar recommends
 
                     // TO ADD: check if movable
-                    if (!gameMap[targetNumber].isJumpable(plr.getColor())) {
+                    if (gameMap[targetNumber].isNotJumpable(plr.getColor())) {
                         System.out.println("Can't jump this Field (Color problem)");
                         continue;
                     }
 
-                    if (targetNumber + jumps[0] == 24) {
+                    if (24 == targetNumber + jumps[0]) {
                         jumps[0] = 0;
                         break;
-                    } else if (targetNumber + jumps[1] == 24) {
+                    } else if (24 == targetNumber + jumps[1]) {
                         jumps[1] = 0;
                         break;
-                    } else if (targetNumber + jumps[2] == 24) {
+                    } else if (24 == targetNumber + jumps[2]) {
                         jumps[2] = 0;
                         break;
-                    } else if (targetNumber + jumps[3] == 24) {
+                    } else if (24 == targetNumber + jumps[3]) {
                         jumps[3] = 0;
                         break;
                     }
                 } else {
                     setStatusInputMismatch();
                 }
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            } catch (Exception ignored) {
                 System.out.println("Exception. Input doesn't match!");
             }
         }
@@ -131,11 +136,11 @@ public class Tui
         return targetNumber;
     }
 
-    public void getStartNumber(IGame currentGame) {
+    public void getStartNumber(final IGame currentGame) {
 
         String start;
         int startNumber;
-        Scanner scanner = new Scanner(System.in);
+        final Scanner scanner = new Scanner(System.in);
 
         while (true) {
             try {
@@ -145,13 +150,15 @@ public class Tui
                 start = scanner.nextLine();
                 // startNumber = new int(start);
 
-                startNumber = Integer.valueOf(start); // sonar recommends
+                startNumber = Integer.valueOf(start).intValue(); // sonar recommends
 
                 if (start.matches("[0-9]|1[0-9]|2[0-3]") && currentGame.checkStartNumber(startNumber)) {
                     break;
                 } else {
                     setStatusInputMismatch();
                 }
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
             } catch (Exception e) {
                 System.err.println("Exception." + e.getMessage());
             }
@@ -161,11 +168,11 @@ public class Tui
         currentGame.setStartNumber(startNumber);
     }
 
-    public void getEndTarget(IGame currentGame) {
+    public void getEndTarget(final IGame currentGame) {
 
         String target;
         int targetNumber;
-        Scanner scanner = new Scanner(System.in);
+        final Scanner scanner = new Scanner(System.in);
 
         while (true) {
             try {
@@ -177,10 +184,10 @@ public class Tui
                 if (target.matches("[0-9]|1[0-9]|2[0-3]")) {
                     // targetNumber = new int(target);
 
-                    targetNumber = Integer.valueOf(target); // sonar recommends
+                    targetNumber = Integer.valueOf(target).intValue(); // sonar recommends
 
                     // TO ADD: check if movable
-                    if (!currentGame.getGameMap()[targetNumber].isJumpable(currentGame.getCurrentPlayer().getColor())) {
+                    if (currentGame.getGameMap()[targetNumber].isNotJumpable(currentGame.getCurrentPlayer().getColor())) {
                         System.out.println("Can't jump this Field (Color problem)");
                         continue;
                     }
@@ -188,21 +195,23 @@ public class Tui
                     if (currentGame.checkNormalEndTarget(targetNumber)) {
                         break;
                     }
-                } else if (currentGame.getCurrentPlayer().getColor() == 0 && target.matches("w") && currentGame.isEndPhase()) {
+                } else if (0 == currentGame.getCurrentPlayer().getColor() && target.matches("w") && currentGame.isEndPhase()) {
                     targetNumber = 27;
 
                     if (currentGame.checkEndphaseWhiteTarget(targetNumber)) {
                         break;
                     }
-                } else if (currentGame.getCurrentPlayer().getColor() == 1 && target.matches("s") && currentGame.isEndPhase()) {
+                } else if (1 == currentGame.getCurrentPlayer().getColor() && target.matches("s") && currentGame.isEndPhase()) {
                     targetNumber = 26;
 
-                    if (currentGame.checkEndphaseBlackTarget(targetNumber)) {
+                    if (currentGame.checkEndphaseBlackTarget()) {
                         break;
                     }
                 } else {
                     setStatusInputMismatch();
                 }
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
             } catch (Exception e) {
 
                 System.err.println("Exception." + e.getMessage());
@@ -213,7 +222,7 @@ public class Tui
         currentGame.setTargetNumber(targetNumber);
     }
 
-    private void setCurrentGame(IGame newGame) {
+    private void setCurrentGame(final IGame newGame) {
         currentGame = newGame;
     }
 
@@ -225,7 +234,7 @@ public class Tui
         getCurrentGame().setStatus("Input doesn't match!");
     }
 
-    private void stoneSyso(IField[] gm, int i) {
+    private void stoneSyso(final IField[] gm, final int i) {
         System.out.printf("%s-", gm[i].toString());
     }
 

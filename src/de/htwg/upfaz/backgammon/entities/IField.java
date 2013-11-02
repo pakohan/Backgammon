@@ -2,23 +2,23 @@ package de.htwg.upfaz.backgammon.entities;
 
 public interface IField {
 
-    public abstract int getFieldNr();
+    int getFieldNr();
 
-    public abstract void setFieldNr(int newFieldNr);
+    void setFieldNr(int newFieldNr);
 
-    public abstract void setNumberStones(int newVar);
+    void setNumberStones(int newVar);
 
-    public abstract int getNumberStones();
+    int getNumberStones();
 
-    public abstract int getStoneColor();
+    int getStoneColor();
 
-    public abstract void setStoneColor(int newColor);
+    void setStoneColor(int newColor);
 
-    public abstract boolean isJumpable(int color);
+    boolean isNotJumpable(int color);
 
-    public abstract boolean isNotJumpable(int color);
+    // --Commented out by Inspection (02.11.13 18:11):public abstract boolean isNotJumpable(int color);
 
-    public abstract boolean isEmpty();
+    // --Commented out by Inspection (02.11.13 18:11):public abstract boolean isEmpty();
 
-    public abstract String toString();
+    String toString();
 }
