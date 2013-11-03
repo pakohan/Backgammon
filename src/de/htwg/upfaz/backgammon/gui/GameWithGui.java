@@ -26,7 +26,7 @@ public final class GameWithGui {
             }
 
             currentGame.checkEndPhase();
-            if (currentGame.notCheckIfMovesPossible()) {
+            if (currentGame.checkIfMoveImpossible()) {
                 bf.noMovesDialog();
                 return;
             }
@@ -80,7 +80,7 @@ public final class GameWithGui {
             bf.getEndNumber(currentGame);
 
             // check direction
-            if (currentGame.getTargetNumber() < 24 && currentGame.notCheckDirection(plr)) {
+            if (currentGame.getTargetNumber() < 24 && currentGame.isNotCheckDirection(plr)) {
                 return true;
             }
         } else {
@@ -89,7 +89,7 @@ public final class GameWithGui {
             bf.setResult(-1);
             bf.getStartNumber(currentGame);
 
-            if (currentGame.notCheckStartValidnessLoop()) {
+            if (currentGame.isValidStartLoop()) {
                 currentGame.setStatus("You can not play with this stone!");
                 return true;
             }
@@ -99,7 +99,7 @@ public final class GameWithGui {
             bf.getEndNumber(currentGame);
 
             // check direction
-            if (currentGame.getTargetNumber() < 24 && currentGame.notCheckDirection(plr)) {
+            if (currentGame.getTargetNumber() < 24 && currentGame.isNotCheckDirection(plr)) {
                 return true;
             }
         }

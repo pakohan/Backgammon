@@ -71,7 +71,7 @@ public final class Tui
                         continue;
                     }
 
-                    if (currentGame.eatenWhiteCheck(targetNumber)) {
+                    if (currentGame.isEatenWhiteCheck(targetNumber)) {
                         break;
                     }
                 } else {

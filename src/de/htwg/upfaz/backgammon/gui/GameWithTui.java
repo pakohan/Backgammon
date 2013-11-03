@@ -20,7 +20,7 @@ public final class GameWithTui {
         for (int index = currentGame.automaticTakeOut(); index < currentGame.getTurnsNumber(); index++) {
 
             currentGame.checkEndPhase();
-            if (currentGame.notCheckIfMovesPossible()) {
+            if (currentGame.checkIfMoveImpossible()) {
                 currentGame.setStatus("No moves available");
                 return;
             }
@@ -71,7 +71,7 @@ public final class GameWithTui {
 
             tui.getStartNumber(currentGame);
 
-            if (currentGame.notCheckStartValidnessLoop()) {
+            if (currentGame.isValidStartLoop()) {
                 currentGame.setStatus("You can not play with this stone!");
                 return true;
             }
@@ -81,7 +81,7 @@ public final class GameWithTui {
         }
 
         // check direction
-        if (currentGame.getTargetNumber() < 24 && currentGame.notCheckDirection(plr)) {
+        if (currentGame.getTargetNumber() < 24 && currentGame.isNotCheckDirection(plr)) {
             return true;
         }
         currentGame.setStatus("Setting startNumber to " + currentGame.getStartNumber() + " and targetNumber to " + currentGame.getTargetNumber());

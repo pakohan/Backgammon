@@ -132,26 +132,15 @@ public final class BackgammonFrame
     }
 
     @Override
-    public void mousePressed(final MouseEvent e) {
-        // do nothing
-
-    }
+    public void mousePressed(final MouseEvent e) { }
 
     @Override
-    public void mouseReleased(final MouseEvent e) {
-        // do nothing
-
-    }
+    public void mouseReleased(final MouseEvent e) { }
 
     @Override
     public void update() {
-
         statusPanel.setText(status);
         repaint();
-    }
-
-    int getResult() {
-        return result;
     }
 
     public void setResult(final int newResult) {
