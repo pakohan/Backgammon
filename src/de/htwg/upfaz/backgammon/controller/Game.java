@@ -231,7 +231,7 @@ public final class Game
     }
 
     @Override
-    public boolean notCheckDirection(final IPlayer plr) {
+    public boolean isNotCheckDirection(final IPlayer plr) {
         if (plr.getColor() == 0 && targetNumber <= startNumber || plr.getColor() == 1 && targetNumber >= startNumber) {
             setStatus("You're going in the wrong direction!");
             return true;
@@ -374,7 +374,7 @@ public final class Game
     }
 
     @Override
-    public boolean eatenWhiteCheck(final int target) {
+    public boolean isEatenWhiteCheck(final int target) {
         boolean returnVal = false;
 
         for (int i = 0; i < MAX_JUMPS; i++) {
@@ -449,7 +449,7 @@ public final class Game
     }
 
     @Override
-    public boolean notCheckStartValidnessLoop() {
+    public boolean isValidStartLoop() {
         currentMehtodName = "checkStartValidnessLoop";
         boolean toReturn = true;
         for (int i = 0; i < 4; i++) {
@@ -521,14 +521,14 @@ public final class Game
     }
 
     @Override
-    public boolean notCheckIfMovesPossible() {
+    public boolean checkIfMoveImpossible() {
 
         boolean toReturn = true;
 
         for (int i = 0; i < 24; i++) {
             if (gameMap[i].getStoneColor() == currentPlayer.getColor()) {
                 startNumber = i;
-                if (!notCheckStartValidnessLoop()) {
+                if (!isValidStartLoop()) {
 
                     toReturn = false;
                 }

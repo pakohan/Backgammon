@@ -30,7 +30,7 @@ public interface IGame
 
     void setTargetNumber(int number);
 
-    boolean notCheckDirection(IPlayer plr);
+    boolean isNotCheckDirection(IPlayer plr);
 
     void renewJumps(int start, int target);
 
@@ -64,7 +64,7 @@ public interface IGame
 
     void setJumpsT(int[] j);
 
-    boolean eatenWhiteCheck(int target);
+    boolean isEatenWhiteCheck(int target);
 
     boolean checkNormalEndTarget(int newTarget);
 
@@ -72,7 +72,7 @@ public interface IGame
 
     boolean checkEndphaseBlackTarget();
 
-    boolean notCheckStartValidnessLoop();
+    boolean isValidStartLoop();
 
     String getCurrentMethodName();
 
@@ -88,7 +88,7 @@ public interface IGame
 
     void checkEndPhase();
 
-    boolean notCheckIfMovesPossible();
+    boolean checkIfMoveImpossible();
 
     int automaticTakeOut();
 }
