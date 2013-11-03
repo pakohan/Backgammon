@@ -1,8 +1,6 @@
 package de.htwg.upfaz.backgammon.entities;
 
-import de.htwg.util.observer.ResourceBundle;
-
-public final class Player
+public class Player
         implements IPlayer {
 
     private int color;
@@ -24,9 +22,9 @@ public final class Player
     @Override
     public String toString() {
         if (0 == color) {
-            return ResourceBundle.getString("white");
+            return "White";
         } else {
-            return ResourceBundle.getString("black");
+            return "Black";
         }
     }
 }

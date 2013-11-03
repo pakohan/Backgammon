@@ -3,16 +3,15 @@ package de.htwg.upfaz.backgammon.gui;
 import de.htwg.upfaz.backgammon.controller.IGame;
 import de.htwg.upfaz.backgammon.entities.Field;
 import de.htwg.upfaz.backgammon.entities.IPlayer;
-import de.htwg.util.observer.ResourceBundle;
 
-public final class GameWithGui {
+public class GameWithGui {
 
     public void playTurn(final IGame currentGame, final IPlayer plr, final BackgammonFrame bf) {
-        currentGame.setCurrentMethodName(ResourceBundle.getString("playturn"));
+        currentGame.setCurrentMethodName("playTurn");
         currentGame.setCurrentPlayer(plr);
         currentGame.setEndPhase(false);
         currentGame.checkEndPhase();
-        currentGame.setStatus(String.format(ResourceBundle.getString("player.s.it.s.your.turn"), plr.toString()));
+        currentGame.setStatus("Player " + plr.toString() + ", it's your Turn!");
         currentGame.setJumps(currentGame.rollTheDice());
 
         currentGame.setJumpsT(currentGame.getJumps());
@@ -21,7 +20,7 @@ public final class GameWithGui {
 
             // check for winner
             if (currentGame.checkForWinner(currentGame.getGameMap())) {
-                currentGame.setStatus(String.format(ResourceBundle.getString("player.s.is.the.winner"), plr.toString()));
+                currentGame.setStatus("Player " + plr.toString() + " is the winner!");
                 currentGame.setWinner(plr.getColor() + 1);
                 return;
             }
@@ -45,7 +44,7 @@ public final class GameWithGui {
 
             // check for winner
             if (currentGame.checkForWinner(currentGame.getGameMap())) {
-                currentGame.setStatus(String.format(ResourceBundle.getString("player.s.is.the.winner1"), plr.toString()));
+                currentGame.setStatus("Player " + plr.toString() + " is the winner!");
                 currentGame.setWinner(plr.getColor() + 1);
                 return;
             }
@@ -54,7 +53,7 @@ public final class GameWithGui {
     }
 
     private boolean notGetStartAndTargetNumbers(final IGame currentGame, final Field[] gm, final IPlayer plr, final BackgammonFrame bf) {
-        currentGame.setCurrentMethodName(ResourceBundle.getString("getstartandtargetnumbers"));
+        currentGame.setCurrentMethodName("getStartAndTargetNumbers");
         currentGame.setGameMap(gm);
 
         if (0 == plr.getColor() && 0 < currentGame.getGameMap()[25].getNumberStones()) {
@@ -91,7 +90,7 @@ public final class GameWithGui {
             bf.getStartNumber(currentGame);
 
             if (currentGame.notCheckStartValidnessLoop()) {
-                currentGame.setStatus(ResourceBundle.getString("you.can.not.play.with.this.stone"));
+                currentGame.setStatus("You can not play with this stone!");
                 return true;
             }
 
@@ -105,7 +104,7 @@ public final class GameWithGui {
             }
         }
 
-        currentGame.setStatus(String.format(ResourceBundle.getString("setting.startnumber.to.d.and.targetnumber.to.d"), currentGame.getStartNumber(), currentGame.getTargetNumber()));
+        currentGame.setStatus("Setting startNumber to " + currentGame.getStartNumber() + " and targetNumber to " + currentGame.getTargetNumber());
         return false;
     }
 }

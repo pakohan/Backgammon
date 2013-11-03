@@ -1,12 +1,10 @@
 package de.htwg.upfaz.backgammon.gui;
 
-import de.htwg.util.observer.ResourceBundle;
-
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
 
-public final class StatusPanel
+public class StatusPanel
         extends JPanel {
 
     private final JLabel statusLabel = new JLabel("");
@@ -21,10 +19,6 @@ public final class StatusPanel
     }
 
     public final void setText(final String text) {
-        statusLabel.setText(String.format(ResourceBundle.getString("s"), text));
-    }
-    @Override
-    public String toString() {
-        return String.format(ResourceBundle.getString("statuspanel.statuslabel.s"), statusLabel);
+        statusLabel.setText(" " + text);
     }
 }

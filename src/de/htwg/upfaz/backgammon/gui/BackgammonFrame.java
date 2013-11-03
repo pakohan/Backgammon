@@ -2,7 +2,6 @@ package de.htwg.upfaz.backgammon.gui;
 
 import de.htwg.upfaz.backgammon.controller.IGame;
 import de.htwg.util.observer.IObserver;
-import de.htwg.util.observer.ResourceBundle;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,12 +9,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-public final class BackgammonFrame
+public class BackgammonFrame
         extends JFrame
         implements MouseListener, MouseMotionListener, IObserver {
 
     private static final long serialVersionUID = 1L;
-    private static final String GET_TARGET_WHILE_EATEN_WHITE = "gettargetwhileeatenwhite";
+    private static final String GET_TARGET_WHILE_EATEN_WHITE = "getTargetWhileEatenWhite";
 
     private final IGame currentGame;
     private final StatusPanel statusPanel;
@@ -26,7 +25,7 @@ public final class BackgammonFrame
 
         currentGame = gm;
 
-        setTitle(ResourceBundle.getString("upfaz.backgammon"));
+        setTitle("Upfaz  backgammon");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(Constances.DEFAULT_X, Constances.DEFAULT_Y);
         setResizable(false);
@@ -178,7 +177,7 @@ public final class BackgammonFrame
     }
 
     public int getTargetWhileEatenBlack(final IGame currentGame) {
-        currentGame.setCurrentMethodName(ResourceBundle.getString("gettargetwhileeatenblack"));
+        currentGame.setCurrentMethodName("getTargetWhileEatenBlack");
         int targetNumber = getResult();
         try {
 
@@ -189,14 +188,14 @@ public final class BackgammonFrame
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (Exception ignored) {
-            System.out.println(ResourceBundle.getString("gettargetwhileeatenblack"));
+            System.out.println("getTargetWhileEatenBlack");
         }
 
         return targetNumber;
     }
 
     public void getStartNumber(final IGame currentGame) {
-        currentGame.setCurrentMethodName(ResourceBundle.getString("getstartnumber"));
+        currentGame.setCurrentMethodName("getStartNumber");
         int startNumber = getResult();
         try {
 
@@ -207,13 +206,13 @@ public final class BackgammonFrame
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (Exception ignored) {
-            System.out.println(ResourceBundle.getString("getstartnumber"));
+            System.out.println("getStartNumber");
         }
 
         if (currentGame.checkStartNumber(startNumber)) {
             currentGame.setStartNumber(startNumber);
         } else {
-            System.out.println(ResourceBundle.getString("you.can.t.move.this.piece.or.there.is.no.pieces"));
+            System.out.println("You can't move this piece or there is no pieces");
             setResult(-1);
             getStartNumber(currentGame);
         }
@@ -231,14 +230,14 @@ public final class BackgammonFrame
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (Exception e) {
-            System.out.printf(ResourceBundle.getString("gettargetresult.s.n"), e);
+            System.out.println("getTargetResult: " + e);
         }
         return newTarget;
     }
 
     private void checkColorProblem(final int targetNumber) {
         if (currentGame.getGameMap()[targetNumber].isNotJumpable(currentGame.getCurrentPlayer().getColor())) {
-            System.out.println(ResourceBundle.getString("can.t.jump.this.field.color.problem"));
+            System.out.println("Can't jump this Field (Color problem)");
             setResult(-1);
             getEndNumber(currentGame);
         }
@@ -274,7 +273,7 @@ public final class BackgammonFrame
     }
 
     public void getEndNumber(final IGame currentGame) {
-        currentGame.setCurrentMethodName(ResourceBundle.getString("getendnumber"));
+        currentGame.setCurrentMethodName("getEndNumber");
         int targetNumber = getResult();
         try {
 
@@ -290,7 +289,7 @@ public final class BackgammonFrame
                 checkEndphaseWhite();
             }
         } catch (Exception ignored) {
-            System.out.println(ResourceBundle.getString("getendnumber"));
+            System.out.println("getEndNumber");
         }
     }
 
@@ -307,19 +306,15 @@ public final class BackgammonFrame
     private void mouseHandler(final MouseEvent e) {
         final int x = e.getX();
         final int y = e.getY();
-        status = String.format(ResourceBundle.getString("x.d.y.d.t.start.d.target.d.result.d.current.player.s.s.method.s"), x, y, currentGame.getStartNumber(), currentGame.getTargetNumber(), getResult(), currentGame.getCurrentPlayer(), currentGame.printJumpsString(), currentGame.getCurrentMethodName());
+        status = "x = " + x + ", y = " + y + "\t start = " + currentGame.getStartNumber() + ", target = " + currentGame.getTargetNumber() + ", result = " + getResult() + "; Current player: " + currentGame.getCurrentPlayer() + "; " + currentGame.printJumpsString() + "; Method: " + currentGame.getCurrentMethodName();
         update();
     }
 
     public void noMovesDialog() {
-        JOptionPane.showMessageDialog(this, ResourceBundle.getString("no.possible.moves.available"), ResourceBundle.getString("bad.luck"), JOptionPane.WARNING_MESSAGE);
+        JOptionPane.showMessageDialog(this, "No possible moves available", "Bad luck", JOptionPane.WARNING_MESSAGE);
     }
 
     public void winnerDialog() {
-        JOptionPane.showMessageDialog(this, String.format(ResourceBundle.getString("s.is.the.winner"), currentGame.getCurrentPlayer()), ResourceBundle.getString("congratulations"), JOptionPane.PLAIN_MESSAGE);
-    }
-    @Override
-    public String toString() {
-        return String.format(ResourceBundle.getString("backgammonframe.currentgame.s.statuspanel.s.status.s.result.d"), currentGame, statusPanel, status, result);
+        JOptionPane.showMessageDialog(this, currentGame.getCurrentPlayer() + " is the winner!", "Congratulations!", JOptionPane.PLAIN_MESSAGE);
     }
 }

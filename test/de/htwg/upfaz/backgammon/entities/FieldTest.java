@@ -25,8 +25,4 @@ public class FieldTest
         field.setNumberStones(0);
         assertEquals(0, field.getNumberStones());
     }
-    @Override
-    public String toString() {
-        return String.format("fieldtest.field.s", field);
-    }
 }

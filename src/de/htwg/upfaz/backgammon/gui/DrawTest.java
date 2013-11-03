@@ -1,12 +1,11 @@
 package de.htwg.upfaz.backgammon.gui;
 
 import de.htwg.upfaz.backgammon.controller.IGame;
-import de.htwg.util.observer.ResourceBundle;
 
 import javax.swing.*;
 import java.awt.*;
 
-public final class DrawTest
+public class DrawTest
         extends JPanel {
 
     private static final long serialVersionUID = 1L;
@@ -27,15 +26,15 @@ public final class DrawTest
 
         currentGame = game;
 
-        setBackground(Toolkit.getDefaultToolkit().createImage(ResourceBundle.getString("res.background.png")));
-        setDice1(Toolkit.getDefaultToolkit().createImage(ResourceBundle.getString("res.dice1.png")));
-        setDice2(Toolkit.getDefaultToolkit().createImage(ResourceBundle.getString("res.dice2.png")));
-        setDice3(Toolkit.getDefaultToolkit().createImage(ResourceBundle.getString("res.dice3.png")));
-        setDice4(Toolkit.getDefaultToolkit().createImage(ResourceBundle.getString("res.dice4.png")));
-        setDice5(Toolkit.getDefaultToolkit().createImage(ResourceBundle.getString("res.dice5.png")));
-        setDice6(Toolkit.getDefaultToolkit().createImage(ResourceBundle.getString("res.dice6.png")));
-        setStoneB(Toolkit.getDefaultToolkit().createImage(ResourceBundle.getString("res.grau.png")));
-        setStoneW(Toolkit.getDefaultToolkit().createImage(ResourceBundle.getString("res.weiss.png")));
+        setBackground(Toolkit.getDefaultToolkit().createImage("res/background.png"));
+        setDice1(Toolkit.getDefaultToolkit().createImage("res/dice1.png"));
+        setDice2(Toolkit.getDefaultToolkit().createImage("res/dice2.png"));
+        setDice3(Toolkit.getDefaultToolkit().createImage("res/dice3.png"));
+        setDice4(Toolkit.getDefaultToolkit().createImage("res/dice4.png"));
+        setDice5(Toolkit.getDefaultToolkit().createImage("res/dice5.png"));
+        setDice6(Toolkit.getDefaultToolkit().createImage("res/dice6.png"));
+        setStoneB(Toolkit.getDefaultToolkit().createImage("res/grau.png"));
+        setStoneW(Toolkit.getDefaultToolkit().createImage("res/weiss.png"));
     }
 
     void paintStones(final Graphics g, final Image image, final int x, final int y, final int a) {
@@ -137,7 +136,7 @@ public final class DrawTest
                 break;
             }
         } catch (Exception ignored) {
-            System.out.println(ResourceBundle.getString("dices.paint.something.went.wrong"));
+            System.out.println("Dices.paint() - something went wrong");
         }
     }
 
@@ -211,9 +210,5 @@ public final class DrawTest
 
     private Image getBack() {
         return background;
-    }
-    @Override
-    public String toString() {
-        return String.format(ResourceBundle.getString("drawtest.dice1.s.dice2.s.dice3.s.dice4.s.dice5.s.dice6.s.stoneb.s.stonew.s.background.s.currentgame.s"), dice1, dice2, dice3, dice4, dice5, dice6, stoneb, stonew, background, currentGame);
     }
 }

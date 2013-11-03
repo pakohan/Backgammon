@@ -3,9 +3,8 @@ package de.htwg.upfaz.backgammon.gui;
 import de.htwg.upfaz.backgammon.controller.IGame;
 import de.htwg.upfaz.backgammon.entities.Field;
 import de.htwg.upfaz.backgammon.entities.IPlayer;
-import de.htwg.util.observer.ResourceBundle;
 
-public final class GameWithTui {
+public class GameWithTui {
 
     public void playTurn(final IGame currentGame, final IPlayer plr, final Tui tui) {
 
@@ -13,7 +12,7 @@ public final class GameWithTui {
         currentGame.setEndPhase(false);
         currentGame.checkEndPhase();
         currentGame.setStatus("");
-        currentGame.setStatus(String.format(ResourceBundle.getString("player.s.it.s.your.turn1"), plr.toString()));
+        currentGame.setStatus("Player " + plr.toString() + ", it's your Turn!");
         currentGame.setJumps(currentGame.rollTheDice());
 
         currentGame.setJumpsT(currentGame.getJumps());
@@ -22,7 +21,7 @@ public final class GameWithTui {
 
             currentGame.checkEndPhase();
             if (currentGame.notCheckIfMovesPossible()) {
-                currentGame.setStatus(ResourceBundle.getString("no.moves.available"));
+                currentGame.setStatus("No moves available");
                 return;
             }
 
@@ -40,7 +39,7 @@ public final class GameWithTui {
 
             // check for winner
             if (currentGame.checkForWinner(currentGame.getGameMap())) {
-                currentGame.setStatus(String.format(ResourceBundle.getString("player.s.is.the.winner2"), plr.toString()));
+                currentGame.setStatus("Player " + plr.toString() + " is the winner!");
                 currentGame.setWinner(plr.getColor() + 1);
                 return;
             }
@@ -73,7 +72,7 @@ public final class GameWithTui {
             tui.getStartNumber(currentGame);
 
             if (currentGame.notCheckStartValidnessLoop()) {
-                currentGame.setStatus(ResourceBundle.getString("you.can.not.play.with.this.stone1"));
+                currentGame.setStatus("You can not play with this stone!");
                 return true;
             }
 
@@ -85,7 +84,7 @@ public final class GameWithTui {
         if (24 > currentGame.getTargetNumber() && currentGame.notCheckDirection(plr)) {
             return true;
         }
-        currentGame.setStatus(String.format(ResourceBundle.getString("setting.startnumber.to.d.and.targetnumber.to.d"), currentGame.getStartNumber(), currentGame.getTargetNumber()));
+        currentGame.setStatus("Setting startNumber to " + currentGame.getStartNumber() + " and targetNumber to " + currentGame.getTargetNumber());
         return false;
     }
 }
