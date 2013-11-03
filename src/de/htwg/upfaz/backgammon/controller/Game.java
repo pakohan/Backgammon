@@ -5,11 +5,12 @@ import de.htwg.upfaz.backgammon.entities.IField;
 import de.htwg.upfaz.backgammon.entities.IPlayer;
 import de.htwg.upfaz.backgammon.entities.Player;
 import de.htwg.util.observer.Observable;
+import de.htwg.util.observer.ResourceBundle;
 
 import java.util.Arrays;
 import java.util.Random;
 
-public class Game
+public final class Game
         extends Observable
         implements IGame {
 
@@ -44,8 +45,8 @@ public class Game
     private int startNumber = -1;
     private int targetNumber = -1;
 
-    private String status = "Let's the game begin!";
-    private String currentMehtodName = "Begin";
+    private String status = ResourceBundle.getString("let.the.game.begin");
+    private String currentMehtodName = ResourceBundle.getString("begin");
     private IPlayer currentPlayer;
 
     //
@@ -130,18 +131,18 @@ public class Game
         if (jumpsToReturn[0] == jumpsToReturn[1]) {
             jumpsToReturn[2] = jumpsToReturn[0];
             jumpsToReturn[3] = jumpsToReturn[0];
-            setStatus("You're lucky bastard");
+            setStatus(ResourceBundle.getString("you.re.lucky.bastard"));
         } else {
             jumpsToReturn[2] = 0;
             jumpsToReturn[3] = 0;
         }
-        setStatus("So, youre moves are: " + jumpsToReturn[0] + ", " + jumpsToReturn[1]);
+        setStatus(String.format(ResourceBundle.getString("so.youre.moves.are.d.d"), jumpsToReturn[0], jumpsToReturn[1]));
         setStatus("");
         return jumpsToReturn;
     }
 
     private Field[] eatStone(final Field[] gameMap, final IPlayer plr, final int startNumber, final int targetNumber) {
-        setCurrentMethodName("eatStone");
+        setCurrentMethodName(ResourceBundle.getString("eatstone"));
         gameMap[targetNumber].setNumberStones(1);
         gameMap[targetNumber].setStoneColor(plr.getColor());
         if (0 == plr.getColor()) {
@@ -152,19 +153,19 @@ public class Game
             gameMap[FIELD_EATEN_WHITE].setStoneColor(0);
         }
         gameMap[startNumber].setNumberStones(gameMap[startNumber].getNumberStones() - 1);
-        setStatus("Eating the stone");
+        setStatus(ResourceBundle.getString("eating.the.stone"));
         return gameMap;
     }
 
     Field[] moveStone(final Field[] gameMap, final IPlayer plr, final int startNumber, final int targetNumber) {
-        setCurrentMethodName("moveStone");
+        setCurrentMethodName(ResourceBundle.getString("movestone"));
         gameMap[targetNumber].setNumberStones(gameMap[targetNumber].getNumberStones() + 1);
         gameMap[targetNumber].setStoneColor(plr.getColor());
         gameMap[startNumber].setNumberStones(gameMap[startNumber].getNumberStones() - 1);
         if (0 == gameMap[startNumber].getNumberStones()) {
             gameMap[startNumber].setStoneColor(-1);
         }
-        setStatus("Moving the stone");
+        setStatus(ResourceBundle.getString("moving.the.stone"));
         return gameMap;
     }
 
@@ -181,19 +182,19 @@ public class Game
     }
 
     Field[] takeOutStone(final Field[] gameMap, final int startNumber, final int targetNumber) {
-        setCurrentMethodName("takeOutStone");
+        setCurrentMethodName(ResourceBundle.getString("takeoutstone"));
         gameMap[targetNumber].setNumberStones(gameMap[targetNumber].getNumberStones() + 1);
         gameMap[startNumber].setNumberStones(gameMap[startNumber].getNumberStones() - 1);
         if (0 == gameMap[startNumber].getNumberStones()) {
             gameMap[startNumber].setStoneColor(-1);
         }
-        setStatus("Taking out the stone");
+        setStatus(ResourceBundle.getString("taking.out.the.stone"));
         return gameMap;
     }
 
     @Override
     public Field[] doSomethingWithStones(final Field[] gm, final IPlayer plr, final int startNumber, final int targetNumber, final boolean endPhase) {
-        setCurrentMethodName("doSomethingWithStones");
+        setCurrentMethodName(ResourceBundle.getString("dosomethingwithstones"));
         setGameMap(gm);
 
         // eat or move stone
@@ -233,7 +234,7 @@ public class Game
     @Override
     public boolean notCheckDirection(final IPlayer plr) {
         if (0 == plr.getColor() && targetNumber <= startNumber || 1 == plr.getColor() && targetNumber >= startNumber) {
-            setStatus("You're going in the wrong direction!");
+            setStatus(ResourceBundle.getString("you.re.going.in.the.wrong.direction"));
             return true;
         }
         return false;
@@ -241,7 +242,7 @@ public class Game
 
     @Override
     public void renewJumps(final int start, final int target) {
-        setCurrentMethodName("renewJumps");
+        setCurrentMethodName(ResourceBundle.getString("renewjumps"));
         if (FIELD_END_BLACK <= target) {
             renewJumpsEndPhase(start);
             return;
@@ -249,7 +250,7 @@ public class Game
         for (int i = 0; MAX_JUMPS > i; i++) {
             if (Math.abs(target - start) == jumps[i]) {
                 jumps[i] = 0;
-                setStatus("Setting jumps[" + i + "] to 0");
+                setStatus(String.format(ResourceBundle.getString("setting.jumps.d.to.0"), i));
                 return;
             }
         }
@@ -259,14 +260,14 @@ public class Game
         for (int i = 0; MAX_JUMPS > i; i++) {
             if (24 - start == jumps[i] || start + 1 == jumps[i]) {
                 jumps[i] = 0;
-                setStatus("Setting jumps[" + i + "] to 0");
+                setStatus(String.format(ResourceBundle.getString("setting.jumps.d.to.0"), i));
                 return;
             }
         }
     }
 
     int calcStoneInEndPhase(final IPlayer plr, final IField[] gm) {
-        setCurrentMethodName("calcStoneInEndPhase");
+        setCurrentMethodName(ResourceBundle.getString("calcstoneinendphase"));
         int stonesInEndPhase = 0;
         if (0 == plr.getColor()) {
             for (int i = 18; 23 >= i; i++) {
@@ -340,7 +341,7 @@ public class Game
 
     @Override
     public boolean checkStartNumber(final int number) {
-        setCurrentMethodName("checkStartNumber");
+        setCurrentMethodName(ResourceBundle.getString("checkstartnumber"));
         try {
             return gameMap[number].getStoneColor() == currentPlayer.getColor();
         } catch (Exception e) {
@@ -352,13 +353,13 @@ public class Game
     @Override
     public void printJumpsStatus(final int[] jumps) {
 
-        setStatus("So, youre moves are: " + jumps[0] + ", " + jumps[1] + ", " + jumps[2] + ", " + jumps[3]);
+        setStatus(String.format(ResourceBundle.getString("so.youre.moves.are.d.d.d.d"), jumps[0], jumps[1], jumps[2], jumps[3]));
     }
 
     @Override
     public String printJumpsString() {
 
-        return "Jumps: " + jumps[0] + ", " + jumps[1] + ", " + jumps[2] + ", " + jumps[3];
+        return String.format(ResourceBundle.getString("jumps.d.d.d.d"), jumps[0], jumps[1], jumps[2], jumps[3]);
     }
 
     @Override
@@ -400,7 +401,7 @@ public class Game
 
     @Override
     public boolean checkEndphaseWhiteTarget(final int newTarget) {
-        setCurrentMethodName("checkEndphaseWhiteTarget");
+        setCurrentMethodName(ResourceBundle.getString("checkendphasewhitetarget"));
         // if ((Math.abs(targetNumber - currentGame.getStartNumber()
         // - 3)) == currentGame.jumps[0]
         // || (Math.abs(targetNumber
@@ -422,7 +423,7 @@ public class Game
 
     @Override
     public boolean checkEndphaseBlackTarget() {
-        setCurrentMethodName("checkEndphaseBlackTarget");
+        setCurrentMethodName(ResourceBundle.getString("checkendphaseblacktarget"));
         // if (currentGame.jumps[0] == (currentGame.getStartNumber() + 1)
         // || currentGame.jumps[1] == (currentGame.getStartNumber() + 1)
         // || currentGame.jumps[2] == (currentGame.getStartNumber() + 1)
@@ -441,7 +442,7 @@ public class Game
 
     @Override
     public boolean notCheckStartValidnessLoop() {
-        setCurrentMethodName("checkStartValidnessLoop");
+        setCurrentMethodName(ResourceBundle.getString("checkstartvalidnessloop"));
         boolean toReturn = true;
         for (int i = 0; 4 > i; i++) {
             if (0 != jumps[i] && checkStartValidness(i)) {
@@ -453,7 +454,7 @@ public class Game
     }
 
     private boolean checkStartValidness(final int i) {
-        setCurrentMethodName("checkStartValidness");
+        setCurrentMethodName(ResourceBundle.getString("checkstartvalidness"));
         try {
             if (0 == getCurrentPlayer().getColor() && (23 < getStartNumber() + jumps[i] || gameMap[getStartNumber() + jumps[i]].isNotJumpable(getCurrentPlayer().getColor()))) {
                 return false;
@@ -461,7 +462,7 @@ public class Game
                 return false;
             }
         } catch (Exception e) {
-            System.out.println("checkStartValidness: " + e);
+            System.err.printf(ResourceBundle.getString("checkstartvalidness.s.n"), e);
         }
         return true;
     }
@@ -504,7 +505,7 @@ public class Game
     public void checkEndPhase() {
         if (STONES_TO_WIN == calcStoneInEndPhase(getCurrentPlayer(), getGameMap())) {
             setEndPhase(true);
-            setStatus("End Phase!");
+            setStatus(ResourceBundle.getString("end.phase"));
         }
     }
 
@@ -580,5 +581,9 @@ public class Game
         }
 
         return toReturn;
+    }
+    @Override
+    public String toString() {
+        return String.format(ResourceBundle.getString("game.gamemap.s.player1.s.player2.s.winner.d.endphase.s.jumps.s.jumpst.s.startnumber.d.targetnumber.d.status.s.currentmehtodname.s.currentplayer.s"), Arrays.toString(gameMap), player1, player2, winner, endPhase, Arrays.toString(jumps), Arrays.toString(jumpsT), startNumber, targetNumber, status, currentMehtodName, currentPlayer);
     }
 }

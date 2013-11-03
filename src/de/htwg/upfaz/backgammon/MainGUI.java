@@ -6,6 +6,7 @@ import de.htwg.upfaz.backgammon.gui.BackgammonFrame;
 import de.htwg.upfaz.backgammon.gui.GameWithGui;
 import de.htwg.upfaz.backgammon.gui.GameWithTui;
 import de.htwg.upfaz.backgammon.gui.Tui;
+import de.htwg.util.observer.ResourceBundle;
 
 import java.util.Scanner;
 
@@ -17,7 +18,7 @@ public final class MainGUI {
 
     public static void main(final String[] args) {
         final IGame currentGame = new Game();
-        System.out.println("Welcome to upfaz backgammon.");
+        System.out.println(ResourceBundle.getString("welcome.to.upfaz.backgammon"));
 
         final int choiceNumber = chooseUI();
 
@@ -31,22 +32,22 @@ public final class MainGUI {
     private static int chooseUI() {
         final Scanner scanner = new Scanner(System.in);
         try {
-            System.out.println("Choose the UI:");
-            System.out.println("\t1.Tui");
-            System.out.println("\t2.Gui");
+            System.out.println(ResourceBundle.getString("choose.the.ui"));
+            System.out.println(ResourceBundle.getString("t1.tui"));
+            System.out.println(ResourceBundle.getString("t2.gui"));
             final String choice = scanner.nextLine();
             final int choiceNumber = Integer.valueOf(choice).intValue();
             if (1 == choiceNumber || 2 == choiceNumber) {
                 return choiceNumber;
             } else {
-                System.out.println("Input doesn't match: " + choice);
+                System.out.printf(ResourceBundle.getString("input.doesn.t.match.s.n"), choice);
                 return 0;
             }
         } catch (NumberFormatException e) {
             e.printStackTrace();
             return 0;
         } catch (Exception e) {
-            System.err.println("Exception." + e.getMessage());
+            System.err.printf(ResourceBundle.getString("exception.s.n"), e.getMessage());
             return 0;
         }
     }
@@ -68,7 +69,7 @@ public final class MainGUI {
             }
         }
 
-        System.out.println(currentGame.getCurrentPlayer() + " is the winner!");
+        System.out.printf(ResourceBundle.getString("s.is.the.winner.n"), currentGame.getCurrentPlayer());
     }
 
     private static void playGameWithGui(final IGame currentGame) {

@@ -1,6 +1,8 @@
 package de.htwg.upfaz.backgammon.entities;
 
-public class Field
+import de.htwg.util.observer.ResourceBundle;
+
+public final class Field
         implements IField {
 
     //
@@ -87,9 +89,9 @@ public class Field
         }
         b.append(getNumberStones());
         if (0 == getStoneColor()) {
-            b.append("w");
+            b.append(ResourceBundle.getString("w"));
         } else {
-            b.append("b");
+            b.append(ResourceBundle.getString("b"));
         }
 
         return b.toString();

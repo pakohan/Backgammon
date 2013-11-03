@@ -1,5 +1,6 @@
 package de.htwg.upfaz.backgammon.entities;
 
+import de.htwg.util.observer.ResourceBundle;
 import junit.framework.TestCase;
 
 /**
@@ -28,5 +29,9 @@ public class PlayerTest
         assertEquals(0, player.getColor());
         player.setColor(1);
         assertEquals(1, player.getColor());
+    }
+    @Override
+    public String toString() {
+        return String.format(ResourceBundle.getString("playertest.player.s"), player);
     }
 }

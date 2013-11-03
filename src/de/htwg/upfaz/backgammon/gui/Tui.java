@@ -4,13 +4,14 @@ import de.htwg.upfaz.backgammon.controller.IGame;
 import de.htwg.upfaz.backgammon.entities.IField;
 import de.htwg.upfaz.backgammon.entities.IPlayer;
 import de.htwg.util.observer.IObserver;
+import de.htwg.util.observer.ResourceBundle;
 
 import java.util.Scanner;
 
-public class Tui
+public final class Tui
         implements IObserver {
 
-    private static final String YOUR_INPUT = "Your input is ";
+    private static final String YOUR_INPUT = ResourceBundle.getString("your.input.is");
     private IGame currentGame;
 
     public Tui(final IGame gm) {
@@ -19,19 +20,19 @@ public class Tui
     }
 
     public void printField(final IField[] gameMap) {
-        System.out.println("||011-010-009-008-007-006|OUT|005-004-003-002-001-000||-s-|");
+        System.out.println(ResourceBundle.getString("011.010.009.008.007.006.out.005.004.003.002.001.000.s"));
         System.out.println("||---------------------------------------------------||---|");
         System.out.printf("||");
         for (int i = 11; 6 < i; i--) {
             // System.out.printf("%s-", gameMap[i].toString());
             stoneSyso(gameMap, i);
         }
-        System.out.printf("%s|%s|", gameMap[6].toString(), gameMap[24].toString());
+        System.out.printf(ResourceBundle.getString("s.s"), gameMap[6].toString(), gameMap[24].toString());
         for (int i = 5; 0 < i; i--) {
             // System.out.printf("%s-", gameMap[i].toString());
             stoneSyso(gameMap, i);
         }
-        System.out.printf("%s||%s|\n", gameMap[0].toString(), gameMap[26].toString());
+        System.out.printf(ResourceBundle.getString("s.s.n"), gameMap[0].toString(), gameMap[26].toString());
 
         System.out.println("||---------------------------------------------------||---|");
 
@@ -40,15 +41,15 @@ public class Tui
             // System.out.printf("%s-", gameMap[i].toString());
             stoneSyso(gameMap, i);
         }
-        System.out.printf("%s|%s|", gameMap[17].toString(), gameMap[25].toString());
+        System.out.printf(ResourceBundle.getString("s.s"), gameMap[17].toString(), gameMap[25].toString());
         for (int i = 18; 23 > i; i++) {
             // System.out.printf("%s-", gameMap[i].toString());
             stoneSyso(gameMap, i);
         }
-        System.out.printf("%s||%s|\n", gameMap[23].toString(), gameMap[27].toString());
+        System.out.printf(ResourceBundle.getString("s.s.n"), gameMap[23].toString(), gameMap[27].toString());
 
         System.out.println("||---------------------------------------------------||---|");
-        System.out.println("||012-013-014-015-016-017|OUT|018-019-020-021-022-023||-w-|");
+        System.out.println(ResourceBundle.getString("012.013.014.015.016.017.out.018.019.020.021.022.023.w"));
     }
 
     public int getTargetWhileEatenWhite(final IGame currentGame) {
@@ -58,7 +59,7 @@ public class Tui
         final Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            System.out.println("Choose the target field");
+            System.out.println(ResourceBundle.getString("choose.the.target.field"));
             try {
                 target = scanner.nextLine();
                 if (target.matches("[0-6]")) {
@@ -67,7 +68,7 @@ public class Tui
                     targetNumber = Integer.valueOf(target).intValue(); // sonar recommends
 
                     if (currentGame.getGameMap()[targetNumber].isNotJumpable(currentGame.getCurrentPlayer().getColor())) {
-                        System.out.println("Can't jump this Field (Color problem)");
+                        System.out.println(ResourceBundle.getString("can.t.jump.this.field.color.problem"));
                         continue;
                     }
 
@@ -98,14 +99,14 @@ public class Tui
             try {
 
                 System.out.println("");
-                System.out.printf("Choose the target field: ");
+                System.out.printf(ResourceBundle.getString("choose.the.target.field1"));
                 target = scanner.nextLine();
                 if (target.matches("1[8-9]|2[0-3]")) {
                     targetNumber = Integer.valueOf(target).intValue(); // sonar recommends
 
                     // TO ADD: check if movable
                     if (gameMap[targetNumber].isNotJumpable(plr.getColor())) {
-                        System.out.println("Can't jump this Field (Color problem)");
+                        System.out.println(ResourceBundle.getString("can.t.jump.this.field.color.problem"));
                         continue;
                     }
 
@@ -128,7 +129,7 @@ public class Tui
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             } catch (Exception ignored) {
-                System.out.println("Exception. Input doesn't match!");
+                System.out.println(ResourceBundle.getString("exception.input.doesn.t.match"));
             }
         }
         currentGame.setStatus(YOUR_INPUT + target);
@@ -146,7 +147,7 @@ public class Tui
             try {
 
                 System.out.println("");
-                System.out.printf("Choose the stone: ");
+                System.out.printf(ResourceBundle.getString("choose.the.stone"));
                 start = scanner.nextLine();
                 // startNumber = new int(start);
 
@@ -160,7 +161,7 @@ public class Tui
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             } catch (Exception e) {
-                System.err.println("Exception." + e.getMessage());
+                System.err.printf(ResourceBundle.getString("exception.s.n"), e.getMessage());
             }
         }
 
@@ -178,7 +179,7 @@ public class Tui
             try {
 
                 System.out.println("");
-                System.out.printf("Choose the target field: ");
+                System.out.printf(ResourceBundle.getString("choose.the.target.field2"));
                 target = scanner.nextLine();
 
                 if (target.matches("[0-9]|1[0-9]|2[0-3]")) {
@@ -188,7 +189,7 @@ public class Tui
 
                     // TO ADD: check if movable
                     if (currentGame.getGameMap()[targetNumber].isNotJumpable(currentGame.getCurrentPlayer().getColor())) {
-                        System.out.println("Can't jump this Field (Color problem)");
+                        System.out.println(ResourceBundle.getString("can.t.jump.this.field.color.problem"));
                         continue;
                     }
 
@@ -214,7 +215,7 @@ public class Tui
                 e.printStackTrace();
             } catch (Exception e) {
 
-                System.err.println("Exception." + e.getMessage());
+                System.err.printf(ResourceBundle.getString("exception.s.n"), e.getMessage());
             }
         }
 
@@ -231,15 +232,19 @@ public class Tui
     }
 
     private void setStatusInputMismatch() {
-        getCurrentGame().setStatus("Input doesn't match!");
+        getCurrentGame().setStatus(ResourceBundle.getString("input.doesn.t.match"));
     }
 
     private void stoneSyso(final IField[] gm, final int i) {
-        System.out.printf("%s-", gm[i].toString());
+        System.out.printf(ResourceBundle.getString("s1"), gm[i].toString());
     }
 
     @Override
     public void update() {
         System.out.println(getCurrentGame().getStatus());
+    }
+    @Override
+    public String toString() {
+        return String.format(ResourceBundle.getString("tui.currentgame.s"), currentGame);
     }
 }

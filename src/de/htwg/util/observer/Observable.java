@@ -3,7 +3,7 @@ package de.htwg.util.observer;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class Observable
+public abstract class Observable
         implements IObservable {
 
     private final Collection<IObserver> subscribers = new ArrayList<IObserver>(2);
@@ -32,5 +32,9 @@ public class Observable
         for (final IObserver observer : subscribers) {
             observer.update();
         }
+    }
+    @Override
+    public String toString() {
+        return String.format(ResourceBundle.getString("observable.subscribers.s"), subscribers);
     }
 }
