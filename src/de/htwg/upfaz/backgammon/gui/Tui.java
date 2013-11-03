@@ -7,7 +7,7 @@ import de.htwg.util.observer.IObserver;
 
 import java.util.Scanner;
 
-public class Tui
+public final class Tui
         implements IObserver {
 
     private static final String YOUR_INPUT = "Your input is ";
@@ -15,7 +15,7 @@ public class Tui
 
     public Tui(final IGame gm) {
 
-        setCurrentGame(gm);
+        currentGame = gm;
     }
 
     public void printField(final IField[] gameMap) {

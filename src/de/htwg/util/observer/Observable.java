@@ -3,7 +3,7 @@ package de.htwg.util.observer;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class Observable
+public abstract class Observable
         implements IObservable {
 
     private final Collection<IObserver> subscribers = new ArrayList<IObserver>(2);

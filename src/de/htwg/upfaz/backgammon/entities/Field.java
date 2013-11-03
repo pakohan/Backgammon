@@ -1,6 +1,6 @@
 package de.htwg.upfaz.backgammon.entities;
 
-public class Field
+public final class Field
         implements IField {
 
     //

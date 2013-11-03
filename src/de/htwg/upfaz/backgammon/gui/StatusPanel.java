@@ -4,7 +4,7 @@ import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
 
-public class StatusPanel
+public final class StatusPanel
         extends JPanel {
 
     private final JLabel statusLabel = new JLabel("");

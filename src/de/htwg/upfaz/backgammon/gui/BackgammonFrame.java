@@ -9,7 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-public class BackgammonFrame
+public final class BackgammonFrame
         extends JFrame
         implements MouseListener, MouseMotionListener, IObserver {
 
@@ -55,7 +55,7 @@ public class BackgammonFrame
     public void mouseClicked(final MouseEvent e) {
         final int x = e.getX();
         final int y = e.getY();
-        setResult(getClickedField(x, y));
+        result = getClickedField(x, y);
         mouseHandler(e);
     }
 
@@ -213,7 +213,7 @@ public class BackgammonFrame
             currentGame.setStartNumber(startNumber);
         } else {
             System.out.println("You can't move this piece or there is no pieces");
-            setResult(-1);
+            result = -1;
             getStartNumber(currentGame);
         }
     }
@@ -238,7 +238,7 @@ public class BackgammonFrame
     private void checkColorProblem(final int targetNumber) {
         if (currentGame.getGameMap()[targetNumber].isNotJumpable(currentGame.getCurrentPlayer().getColor())) {
             System.out.println("Can't jump this Field (Color problem)");
-            setResult(-1);
+            result = -1;
             getEndNumber(currentGame);
         }
     }
@@ -247,7 +247,7 @@ public class BackgammonFrame
         if (currentGame.checkNormalEndTarget(targetNumber)) {
             currentGame.setTargetNumber(targetNumber);
         } else {
-            setResult(-1);
+            result = -1;
             getEndNumber(currentGame);
         }
     }
@@ -257,7 +257,7 @@ public class BackgammonFrame
         if (currentGame.checkEndphaseBlackTarget()) {
             currentGame.setTargetNumber(Constances.FIELD_END_BLACK);
         } else {
-            setResult(-1);
+            result = -1;
             getEndNumber(currentGame);
         }
     }
@@ -267,7 +267,7 @@ public class BackgammonFrame
         if (currentGame.checkEndphaseWhiteTarget(Constances.FIELD_END_WHITE)) {
             currentGame.setTargetNumber(Constances.FIELD_END_WHITE);
         } else {
-            setResult(-1);
+            result = -1;
             getEndNumber(currentGame);
         }
     }

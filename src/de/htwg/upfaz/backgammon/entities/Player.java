@@ -1,6 +1,6 @@
 package de.htwg.upfaz.backgammon.entities;
 
-public class Player
+public final class Player
         implements IPlayer {
 
     private int color;

@@ -4,7 +4,7 @@ import de.htwg.upfaz.backgammon.controller.IGame;
 import de.htwg.upfaz.backgammon.entities.Field;
 import de.htwg.upfaz.backgammon.entities.IPlayer;
 
-public class GameWithGui {
+public final class GameWithGui {
 
     public void playTurn(final IGame currentGame, final IPlayer plr, final BackgammonFrame bf) {
         currentGame.setCurrentMethodName("playTurn");

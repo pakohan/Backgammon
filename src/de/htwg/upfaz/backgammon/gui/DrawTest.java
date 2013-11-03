@@ -5,7 +5,7 @@ import de.htwg.upfaz.backgammon.controller.IGame;
 import javax.swing.*;
 import java.awt.*;
 
-public class DrawTest
+public final class DrawTest
         extends JPanel {
 
     private static final long serialVersionUID = 1L;
@@ -26,15 +26,15 @@ public class DrawTest
 
         currentGame = game;
 
-        setBackground(Toolkit.getDefaultToolkit().createImage("res/background.png"));
-        setDice1(Toolkit.getDefaultToolkit().createImage("res/dice1.png"));
-        setDice2(Toolkit.getDefaultToolkit().createImage("res/dice2.png"));
-        setDice3(Toolkit.getDefaultToolkit().createImage("res/dice3.png"));
-        setDice4(Toolkit.getDefaultToolkit().createImage("res/dice4.png"));
-        setDice5(Toolkit.getDefaultToolkit().createImage("res/dice5.png"));
-        setDice6(Toolkit.getDefaultToolkit().createImage("res/dice6.png"));
-        setStoneB(Toolkit.getDefaultToolkit().createImage("res/grau.png"));
-        setStoneW(Toolkit.getDefaultToolkit().createImage("res/weiss.png"));
+        background = Toolkit.getDefaultToolkit().createImage("res/background.png");
+        dice1 = Toolkit.getDefaultToolkit().createImage("res/dice1.png");
+        dice2 = Toolkit.getDefaultToolkit().createImage("res/dice2.png");
+        dice3 = Toolkit.getDefaultToolkit().createImage("res/dice3.png");
+        dice4 = Toolkit.getDefaultToolkit().createImage("res/dice4.png");
+        dice5 = Toolkit.getDefaultToolkit().createImage("res/dice5.png");
+        dice6 = Toolkit.getDefaultToolkit().createImage("res/dice6.png");
+        stoneb = Toolkit.getDefaultToolkit().createImage("res/grau.png");
+        stonew = Toolkit.getDefaultToolkit().createImage("res/weiss.png");
     }
 
     void paintStones(final Graphics g, final Image image, final int x, final int y, final int a) {
