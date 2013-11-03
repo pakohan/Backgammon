@@ -15,6 +15,7 @@ public final class BackgammonFrame
 
     private static final long serialVersionUID = 1L;
     private static final String GET_TARGET_WHILE_EATEN_WHITE = "getTargetWhileEatenWhite";
+    protected static final String CAN_T_JUMP_THIS_FIELD_COLOR_PROBLEM = "Can't jump this Field (Color problem)";
 
     private final IGame currentGame;
     private final StatusPanel statusPanel;
@@ -226,7 +227,7 @@ public final class BackgammonFrame
 
     private void checkColorProblem(final int targetNumber) {
         if (currentGame.getGameMap()[targetNumber].isNotJumpable(currentGame.getCurrentPlayer().getColor())) {
-            System.out.println("Can't jump this Field (Color problem)");
+            System.out.println(CAN_T_JUMP_THIS_FIELD_COLOR_PROBLEM);
             result = -1;
             getEndNumber(currentGame);
         }

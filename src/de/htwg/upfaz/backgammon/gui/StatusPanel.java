@@ -12,13 +12,17 @@ public final class StatusPanel
 
     public StatusPanel() {
 
-        setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        setLayout(new FlowLayout(FlowLayout.LEADING, 0, 0));
 
         setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
         add(statusLabel);
     }
 
-    public final void setText(final String text) {
-        statusLabel.setText(" " + text);
+    public void setText(final String text) {
+        statusLabel.setText(String.format(" %s", text));
+    }
+    @Override
+    public String toString() {
+        return String.format("StatusPanel{statusLabel=%s}", statusLabel);
     }
 }

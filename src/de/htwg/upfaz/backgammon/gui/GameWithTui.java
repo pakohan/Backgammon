@@ -6,13 +6,15 @@ import de.htwg.upfaz.backgammon.entities.IPlayer;
 
 public final class GameWithTui {
 
+    protected static final String YOU_CAN_NOT_PLAY_WITH_THIS_STONE = "You can not play with this stone!";
+    public GameWithTui() {}
     public void playTurn(final IGame currentGame, final IPlayer plr, final Tui tui) {
 
         currentGame.setCurrentPlayer(plr);
         currentGame.setEndPhase(false);
         currentGame.checkEndPhase();
         currentGame.setStatus("");
-        currentGame.setStatus("Player " + plr.toString() + ", it's your Turn!");
+        currentGame.setStatus(String.format("Player %s, it's your Turn!", plr.toString()));
         currentGame.setJumps(currentGame.rollTheDice());
 
         currentGame.setJumpsT(currentGame.getJumps());
@@ -39,7 +41,7 @@ public final class GameWithTui {
 
             // check for winner
             if (currentGame.checkForWinner(currentGame.getGameMap())) {
-                currentGame.setStatus("Player " + plr.toString() + " is the winner!");
+                currentGame.setStatus(String.format("Player %s is the winner!", plr.toString()));
                 currentGame.setWinner(plr.getColor() + 1);
                 return;
             }
@@ -47,7 +49,7 @@ public final class GameWithTui {
         }
     }
 
-    boolean notGetStartAndTargetNumbers(final IGame currentGame, final Field[] gm, final IPlayer plr, final Tui tui) {
+    static boolean notGetStartAndTargetNumbers(final IGame currentGame, final Field[] gm, final IPlayer plr, final Tui tui) {
 
         currentGame.setGameMap(gm);
         if (plr.getColor() == 0 && currentGame.getGameMap()[25].getNumberStones() > 0) {
@@ -72,7 +74,7 @@ public final class GameWithTui {
             tui.getStartNumber(currentGame);
 
             if (currentGame.isValidStartLoop()) {
-                currentGame.setStatus("You can not play with this stone!");
+                currentGame.setStatus(YOU_CAN_NOT_PLAY_WITH_THIS_STONE);
                 return true;
             }
 
@@ -84,7 +86,7 @@ public final class GameWithTui {
         if (currentGame.getTargetNumber() < 24 && currentGame.isNotCheckDirection(plr)) {
             return true;
         }
-        currentGame.setStatus("Setting startNumber to " + currentGame.getStartNumber() + " and targetNumber to " + currentGame.getTargetNumber());
+        currentGame.setStatus(String.format("Setting startNumber to %d and targetNumber to %d", currentGame.getStartNumber(), currentGame.getTargetNumber()));
         return false;
     }
 }

@@ -90,7 +90,7 @@ public final class GameWithGui {
             bf.getStartNumber(currentGame);
 
             if (currentGame.isValidStartLoop()) {
-                currentGame.setStatus("You can not play with this stone!");
+                currentGame.setStatus(GameWithTui.YOU_CAN_NOT_PLAY_WITH_THIS_STONE);
                 return true;
             }
 
