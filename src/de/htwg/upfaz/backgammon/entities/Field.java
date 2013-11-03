@@ -36,7 +36,7 @@ public final class Field
     @Override
     public void setNumberStones(final int newVar) {
         numberStones = newVar;
-        if (0 == newVar) {
+        if (newVar == 0) {
             stoneColor = -1;
         }
     }
@@ -58,7 +58,7 @@ public final class Field
 
     @Override
     public boolean isNotJumpable(final int color) {
-        return 1 < getNumberStones() && color != getStoneColor();
+        return numberStones > 1 && color != stoneColor;
     }
 
     // --Commented out by Inspection START (02.11.13 18:14):
@@ -79,14 +79,14 @@ public final class Field
     public String toString() {
 
         final StringBuilder b = new StringBuilder();
-        if (0 == getNumberStones()) {
+        if (numberStones == 0) {
             return "   ";
         }
-        if (TEN_STONES > getNumberStones()) {
+        if (numberStones < TEN_STONES) {
             b.append("0");
         }
-        b.append(getNumberStones());
-        if (0 == getStoneColor()) {
+        b.append(numberStones);
+        if (stoneColor == 0) {
             b.append("w");
         } else {
             b.append("b");

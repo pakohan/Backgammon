@@ -39,7 +39,7 @@ public final class DrawTest
 
     void paintStones(final Graphics g, final Image image, final int x, final int y, final int a) {
         for (int i = 0; i < currentGame.getGameMap()[a].getNumberStones(); i++) {
-            if (12 > a || Constances.FIELD_EATEN_BLACK == a || Constances.FIELD_END_BLACK == a) {
+            if (a < 12 || a == Constances.FIELD_EATEN_BLACK || a == Constances.FIELD_END_BLACK) {
                 g.drawImage(image, x, y + i * DRAW_STONE_STEP, null);
             } else {
                 g.drawImage(image, x, y - i * DRAW_STONE_STEP, null);
@@ -50,7 +50,7 @@ public final class DrawTest
     private void getCoordinates(final Graphics g, final Image imageToDraw, final int a) {
         int xCoordinate = 645;
 
-        if (6 <= a && 18 > a) {
+        if (a >= 6 && a < 18) {
             xCoordinate -= 2 * BORDER;
         } else {
             switch (a) {
@@ -72,11 +72,11 @@ public final class DrawTest
         }
 
         final int yCoordinate;
-        if (12 > a) {
+        if (a < 12) {
             yCoordinate = 35;
             xCoordinate -= a % 12 * Constances.FIELD_SIZE_PXL;
             paintStones(g, imageToDraw, xCoordinate, yCoordinate, a);
-        } else if (11 < a && 24 > a) {
+        } else if (a > 11 && a < 24) {
             yCoordinate = 565;
             xCoordinate -= (23 - a) % 12 * Constances.FIELD_SIZE_PXL;
             paintStones(g, imageToDraw, xCoordinate, yCoordinate, a);
@@ -84,12 +84,12 @@ public final class DrawTest
     }
 
     private void drawStones(final Graphics g) {
-        for (int i = 0; Constances.TOTAL_FIELDS_NR > i; i++) {
+        for (int i = 0; i < Constances.TOTAL_FIELDS_NR; i++) {
             final Image imageToDraw;
-            if (0 == currentGame.getGameMap()[i].getStoneColor()) {
-                imageToDraw = getStoneW();
+            if (currentGame.getGameMap()[i].getStoneColor() == 0) {
+                imageToDraw = stonew;
             } else {
-                imageToDraw = getStoneB();
+                imageToDraw = stoneb;
             }
             getCoordinates(g, imageToDraw, i);
         }
@@ -98,10 +98,10 @@ public final class DrawTest
     @Override
     public void paintComponent(final Graphics g) {
 
-        g.drawImage(getBack(), 0, 0, null);
+        g.drawImage(background, 0, 0, null);
         drawStones(g);
 
-        for (int i = 0; 2 > i; i++) {
+        for (int i = 0; i < 2; i++) {
 
             drawDices(g, i);
         }
@@ -114,22 +114,22 @@ public final class DrawTest
 
             switch (currentGame.getJumpsT()[i]) {
             case 1:
-                g.drawImage(getDice1(), diceX, Constances.DICE_Y, null);
+                g.drawImage(dice1, diceX, Constances.DICE_Y, null);
                 break;
             case 2:
-                g.drawImage(getDice2(), diceX, Constances.DICE_Y, null);
+                g.drawImage(dice2, diceX, Constances.DICE_Y, null);
                 break;
             case 3:
-                g.drawImage(getDice3(), diceX, Constances.DICE_Y, null);
+                g.drawImage(dice3, diceX, Constances.DICE_Y, null);
                 break;
             case 4:
-                g.drawImage(getDice4(), diceX, Constances.DICE_Y, null);
+                g.drawImage(dice4, diceX, Constances.DICE_Y, null);
                 break;
             case 5:
-                g.drawImage(getDice5(), diceX, Constances.DICE_Y, null);
+                g.drawImage(dice5, diceX, Constances.DICE_Y, null);
                 break;
             case 6:
-                g.drawImage(getDice6(), diceX, Constances.DICE_Y, null);
+                g.drawImage(dice6, diceX, Constances.DICE_Y, null);
                 break;
             default:
                 // System.out.println("dafuq?");

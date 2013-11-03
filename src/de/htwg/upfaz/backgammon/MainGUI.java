@@ -21,7 +21,7 @@ public final class MainGUI {
 
         final int choiceNumber = chooseUI();
 
-        if (1 == choiceNumber) {
+        if (choiceNumber == 1) {
             playGameWithTui(currentGame);
         } else {
             playGameWithGui(currentGame);
@@ -36,7 +36,7 @@ public final class MainGUI {
             System.out.println("\t2.Gui");
             final String choice = scanner.nextLine();
             final int choiceNumber = Integer.valueOf(choice).intValue();
-            if (1 == choiceNumber || 2 == choiceNumber) {
+            if (choiceNumber == 1 || choiceNumber == 2) {
                 return choiceNumber;
             } else {
                 System.out.println("Input doesn't match: " + choice);
@@ -57,9 +57,9 @@ public final class MainGUI {
         final Tui tui = new Tui(currentGame);
         currentGame.addObserver(tui);
         currentGame.notifyObservers();
-        while (0 == currentGame.getWinner()) {
+        while (currentGame.getWinner() == 0) {
 
-            if (1 == curPl) {
+            if (curPl == 1) {
                 tuiGame.playTurn(currentGame, currentGame.getPlayer1(), tui);
                 curPl = 2;
             } else {
@@ -77,8 +77,8 @@ public final class MainGUI {
         final BackgammonFrame bf = new BackgammonFrame(currentGame);
         currentGame.addObserver(bf);
         currentGame.notifyObservers();
-        while (0 == currentGame.getWinner()) {
-            if (1 == curPl) {
+        while (currentGame.getWinner() == 0) {
+            if (curPl == 1) {
                 guiGame.playTurn(currentGame, currentGame.getPlayer1(), bf);
                 curPl = 2;
             } else {

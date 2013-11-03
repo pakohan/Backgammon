@@ -62,7 +62,7 @@ public final class Game
         initStones(gameMap);
     }
 
-    private void initStones(final IField[] gm) {
+    private static void initStones(final IField[] gm) {
 
         gm[FIELD_NR_0].setStoneColor(0);
         gm[FIELD_NR_0].setNumberStones(STONE_INIT_2);
@@ -108,7 +108,7 @@ public final class Game
     @Override
     public void setGameMap(final Field[] newGameMap) {
 
-        if (null == newGameMap) {
+        if (newGameMap == null) {
             gameMap = new Field[0];
         } else {
             gameMap = Arrays.copyOf(newGameMap, newGameMap.length);
@@ -124,7 +124,7 @@ public final class Game
     public int[] rollTheDice() {
         final int[] jumpsToReturn = new int[MAX_JUMPS];
         final Random dice = new Random();
-        for (int index = 0; 2 > index; index++) {
+        for (int index = 0; index < 2; index++) {
             jumpsToReturn[index] = dice.nextInt(DICE_RANDOM) + 1;
         }
         if (jumpsToReturn[0] == jumpsToReturn[1]) {
@@ -135,7 +135,7 @@ public final class Game
             jumpsToReturn[2] = 0;
             jumpsToReturn[3] = 0;
         }
-        setStatus("So, youre moves are: " + jumpsToReturn[0] + ", " + jumpsToReturn[1]);
+        setStatus(String.format("So, youre moves are: %d, %d", jumpsToReturn[0], jumpsToReturn[1]));
         setStatus("");
         return jumpsToReturn;
     }
@@ -144,7 +144,7 @@ public final class Game
         currentMehtodName = "eatStone";
         gameMap[targetNumber].setNumberStones(1);
         gameMap[targetNumber].setStoneColor(plr.getColor());
-        if (0 == plr.getColor()) {
+        if (plr.getColor() == 0) {
             gameMap[FIELD_EATEN_BLACK].setNumberStones(gameMap[FIELD_EATEN_BLACK].getNumberStones() + 1);
             gameMap[FIELD_EATEN_BLACK].setStoneColor(1);
         } else {
@@ -161,7 +161,7 @@ public final class Game
         gameMap[targetNumber].setNumberStones(gameMap[targetNumber].getNumberStones() + 1);
         gameMap[targetNumber].setStoneColor(plr.getColor());
         gameMap[startNumber].setNumberStones(gameMap[startNumber].getNumberStones() - 1);
-        if (0 == gameMap[startNumber].getNumberStones()) {
+        if (gameMap[startNumber].getNumberStones() == 0) {
             gameMap[startNumber].setStoneColor(-1);
         }
         setStatus("Moving the stone");
@@ -177,14 +177,14 @@ public final class Game
         // return false;
         // }
 
-        return STONES_TO_WIN == gameMap[FIELD_END_BLACK].getNumberStones() || STONES_TO_WIN == gameMap[FIELD_END_WHITE].getNumberStones();
+        return gameMap[FIELD_END_BLACK].getNumberStones() == STONES_TO_WIN || gameMap[FIELD_END_WHITE].getNumberStones() == STONES_TO_WIN;
     }
 
     Field[] takeOutStone(final Field[] gameMap, final int startNumber, final int targetNumber) {
         currentMehtodName = "takeOutStone";
         gameMap[targetNumber].setNumberStones(gameMap[targetNumber].getNumberStones() + 1);
         gameMap[startNumber].setNumberStones(gameMap[startNumber].getNumberStones() - 1);
-        if (0 == gameMap[startNumber].getNumberStones()) {
+        if (gameMap[startNumber].getNumberStones() == 0) {
             gameMap[startNumber].setStoneColor(-1);
         }
         setStatus("Taking out the stone");
@@ -197,10 +197,10 @@ public final class Game
         setGameMap(gm);
 
         // eat or move stone
-        if (1 == gameMap[targetNumber].getNumberStones() && gameMap[targetNumber].getStoneColor() != plr.getColor()) {
+        if (gameMap[targetNumber].getNumberStones() == 1 && gameMap[targetNumber].getStoneColor() != plr.getColor()) {
 
             gameMap = eatStone(gameMap, plr, startNumber, targetNumber);
-        } else if (endPhase && 25 < getTargetNumber()) {
+        } else if (endPhase && this.targetNumber > 25) {
 
             gameMap = takeOutStone(gameMap, startNumber, targetNumber);
         } else {
@@ -232,7 +232,7 @@ public final class Game
 
     @Override
     public boolean notCheckDirection(final IPlayer plr) {
-        if (0 == plr.getColor() && targetNumber <= startNumber || 1 == plr.getColor() && targetNumber >= startNumber) {
+        if (plr.getColor() == 0 && targetNumber <= startNumber || plr.getColor() == 1 && targetNumber >= startNumber) {
             setStatus("You're going in the wrong direction!");
             return true;
         }
@@ -242,25 +242,25 @@ public final class Game
     @Override
     public void renewJumps(final int start, final int target) {
         currentMehtodName = "renewJumps";
-        if (FIELD_END_BLACK <= target) {
+        if (target >= FIELD_END_BLACK) {
             renewJumpsEndPhase(start);
-            return;
-        }
-        for (int i = 0; MAX_JUMPS > i; i++) {
-            if (Math.abs(target - start) == jumps[i]) {
-                jumps[i] = 0;
-                setStatus("Setting jumps[" + i + "] to 0");
-                return;
+        } else {
+            for (int i = 0; i < MAX_JUMPS; i++) {
+                if (Math.abs(target - start) == jumps[i]) {
+                    jumps[i] = 0;
+                    setStatus(String.format("Setting jumps[%d] to 0", i));
+                    break;
+                }
             }
         }
     }
 
     private void renewJumpsEndPhase(final int start) {
-        for (int i = 0; MAX_JUMPS > i; i++) {
+        for (int i = 0; i < MAX_JUMPS; i++) {
             if (24 - start == jumps[i] || start + 1 == jumps[i]) {
                 jumps[i] = 0;
                 setStatus("Setting jumps[" + i + "] to 0");
-                return;
+                break; //TODO check if break also stops for loop
             }
         }
     }
@@ -268,15 +268,15 @@ public final class Game
     int calcStoneInEndPhase(final IPlayer plr, final IField[] gm) {
         currentMehtodName = "calcStoneInEndPhase";
         int stonesInEndPhase = 0;
-        if (0 == plr.getColor()) {
-            for (int i = 18; 23 >= i; i++) {
+        if (plr.getColor() == 0) {
+            for (int i = 18; i <= 23; i++) {
                 if (gm[i].getStoneColor() == plr.getColor()) {
                     stonesInEndPhase += gm[i].getNumberStones();
                 }
             }
             stonesInEndPhase += gm[FIELD_END_WHITE].getNumberStones();
         } else {
-            for (int i = 5; 0 <= i; i--) {
+            for (int i = 5; i >= 0; i--) {
                 if (gm[i].getStoneColor() == plr.getColor()) {
                     stonesInEndPhase += gm[i].getNumberStones();
                 }
@@ -290,7 +290,7 @@ public final class Game
     @Override
     public void setJumps(final int[] newJumps) {
 
-        if (null == newJumps) {
+        if (newJumps == null) {
             jumps = new int[0];
         } else {
             jumps = Arrays.copyOf(newJumps, newJumps.length);
@@ -344,7 +344,7 @@ public final class Game
         try {
             return gameMap[number].getStoneColor() == currentPlayer.getColor();
         } catch (Exception e) {
-            System.out.println(e);
+            System.err.println(e);
             return false;
         }
     }
@@ -352,13 +352,13 @@ public final class Game
     @Override
     public void printJumpsStatus(final int[] jumps) {
 
-        setStatus("So, youre moves are: " + jumps[0] + ", " + jumps[1] + ", " + jumps[2] + ", " + jumps[3]);
+        setStatus(String.format("So, youre moves are: %d, %d, %d, %d", jumps[0], jumps[1], jumps[2], jumps[3]));
     }
 
     @Override
     public String printJumpsString() {
 
-        return "Jumps: " + jumps[0] + ", " + jumps[1] + ", " + jumps[2] + ", " + jumps[3];
+        return String.format("Jumps: %d, %d, %d, %d", jumps[0], jumps[1], jumps[2], jumps[3]);
     }
 
     @Override
@@ -375,27 +375,31 @@ public final class Game
 
     @Override
     public boolean eatenWhiteCheck(final int target) {
+        boolean returnVal = false;
 
-        for (int i = 0; MAX_JUMPS > i; i++) {
-            if (target == jumps[i] - 1) {
+        for (int i = 0; i < MAX_JUMPS; i++) {
+            returnVal = target == jumps[i] - 1;
+            if (returnVal) {
                 jumps[i] = 0;
-                return true;
+                break;
             }
         }
 
-        return false;
+        return returnVal;
     }
 
     @Override
     public boolean checkNormalEndTarget(final int newTarget) {
+        boolean returnVal = false;
 
-        for (int i = 0; MAX_JUMPS > i; i++) {
-            if (Math.abs(newTarget - getStartNumber()) == jumps[i]) {
-                return true;
+        for (int i = 0; i < MAX_JUMPS; i++) {
+            returnVal = Math.abs(newTarget - startNumber) == jumps[i];
+            if (returnVal) {
+                break;
             }
         }
 
-        return false;
+        return returnVal;
     }
 
     @Override
@@ -411,13 +415,16 @@ public final class Game
         // - currentGame.getStartNumber() - 3)) == currentGame.jumps[3]) {
         // }
 
-        for (int i = 0; MAX_JUMPS > i; i++) {
-            if (Math.abs(newTarget - getStartNumber() - 3) <= jumps[i]) {
-                return true;
+        boolean returnVal = false;
+
+        for (int i = 0; i < MAX_JUMPS; i++) {
+            returnVal = Math.abs(newTarget - startNumber - 3) <= jumps[i];
+            if (returnVal) {
+                break;
             }
         }
 
-        return false;
+        return returnVal;
     }
 
     @Override
@@ -429,22 +436,24 @@ public final class Game
         // || currentGame.jumps[3] == (currentGame.getStartNumber() + 1)) {
         //
         // }
+        boolean returnVal = false;
 
-        for (int i = 0; 4 > i; i++) {
-            if (jumps[i] >= getStartNumber() + 1) {
-                return true;
+        for (int i = 0; i < 4; i++) {
+            returnVal = jumps[i] >= startNumber + 1;
+            if (returnVal) {
+                break;
             }
         }
 
-        return false;
+        return returnVal;
     }
 
     @Override
     public boolean notCheckStartValidnessLoop() {
         currentMehtodName = "checkStartValidnessLoop";
         boolean toReturn = true;
-        for (int i = 0; 4 > i; i++) {
-            if (0 != jumps[i] && checkStartValidness(i)) {
+        for (int i = 0; i < 4; i++) {
+            if (jumps[i] != 0 && checkStartValidness(i)) {
                 toReturn = false;
             }
         }
@@ -454,14 +463,15 @@ public final class Game
 
     private boolean checkStartValidness(final int i) {
         currentMehtodName = "checkStartValidness";
+
         try {
-            if (0 == getCurrentPlayer().getColor() && (23 < getStartNumber() + jumps[i] || gameMap[getStartNumber() + jumps[i]].isNotJumpable(getCurrentPlayer().getColor()))) {
+            if (currentPlayer.getColor() == 0 && (startNumber + jumps[i] > 23 || gameMap[startNumber + jumps[i]].isNotJumpable(currentPlayer.getColor()))) {
                 return false;
-            } else if (1 == getCurrentPlayer().getColor() && (0 > getStartNumber() - jumps[i] || gameMap[getStartNumber() - jumps[i]].isNotJumpable(getCurrentPlayer().getColor()))) {
+            } else if (currentPlayer.getColor() == 1 && (startNumber - jumps[i] < 0 || gameMap[startNumber - jumps[i]].isNotJumpable(currentPlayer.getColor()))) {
                 return false;
             }
         } catch (Exception e) {
-            System.out.println("checkStartValidness: " + e);
+            System.err.printf("checkStartValidness: %s%n", e);
         }
         return true;
     }
@@ -493,16 +503,18 @@ public final class Game
 
     @Override
     public int getTurnsNumber() {
-        if (0 == getJumps()[3]) {
-            return 2;
-        } else {
-            return 4;
+        int returnVal = 4;
+
+        if (jumps[3] == 0) {
+            returnVal = 2;
         }
+
+        return returnVal;
     }
 
     @Override
     public void checkEndPhase() {
-        if (STONES_TO_WIN == calcStoneInEndPhase(getCurrentPlayer(), getGameMap())) {
+        if (calcStoneInEndPhase(currentPlayer, gameMap) == STONES_TO_WIN) {
             endPhase = true;
             setStatus("End Phase!");
         }
@@ -513,8 +525,8 @@ public final class Game
 
         boolean toReturn = true;
 
-        for (int i = 0; 24 > i; i++) {
-            if (getGameMap()[i].getStoneColor() == getCurrentPlayer().getColor()) {
+        for (int i = 0; i < 24; i++) {
+            if (gameMap[i].getStoneColor() == currentPlayer.getColor()) {
                 startNumber = i;
                 if (!notCheckStartValidnessLoop()) {
 
@@ -523,7 +535,7 @@ public final class Game
             }
         }
 
-        if (isEndPhase()) {
+        if (endPhase) {
             toReturn = false;
         }
 
@@ -534,32 +546,32 @@ public final class Game
     @Override
     public int automaticTakeOut() {
         int toReturn = 0;
-        if (isEndPhase()) {
+        if (endPhase) {
 
             int counter = 6;
-            if (1 == getCurrentPlayer().getColor()) { // black
+            if (currentPlayer.getColor() == 1) { // black
 
-                for (int i = 5; 0 <= i; i--) {
-                    if (getGameMap()[i].getStoneColor() != getCurrentPlayer().getColor()) {
-                        counter--;
-                    } else {
+                for (int i = 5; i >= 0; i--) {
+                    if (gameMap[i].getStoneColor() == currentPlayer.getColor()) {
                         break;
+                    } else {
+                        counter--;
                     }
                 }
             } else { // white
 
-                for (int i = 18; 23 >= i; i++) {
-                    if (getGameMap()[i].getStoneColor() != getCurrentPlayer().getColor()) {
-                        counter--;
-                    } else {
+                for (int i = 18; i <= 23; i++) {
+                    if (gameMap[i].getStoneColor() == currentPlayer.getColor()) {
                         break;
+                    } else {
+                        counter--;
                     }
                 }
             }
 
-            for (int i = 0; 4 > i; i++) {
-                if (getJumps()[i] >= counter) {
-                    if (1 == getCurrentPlayer().getColor()) {
+            for (int i = 0; i < 4; i++) {
+                if (jumps[i] >= counter) {
+                    if (currentPlayer.getColor() == 1) {
                         startNumber = counter - 1;
                         targetNumber = 26;
                     } else {
@@ -567,9 +579,9 @@ public final class Game
                         targetNumber = 27;
                     }
                     try {
-                        if (0 < getGameMap()[getStartNumber()].getNumberStones()) {
-                            takeOutStone(getGameMap(), getStartNumber(), getTargetNumber());
-                            renewJumps(getStartNumber(), getTargetNumber());
+                        if (gameMap[startNumber].getNumberStones() > 0) {
+                            takeOutStone(gameMap, startNumber, targetNumber);
+                            renewJumps(startNumber, targetNumber);
                             toReturn++;
                         }
                     } catch (Exception ignored) {
@@ -580,5 +592,10 @@ public final class Game
         }
 
         return toReturn;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Game{gameMap=%s, player1=%s, player2=%s, winner=%d, endPhase=%s, jumps=%s, jumpsT=%s, startNumber=%d, targetNumber=%d, status='%s', currentMehtodName='%s', currentPlayer=%s}", Arrays.toString(gameMap), player1, player2, winner, endPhase, Arrays.toString(jumps), Arrays.toString(jumpsT), startNumber, targetNumber, status, currentMehtodName, currentPlayer);
     }
 }

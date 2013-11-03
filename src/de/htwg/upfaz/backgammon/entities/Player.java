@@ -21,7 +21,7 @@ public final class Player
 
     @Override
     public String toString() {
-        if (0 == color) {
+        if (color == 0) {
             return "White";
         } else {
             return "Black";

@@ -50,13 +50,13 @@ public final class GameWithTui {
     boolean notGetStartAndTargetNumbers(final IGame currentGame, final Field[] gm, final IPlayer plr, final Tui tui) {
 
         currentGame.setGameMap(gm);
-        if (0 == plr.getColor() && 0 < currentGame.getGameMap()[25].getNumberStones()) {
+        if (plr.getColor() == 0 && currentGame.getGameMap()[25].getNumberStones() > 0) {
 
             // TO ADD: check if is possible to play turn
             currentGame.setStartNumber(25);
             // get targetNumber
             currentGame.setTargetNumber(tui.getTargetWhileEatenWhite(currentGame));
-        } else if (1 == plr.getColor() && 0 < currentGame.getGameMap()[24].getNumberStones()) {
+        } else if (plr.getColor() == 1 && currentGame.getGameMap()[24].getNumberStones() > 0) {
 
             currentGame.setStartNumber(24);
 
@@ -81,7 +81,7 @@ public final class GameWithTui {
         }
 
         // check direction
-        if (24 > currentGame.getTargetNumber() && currentGame.notCheckDirection(plr)) {
+        if (currentGame.getTargetNumber() < 24 && currentGame.notCheckDirection(plr)) {
             return true;
         }
         currentGame.setStatus("Setting startNumber to " + currentGame.getStartNumber() + " and targetNumber to " + currentGame.getTargetNumber());

@@ -22,12 +22,12 @@ public final class Tui
         System.out.println("||011-010-009-008-007-006|OUT|005-004-003-002-001-000||-s-|");
         System.out.println("||---------------------------------------------------||---|");
         System.out.printf("||");
-        for (int i = 11; 6 < i; i--) {
+        for (int i = 11; i > 6; i--) {
             // System.out.printf("%s-", gameMap[i].toString());
             stoneSyso(gameMap, i);
         }
         System.out.printf("%s|%s|", gameMap[6].toString(), gameMap[24].toString());
-        for (int i = 5; 0 < i; i--) {
+        for (int i = 5; i > 0; i--) {
             // System.out.printf("%s-", gameMap[i].toString());
             stoneSyso(gameMap, i);
         }
@@ -36,12 +36,12 @@ public final class Tui
         System.out.println("||---------------------------------------------------||---|");
 
         System.out.printf("||");
-        for (int i = 12; 17 > i; i++) {
+        for (int i = 12; i < 17; i++) {
             // System.out.printf("%s-", gameMap[i].toString());
             stoneSyso(gameMap, i);
         }
         System.out.printf("%s|%s|", gameMap[17].toString(), gameMap[25].toString());
-        for (int i = 18; 23 > i; i++) {
+        for (int i = 18; i < 23; i++) {
             // System.out.printf("%s-", gameMap[i].toString());
             stoneSyso(gameMap, i);
         }
@@ -109,16 +109,16 @@ public final class Tui
                         continue;
                     }
 
-                    if (24 == targetNumber + jumps[0]) {
+                    if (targetNumber + jumps[0] == 24) {
                         jumps[0] = 0;
                         break;
-                    } else if (24 == targetNumber + jumps[1]) {
+                    } else if (targetNumber + jumps[1] == 24) {
                         jumps[1] = 0;
                         break;
-                    } else if (24 == targetNumber + jumps[2]) {
+                    } else if (targetNumber + jumps[2] == 24) {
                         jumps[2] = 0;
                         break;
-                    } else if (24 == targetNumber + jumps[3]) {
+                    } else if (targetNumber + jumps[3] == 24) {
                         jumps[3] = 0;
                         break;
                     }
@@ -195,13 +195,13 @@ public final class Tui
                     if (currentGame.checkNormalEndTarget(targetNumber)) {
                         break;
                     }
-                } else if (0 == currentGame.getCurrentPlayer().getColor() && target.matches("w") && currentGame.isEndPhase()) {
+                } else if (currentGame.getCurrentPlayer().getColor() == 0 && target.matches("w") && currentGame.isEndPhase()) {
                     targetNumber = 27;
 
                     if (currentGame.checkEndphaseWhiteTarget(targetNumber)) {
                         break;
                     }
-                } else if (1 == currentGame.getCurrentPlayer().getColor() && target.matches("s") && currentGame.isEndPhase()) {
+                } else if (currentGame.getCurrentPlayer().getColor() == 1 && target.matches("s") && currentGame.isEndPhase()) {
                     targetNumber = 26;
 
                     if (currentGame.checkEndphaseBlackTarget()) {
@@ -231,7 +231,7 @@ public final class Tui
     }
 
     private void setStatusInputMismatch() {
-        getCurrentGame().setStatus("Input doesn't match!");
+        currentGame.setStatus("Input doesn't match!");
     }
 
     private void stoneSyso(final IField[] gm, final int i) {
@@ -240,6 +240,6 @@ public final class Tui
 
     @Override
     public void update() {
-        System.out.println(getCurrentGame().getStatus());
+        System.out.println(currentGame.getStatus());
     }
 }
