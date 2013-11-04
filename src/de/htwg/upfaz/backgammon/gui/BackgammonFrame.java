@@ -1,5 +1,6 @@
 package de.htwg.upfaz.backgammon.gui;
 
+import com.sun.javafx.tools.packager.Log;
 import de.htwg.upfaz.backgammon.controller.IGame;
 import de.htwg.util.observer.IObserver;
 
@@ -158,9 +159,9 @@ public final class BackgammonFrame
                 targetNumber = result;
             }
         } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (Exception ignored) {
-            System.out.println(GET_TARGET_WHILE_EATEN_WHITE);
+            Log.verbose(e);
+        } catch (Exception e) {
+            Log.verbose(e);
         }
 
         return targetNumber;
@@ -176,9 +177,10 @@ public final class BackgammonFrame
                 targetNumber = result;
             }
         } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (Exception ignored) {
-            System.out.println("getTargetWhileEatenBlack");
+            Log.verbose(e);
+        } catch (Exception e) {
+            Log.verbose("getTargetWhileEatenBlack");
+            Log.verbose(e);
         }
 
         return targetNumber;
@@ -194,15 +196,16 @@ public final class BackgammonFrame
                 startNumber = result;
             }
         } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (Exception ignored) {
-            System.out.println("getStartNumber");
+            Log.verbose(e);
+        } catch (Exception e) {
+            Log.verbose("getStartNumber");
+            Log.verbose(e);
         }
 
         if (currentGame.checkStartNumber(startNumber)) {
             currentGame.setStartNumber(startNumber);
         } else {
-            System.out.println("You can't move this piece or there is no pieces");
+            System.err.println("You can't move this piece or there is no pieces");
             result = -1;
             getStartNumber(currentGame);
         }
@@ -218,16 +221,17 @@ public final class BackgammonFrame
                 newTarget = result;
             }
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Log.verbose(e);
         } catch (Exception e) {
-            System.out.println("getTargetResult: " + e);
+            Log.verbose("getTargetResult");
+            Log.verbose(e);
         }
         return newTarget;
     }
 
     private void checkColorProblem(final int targetNumber) {
         if (currentGame.getGameMap()[targetNumber].isNotJumpable(currentGame.getCurrentPlayer().getColor())) {
-            System.out.println(CAN_T_JUMP_THIS_FIELD_COLOR_PROBLEM);
+            System.err.println(CAN_T_JUMP_THIS_FIELD_COLOR_PROBLEM);
             result = -1;
             getEndNumber(currentGame);
         }
@@ -278,8 +282,9 @@ public final class BackgammonFrame
             } else if (targetNumber == Constances.FIELD_END_WHITE) {
                 checkEndphaseWhite();
             }
-        } catch (Exception ignored) {
-            System.out.println("getEndNumber");
+        } catch (Exception e) {
+            Log.verbose("getEndNumber");
+            Log.verbose(e);
         }
     }
 
@@ -296,7 +301,7 @@ public final class BackgammonFrame
     private void mouseHandler(final MouseEvent e) {
         final int x = e.getX();
         final int y = e.getY();
-        status = "x = " + x + ", y = " + y + "\t start = " + currentGame.getStartNumber() + ", target = " + currentGame.getTargetNumber() + ", result = " + result + "; Current player: " + currentGame.getCurrentPlayer() + "; " + currentGame.printJumpsString() + "; Method: " + currentGame.getCurrentMethodName();
+        status = String.format("x = %d, y = %d\t start = %d, target = %d, result = %d; Current player: %s; %s; Method: %s", x, y, currentGame.getStartNumber(), currentGame.getTargetNumber(), result, currentGame.getCurrentPlayer(), currentGame.printJumpsString(), currentGame.getCurrentMethodName());
         update();
     }
 

@@ -1,5 +1,6 @@
 package de.htwg.upfaz.backgammon;
 
+import com.sun.javafx.tools.packager.Log;
 import de.htwg.upfaz.backgammon.controller.Game;
 import de.htwg.upfaz.backgammon.controller.IGame;
 import de.htwg.upfaz.backgammon.gui.BackgammonFrame;
@@ -9,6 +10,7 @@ import de.htwg.upfaz.backgammon.gui.Tui;
 
 import java.util.Scanner;
 
+@SuppressWarnings("UseOfSystemOutOrSystemErr")
 public final class MainGUI {
 
     private static int curPl = 1;
@@ -39,14 +41,14 @@ public final class MainGUI {
             if (choiceNumber == 1 || choiceNumber == 2) {
                 return choiceNumber;
             } else {
-                System.out.println("Input doesn't match: " + choice);
+                System.out.printf("Input doesn't match: %s%n", choice);
                 return 0;
             }
         } catch (NumberFormatException e) {
-            e.printStackTrace();
+            Log.verbose(e);
             return 0;
         } catch (Exception e) {
-            System.err.println("Exception." + e.getMessage());
+            Log.verbose(e);
             return 0;
         }
     }

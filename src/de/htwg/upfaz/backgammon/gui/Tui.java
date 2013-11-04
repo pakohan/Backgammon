@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 
 import static de.htwg.upfaz.backgammon.gui.BackgammonFrame.CAN_T_JUMP_THIS_FIELD_COLOR_PROBLEM;
 
+@SuppressWarnings("UseOfSystemOutOrSystemErr")
 public final class Tui
         implements IObserver {
 
@@ -172,7 +173,7 @@ public final class Tui
             } catch (NumberFormatException e) {
                 Log.verbose(e);
             } catch (Exception e) {
-                System.err.println("Exception." + e.getMessage());
+                Log.verbose(e);
             }
         }
 

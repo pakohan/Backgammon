@@ -6,12 +6,15 @@ import de.htwg.upfaz.backgammon.entities.IPlayer;
 
 public final class GameWithGui {
 
+    protected static final String PLAYER_S_IS_THE_WINNER = "Player %s is the winner!";
+    protected static final String PLAYER_S_IT_S_YOUR_TURN = "Player %s, it's your Turn!";
+    protected static final String SETTING_START_NUMBER_TO_D_AND_TARGET_NUMBER_TO_D = "Setting startNumber to %d and targetNumber to %d";
     public void playTurn(final IGame currentGame, final IPlayer plr, final BackgammonFrame bf) {
         currentGame.setCurrentMethodName("playTurn");
         currentGame.setCurrentPlayer(plr);
         currentGame.setEndPhase(false);
         currentGame.checkEndPhase();
-        currentGame.setStatus("Player " + plr.toString() + ", it's your Turn!");
+        currentGame.setStatus(String.format(PLAYER_S_IT_S_YOUR_TURN, plr));
         currentGame.setJumps(currentGame.rollTheDice());
 
         currentGame.setJumpsT(currentGame.getJumps());
@@ -20,7 +23,7 @@ public final class GameWithGui {
 
             // check for winner
             if (currentGame.checkForWinner(currentGame.getGameMap())) {
-                currentGame.setStatus("Player " + plr.toString() + " is the winner!");
+                currentGame.setStatus(String.format(PLAYER_S_IS_THE_WINNER, plr));
                 currentGame.setWinner(plr.getColor() + 1);
                 return;
             }
@@ -44,7 +47,7 @@ public final class GameWithGui {
 
             // check for winner
             if (currentGame.checkForWinner(currentGame.getGameMap())) {
-                currentGame.setStatus("Player " + plr.toString() + " is the winner!");
+                currentGame.setStatus(String.format(PLAYER_S_IS_THE_WINNER, plr.toString()));
                 currentGame.setWinner(plr.getColor() + 1);
                 return;
             }
@@ -104,7 +107,7 @@ public final class GameWithGui {
             }
         }
 
-        currentGame.setStatus("Setting startNumber to " + currentGame.getStartNumber() + " and targetNumber to " + currentGame.getTargetNumber());
+        currentGame.setStatus(String.format(SETTING_START_NUMBER_TO_D_AND_TARGET_NUMBER_TO_D, currentGame.getStartNumber(), currentGame.getTargetNumber()));
         return false;
     }
 }

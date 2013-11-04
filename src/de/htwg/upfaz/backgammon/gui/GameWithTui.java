@@ -14,7 +14,7 @@ public final class GameWithTui {
         currentGame.setEndPhase(false);
         currentGame.checkEndPhase();
         currentGame.setStatus("");
-        currentGame.setStatus(String.format("Player %s, it's your Turn!", plr.toString()));
+        currentGame.setStatus(String.format(GameWithGui.PLAYER_S_IT_S_YOUR_TURN, plr.toString()));
         currentGame.setJumps(currentGame.rollTheDice());
 
         currentGame.setJumpsT(currentGame.getJumps());
@@ -41,7 +41,7 @@ public final class GameWithTui {
 
             // check for winner
             if (currentGame.checkForWinner(currentGame.getGameMap())) {
-                currentGame.setStatus(String.format("Player %s is the winner!", plr.toString()));
+                currentGame.setStatus(String.format(GameWithGui.PLAYER_S_IS_THE_WINNER, plr.toString()));
                 currentGame.setWinner(plr.getColor() + 1);
                 return;
             }
@@ -86,7 +86,7 @@ public final class GameWithTui {
         if (currentGame.getTargetNumber() < 24 && currentGame.isNotCheckDirection(plr)) {
             return true;
         }
-        currentGame.setStatus(String.format("Setting startNumber to %d and targetNumber to %d", currentGame.getStartNumber(), currentGame.getTargetNumber()));
+        currentGame.setStatus(String.format(GameWithGui.SETTING_START_NUMBER_TO_D_AND_TARGET_NUMBER_TO_D, currentGame.getStartNumber(), currentGame.getTargetNumber()));
         return false;
     }
 }

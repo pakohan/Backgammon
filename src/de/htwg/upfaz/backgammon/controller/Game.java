@@ -1,5 +1,6 @@
 package de.htwg.upfaz.backgammon.controller;
 
+import com.sun.javafx.tools.packager.Log;
 import de.htwg.upfaz.backgammon.entities.Field;
 import de.htwg.upfaz.backgammon.entities.IField;
 import de.htwg.upfaz.backgammon.entities.IPlayer;
@@ -48,9 +49,6 @@ public final class Game
     private String currentMehtodName = "Begin";
     private IPlayer currentPlayer;
 
-    //
-    // Constructors
-    //
     public Game() {
         gameMap = new Field[TOTAL_FIELDS_NR];
 
@@ -259,7 +257,7 @@ public final class Game
         for (int i = 0; i < MAX_JUMPS; i++) {
             if (24 - start == jumps[i] || start + 1 == jumps[i]) {
                 jumps[i] = 0;
-                setStatus("Setting jumps[" + i + "] to 0");
+                setStatus(String.format("Setting jumps[%d] to 0", i));
                 break; //TODO check if break also stops for loop
             }
         }
@@ -344,7 +342,7 @@ public final class Game
         try {
             return gameMap[number].getStoneColor() == currentPlayer.getColor();
         } catch (Exception e) {
-            System.err.println(e);
+            Log.verbose(e);
             return false;
         }
     }
@@ -471,7 +469,8 @@ public final class Game
                 return false;
             }
         } catch (Exception e) {
-            System.err.printf("checkStartValidness: %s%n", e);
+            Log.verbose("checkStartValidness");
+            Log.verbose(e);
         }
         return true;
     }
