@@ -1,6 +1,5 @@
 package de.htwg.upfaz.backgammon.gui;
 
-import com.sun.javafx.tools.packager.Log;
 import de.htwg.upfaz.backgammon.controller.IGame;
 import de.htwg.upfaz.backgammon.entities.IField;
 import de.htwg.upfaz.backgammon.entities.IPlayer;

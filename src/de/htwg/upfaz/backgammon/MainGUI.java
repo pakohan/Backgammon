@@ -1,12 +1,8 @@
 package de.htwg.upfaz.backgammon;
 
-import com.sun.javafx.tools.packager.Log;
 import de.htwg.upfaz.backgammon.controller.Game;
 import de.htwg.upfaz.backgammon.controller.IGame;
-import de.htwg.upfaz.backgammon.gui.BackgammonFrame;
-import de.htwg.upfaz.backgammon.gui.GameWithGui;
-import de.htwg.upfaz.backgammon.gui.GameWithTui;
-import de.htwg.upfaz.backgammon.gui.Tui;
+import de.htwg.upfaz.backgammon.gui.*;
 
 import java.util.Scanner;
 
@@ -37,7 +33,7 @@ public final class MainGUI {
             System.out.println("\t1.Tui");
             System.out.println("\t2.Gui");
             final String choice = scanner.nextLine();
-            final int choiceNumber = Integer.valueOf(choice).intValue();
+            final int choiceNumber = Integer.valueOf(choice);
             if (choiceNumber == 1 || choiceNumber == 2) {
                 return choiceNumber;
             } else {

@@ -1,10 +1,10 @@
 package de.htwg.upfaz.backgammon.controller;
 
-import com.sun.javafx.tools.packager.Log;
 import de.htwg.upfaz.backgammon.entities.Field;
 import de.htwg.upfaz.backgammon.entities.IField;
 import de.htwg.upfaz.backgammon.entities.IPlayer;
 import de.htwg.upfaz.backgammon.entities.Player;
+import de.htwg.upfaz.backgammon.gui.Log;
 import de.htwg.util.observer.Observable;
 
 import java.util.Arrays;
