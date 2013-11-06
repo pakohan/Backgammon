@@ -11,7 +11,7 @@ public final class GameWithGui {
     protected static final String SETTING_START_NUMBER_TO_D_AND_TARGET_NUMBER_TO_D = "Setting startNumber to %d and targetNumber to %d";
     public static void playTurn(final Game currentGame, final IPlayer plr, final BackgammonFrame bf) {
         currentGame.setCurrentMethodName("playTurn");
-        currentGame.setCurrentPlayer(plr);
+
         currentGame.setEndPhase(false);
         currentGame.checkEndPhase();
         currentGame.setStatus(String.format(PLAYER_S_IT_S_YOUR_TURN, plr));

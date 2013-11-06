@@ -23,6 +23,8 @@ public final class BackgammonFrame
     private String status = "";
     private int result = -1;
 
+    private Point start;
+
     public BackgammonFrame(final Game gm) {
 
         currentGame = gm;
@@ -142,7 +144,6 @@ public final class BackgammonFrame
     public void mouseReleased(final MouseEvent e) { }
 
     public void update() {
-        statusPanel.setText(status);
         repaint();
     }
 

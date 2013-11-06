@@ -4,6 +4,8 @@ import de.htwg.upfaz.backgammon.entities.Field;
 import de.htwg.upfaz.backgammon.entities.IField;
 import de.htwg.upfaz.backgammon.entities.IPlayer;
 import de.htwg.upfaz.backgammon.entities.Player;
+import de.htwg.upfaz.backgammon.gui.BackgammonFrame;
+import de.htwg.upfaz.backgammon.gui.GameWithTui;
 import de.htwg.upfaz.backgammon.gui.Log;
 import de.htwg.util.observer.IObservable;
 import de.htwg.util.observer.Observable;
@@ -34,21 +36,21 @@ public final class Game
     private static final int DICE_RANDOM = 6;
     private static final int MAX_JUMPS = 4;
     private static final int STONES_TO_WIN = 15;
+    private final BackgammonFrame bf;
 
     private Field[] gameMap;
-    private final IPlayer player1;
-    private final IPlayer player2;
+    private final IPlayer[] players;
 
     private int winner;
     private boolean endPhase;
-    private int[] jumps;
-    private int[] jumpsT;
+    private int[] jumps = new int[4];
+    private int[] jumpsT = new int[4];
     private int startNumber = -1;
     private int targetNumber = -1;
 
     private String status = "Let's the game begin!";
     private String currentMehtodName = "Begin";
-    private IPlayer currentPlayer;
+    private int currentPlayer;
 
     public Game() {
         gameMap = new Field[TOTAL_FIELDS_NR];
@@ -56,9 +58,13 @@ public final class Game
         for (int i = 0; i < gameMap.length; i++) {
             gameMap[i] = new Field(i);
         }
-        player1 = new Player(0);
-        player2 = new Player(1);
+
         initStones(gameMap);
+        players = new IPlayer[2];
+        players[0] = new Player(0);
+        players[1] = new Player(1);
+        currentPlayer = 1;
+        this.bf = new BackgammonFrame(this);
     }
 
     private static void initStones(final IField[] gm) {
@@ -293,20 +299,22 @@ public final class Game
     }
 
     public IPlayer getPlayer1() {
-        return player1;
+        return players[0];
     }
 
     public IPlayer getPlayer2() {
-        return player2;
+        return players[1];
     }
 
     public IPlayer getCurrentPlayer() {
-        return currentPlayer;
+        return players[currentPlayer];
     }
 
+    /*
     public void setCurrentPlayer(final IPlayer currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
+    */
 
     public String getStatus() {
         return status;
@@ -320,7 +328,7 @@ public final class Game
     public boolean checkStartNumber(final int number) {
         currentMehtodName = "checkStartNumber";
         try {
-            return gameMap[number].getStoneColor() == currentPlayer.getColor();
+            return gameMap[number].getStoneColor() == players[currentPlayer].getColor();
         } catch (Exception e) {
             Log.verbose(e);
             return false;
@@ -332,7 +340,6 @@ public final class Game
     }
 
     public String printJumpsString() {
-
         return String.format("Jumps: %d, %d, %d, %d", jumps[0], jumps[1], jumps[2], jumps[3]);
     }
 
@@ -433,9 +440,9 @@ public final class Game
         currentMehtodName = "checkStartValidness";
 
         try {
-            if (currentPlayer.getColor() == 0 && (startNumber + jumps[i] > 23 || gameMap[startNumber + jumps[i]].isNotJumpable(currentPlayer.getColor()))) {
+            if (players[currentPlayer].getColor() == 0 && (startNumber + jumps[i] > 23 || gameMap[startNumber + jumps[i]].isNotJumpable(players[currentPlayer].getColor()))) {
                 return false;
-            } else if (currentPlayer.getColor() == 1 && (startNumber - jumps[i] < 0 || gameMap[startNumber - jumps[i]].isNotJumpable(currentPlayer.getColor()))) {
+            } else if (players[currentPlayer].getColor() == 1 && (startNumber - jumps[i] < 0 || gameMap[startNumber - jumps[i]].isNotJumpable(players[currentPlayer].getColor()))) {
                 return false;
             }
         } catch (Exception e) {
@@ -476,7 +483,7 @@ public final class Game
     }
 
     public void checkEndPhase() {
-        if (calcStoneInEndPhase(currentPlayer, gameMap) == STONES_TO_WIN) {
+        if (calcStoneInEndPhase(players[currentPlayer], gameMap) == STONES_TO_WIN) {
             endPhase = true;
             setStatus("End Phase!");
         }
@@ -487,7 +494,7 @@ public final class Game
         boolean toReturn = true;
 
         for (int i = 0; i < 24; i++) {
-            if (gameMap[i].getStoneColor() == currentPlayer.getColor()) {
+            if (gameMap[i].getStoneColor() == players[currentPlayer].getColor()) {
                 startNumber = i;
                 if (!isValidStartLoop()) {
 
@@ -509,10 +516,10 @@ public final class Game
         if (endPhase) {
 
             int counter = 6;
-            if (currentPlayer.getColor() == 1) { // black
+            if (players[currentPlayer].getColor() == 1) { // black
 
                 for (int i = 5; i >= 0; i--) {
-                    if (gameMap[i].getStoneColor() == currentPlayer.getColor()) {
+                    if (gameMap[i].getStoneColor() == players[currentPlayer].getColor()) {
                         break;
                     } else {
                         counter--;
@@ -521,7 +528,7 @@ public final class Game
             } else { // white
 
                 for (int i = 18; i <= 23; i++) {
-                    if (gameMap[i].getStoneColor() == currentPlayer.getColor()) {
+                    if (gameMap[i].getStoneColor() == players[currentPlayer].getColor()) {
                         break;
                     } else {
                         counter--;
@@ -531,7 +538,7 @@ public final class Game
 
             for (int i = 0; i < 4; i++) {
                 if (jumps[i] >= counter) {
-                    if (currentPlayer.getColor() == 1) {
+                    if (players[currentPlayer].getColor() == 1) {
                         startNumber = counter - 1;
                         targetNumber = 26;
                     } else {
@@ -555,6 +562,119 @@ public final class Game
     }
 
     public String toString() {
-        return String.format("Game{gameMap=%s, player1=%s, player2=%s, winner=%d, endPhase=%s, jumps=%s, jumpsT=%s, startNumber=%d, targetNumber=%d, status='%s', currentMehtodName='%s', currentPlayer=%s}", Arrays.toString(gameMap), player1, player2, winner, endPhase, Arrays.toString(jumps), Arrays.toString(jumpsT), startNumber, targetNumber, status, currentMehtodName, currentPlayer);
+        return String.format("Game{gameMap=%s, player1=%s, player2=%s, winner=%d, endPhase=%s, jumps=%s, jumpsT=%s, startNumber=%d, targetNumber=%d, status='%s', currentMehtodName='%s', currentPlayer=%s}", Arrays.toString(gameMap), players[0], players[1], winner, endPhase, Arrays.toString(jumps), Arrays.toString(jumpsT), startNumber, targetNumber, status, currentMehtodName, currentPlayer);
+    }
+
+    protected static final String PLAYER_S_IS_THE_WINNER = "Player %s is the winner!";
+    protected static final String PLAYER_S_IT_S_YOUR_TURN = "Player %s, it's your Turn!";
+    protected static final String SETTING_START_NUMBER_TO_D_AND_TARGET_NUMBER_TO_D = "Setting startNumber to %d and targetNumber to %d";
+
+    public void startRound() {
+        setCurrentPlayer();
+        endPhase = false;
+        checkEndPhase();
+        setStatus(String.format(PLAYER_S_IT_S_YOUR_TURN, players[currentPlayer]));
+        setJumpsT(rollTheDice());
+        for (int index = automaticTakeOut(); index < getTurnsNumber(); index++) {
+            // check for winner
+            if (checkForWinner(getGameMap())) {
+                setStatus(String.format(PLAYER_S_IS_THE_WINNER, players[currentPlayer]));
+                setWinner(players[currentPlayer].getColor() + 1);
+                return;
+            }
+
+            checkEndPhase();
+            if (checkIfMoveImpossible()) {
+                //noMovesDialog();
+                System.out.println("no moves available");
+                return;
+            }
+
+            if (notGetStartAndTargetNumbers(this, getGameMap(), players[currentPlayer])) {
+                setStartNumber(-1);
+                index--;
+                continue;
+            }
+
+            setGameMap(doSomethingWithStones(getGameMap(), players[currentPlayer], getStartNumber(), getTargetNumber(), isEndPhase()));
+            renewJumps(getStartNumber(), getTargetNumber());
+            setStartNumber(-1);
+            setTargetNumber(-1);
+
+            // check for winner
+            if (checkForWinner(getGameMap())) {
+                setStatus(String.format(PLAYER_S_IS_THE_WINNER, players[currentPlayer].toString()));
+                setWinner(players[currentPlayer].getColor() + 1);
+                return;
+            }
+            printJumpsStatus(getJumps());
+        }
+        //statusPanel.setText(status);
+        notifyObservers();
+        //repaint();
+    }
+
+    private boolean notGetStartAndTargetNumbers(final Game currentGame, final Field[] gm, final IPlayer plr) {
+        currentGame.setCurrentMethodName("getStartAndTargetNumbers");
+        currentGame.setGameMap(gm);
+
+        if (plr.getColor() == 0 && currentGame.getGameMap()[25].getNumberStones() > 0) {
+
+            // TO ADD: check if is possible to play turn
+            currentGame.setStartNumber(25);
+            // get targetNumber
+            bf.setResult(-1);
+            currentGame.setTargetNumber(bf.getTargetWhileEatenWhite());
+        } else if (plr.getColor() == 1 && currentGame.getGameMap()[24].getNumberStones() > 0) {
+
+            currentGame.setStartNumber(24);
+
+            // get targetNumber
+            bf.setResult(-1);
+            currentGame.setTargetNumber(bf.getTargetWhileEatenBlack());
+        } else if (currentGame.isEndPhase()) {
+            // get startNumber
+            bf.setResult(-1);
+            bf.getStartNumber();
+
+            // get targetNumber
+            bf.setResult(-1);
+            bf.getEndNumber();
+
+            // check direction
+            if (currentGame.getTargetNumber() < 24 && currentGame.isNotCheckDirection(plr)) {
+                return true;
+            }
+        } else {
+
+            // get startNumber
+            bf.setResult(-1);
+            bf.getStartNumber();
+
+            if (currentGame.isValidStartLoop()) {
+                currentGame.setStatus(GameWithTui.YOU_CAN_NOT_PLAY_WITH_THIS_STONE);
+                return true;
+            }
+
+            // get targetNumber
+            bf.setResult(-1);
+            bf.getEndNumber();
+
+            // check direction
+            if (currentGame.getTargetNumber() < 24 && currentGame.isNotCheckDirection(plr)) {
+                return true;
+            }
+        }
+
+        currentGame.setStatus(String.format(SETTING_START_NUMBER_TO_D_AND_TARGET_NUMBER_TO_D, currentGame.getStartNumber(), currentGame.getTargetNumber()));
+        return false;
+    }
+
+    private void setCurrentPlayer() {
+        if (currentPlayer == 1) {
+            currentPlayer = 0;
+        } else {
+            currentPlayer = 1;
+        }
     }
 }

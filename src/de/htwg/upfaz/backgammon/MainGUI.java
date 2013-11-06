@@ -1,7 +1,10 @@
 package de.htwg.upfaz.backgammon;
 
 import de.htwg.upfaz.backgammon.controller.Game;
-import de.htwg.upfaz.backgammon.gui.*;
+import de.htwg.upfaz.backgammon.gui.BackgammonFrame;
+import de.htwg.upfaz.backgammon.gui.GameWithTui;
+import de.htwg.upfaz.backgammon.gui.Log;
+import de.htwg.upfaz.backgammon.gui.Tui;
 
 import java.util.Scanner;
 
@@ -70,18 +73,13 @@ public final class MainGUI {
 
     private static void playGameWithGui(final Game currentGame) {
 
-        final GameWithGui guiGame = new GameWithGui();
+        //final GameWithGui guiGame = new GameWithGui();
         final BackgammonFrame bf = new BackgammonFrame(currentGame);
+
         currentGame.addObserver(bf);
         currentGame.notifyObservers();
         while (currentGame.getWinner() == 0) {
-            if (curPl == 1) {
-                guiGame.playTurn(currentGame, currentGame.getPlayer1(), bf);
-                curPl = 2;
-            } else {
-                guiGame.playTurn(currentGame, currentGame.getPlayer2(), bf);
-                curPl = 1;
-            }
+            currentGame.startRound();
         }
 
         bf.winnerDialog();
