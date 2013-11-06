@@ -4,8 +4,8 @@ final class Constances {
 
     private Constances() {}
 
-    public static final int DEFAULT_X = 740;
-    public static final int DEFAULT_Y = 710;
+    public static final int DEFAULT_X_RESOLUTION = 740;
+    public static final int DEFAULT_Y_RESOLUTION = 710;
     public static final int TIME_TO_SLEEP_IN_MS = 200;
     public static final int FIELD_EATEN_WHITE = 25;
     public static final int FIELD_EATEN_BLACK = 24;

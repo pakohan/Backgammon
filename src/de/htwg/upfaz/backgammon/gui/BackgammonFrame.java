@@ -17,6 +17,7 @@ public final class BackgammonFrame
     private static final long serialVersionUID = 1L;
     private static final String GET_TARGET_WHILE_EATEN_WHITE = "getTargetWhileEatenWhite";
     protected static final String CAN_T_JUMP_THIS_FIELD_COLOR_PROBLEM = "Can't jump this Field (Color problem)";
+    protected static final String GET_START_NUMBER = "getStartNumber";
 
     private final IGame currentGame;
     private final StatusPanel statusPanel;
@@ -27,19 +28,21 @@ public final class BackgammonFrame
 
         currentGame = gm;
 
-        setTitle("Upfaz  backgammon");
+        setTitle("Upfaz backgammon");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setSize(Constances.DEFAULT_X, Constances.DEFAULT_Y);
+        setSize(Constances.DEFAULT_X_RESOLUTION, Constances.DEFAULT_Y_RESOLUTION);
         setResizable(false);
         final Container pane = getContentPane();
         pane.setLayout(new BorderLayout());
 
-        // bp = new BackgroundPanel();
-        // pane.add(bp);
-        // dices = new Dices(currentGame.getJumps());
-        // pane.add(dices);
-        // ds = new DrawStones(currentGame.getGameMap());
-        // pane.add(ds);
+        /*
+            bp = new BackgroundPanel();
+            pane.add(bp);
+            dices = new Dices(currentGame.getJumps());
+            pane.add(dices);
+            ds = new DrawStones(currentGame.getGameMap());
+            pane.add(ds);
+        */
 
         final DrawTest test = new DrawTest(currentGame);
         pane.add(test);
@@ -61,7 +64,7 @@ public final class BackgammonFrame
         mouseHandler(e);
     }
 
-    private int getLeft(final int x) {
+    private static int getLeft(final int x) {
         int left = 0;
         int candidate = 0;
 
@@ -85,7 +88,7 @@ public final class BackgammonFrame
         return left;
     }
 
-    private int getClickedField(final int x, final int y) {
+    private static int getClickedField(final int x, final int y) {
 
         final int left = getLeft(x);
         int output = -1;
@@ -101,7 +104,7 @@ public final class BackgammonFrame
         return output;
     }
 
-    private int getClickedEndfield(final int oldOutput, final int x, final int y) {
+    private static int getClickedEndfield(final int oldOutput, final int x, final int y) {
 
         int newOutput = oldOutput;
 
@@ -115,7 +118,7 @@ public final class BackgammonFrame
         return newOutput;
     }
 
-    private int calcLeft(final int i, final int x, final int candidate) {
+    private static int calcLeft(final int i, final int x, final int candidate) {
         if (x >= i && x <= i + Constances.FIELD_STEP) {
             return candidate;
         } else {
@@ -139,7 +142,6 @@ public final class BackgammonFrame
     @Override
     public void mouseReleased(final MouseEvent e) { }
 
-    @Override
     public void update() {
         statusPanel.setText(status);
         repaint();
@@ -187,7 +189,7 @@ public final class BackgammonFrame
     }
 
     public void getStartNumber(final IGame currentGame) {
-        currentGame.setCurrentMethodName("getStartNumber");
+        currentGame.setCurrentMethodName(GET_START_NUMBER);
         int startNumber = result;
         try {
 
@@ -198,14 +200,14 @@ public final class BackgammonFrame
         } catch (InterruptedException e) {
             Log.verbose(e);
         } catch (Exception e) {
-            Log.verbose("getStartNumber");
+            Log.verbose(GET_START_NUMBER);
             Log.verbose(e);
         }
 
         if (currentGame.checkStartNumber(startNumber)) {
             currentGame.setStartNumber(startNumber);
         } else {
-            System.err.println("You can't move this piece or there is no pieces");
+            System.err.println("You can't move this piece or there are no pieces");
             result = -1;
             getStartNumber(currentGame);
         }
@@ -215,7 +217,6 @@ public final class BackgammonFrame
 
         int newTarget = oldTarget;
         try {
-
             while (newTarget < 0 || newTarget == Constances.FIELD_EATEN_BLACK || newTarget == Constances.FIELD_EATEN_WHITE || newTarget == currentGame.getStartNumber() || (newTarget == Constances.FIELD_END_BLACK || newTarget == Constances.FIELD_END_WHITE) && !currentGame.isEndPhase()) {
                 Thread.sleep(Constances.TIME_TO_SLEEP_IN_MS);
                 newTarget = result;
@@ -290,7 +291,7 @@ public final class BackgammonFrame
 
     @Override
     public void mouseDragged(final MouseEvent e) {
-        mouseHandler(e);
+        // mouseHandler(e);
     }
 
     @Override

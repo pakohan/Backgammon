@@ -349,7 +349,6 @@ public final class Game
 
     @Override
     public void printJumpsStatus(final int[] jumps) {
-
         setStatus(String.format("So, youre moves are: %d, %d, %d, %d", jumps[0], jumps[1], jumps[2], jumps[3]));
     }
 

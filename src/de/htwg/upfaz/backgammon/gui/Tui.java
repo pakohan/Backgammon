@@ -25,7 +25,6 @@ public final class Tui
     private final IGame currentGame;
 
     public Tui(final IGame gm) {
-
         currentGame = gm;
     }
 
@@ -33,7 +32,7 @@ public final class Tui
     public static void printField(final IField[] gameMap) {
         System.out.println("||011-010-009-008-007-006|OUT|005-004-003-002-001-000||-s-|");
         System.out.println("||---------------------------------------------------||---|");
-        System.out.printf("||");
+        System.out.print("||");
         for (int i = 11; i > 6; i--) {
             // System.out.printf("%s-", gameMap[i].toString());
             stoneSyso(gameMap, i);
@@ -158,8 +157,7 @@ public final class Tui
         while (true) {
             try {
 
-                System.out.println("");
-                System.out.printf("Choose the stone: ");
+                System.out.printf("%nChoose the stone: ");
                 start = scanner.nextLine();
                 // startNumber = new int(start);
 

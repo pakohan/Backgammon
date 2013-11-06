@@ -9,7 +9,7 @@ public final class GameWithGui {
     protected static final String PLAYER_S_IS_THE_WINNER = "Player %s is the winner!";
     protected static final String PLAYER_S_IT_S_YOUR_TURN = "Player %s, it's your Turn!";
     protected static final String SETTING_START_NUMBER_TO_D_AND_TARGET_NUMBER_TO_D = "Setting startNumber to %d and targetNumber to %d";
-    public void playTurn(final IGame currentGame, final IPlayer plr, final BackgammonFrame bf) {
+    public static void playTurn(final IGame currentGame, final IPlayer plr, final BackgammonFrame bf) {
         currentGame.setCurrentMethodName("playTurn");
         currentGame.setCurrentPlayer(plr);
         currentGame.setEndPhase(false);
@@ -55,7 +55,7 @@ public final class GameWithGui {
         }
     }
 
-    private boolean notGetStartAndTargetNumbers(final IGame currentGame, final Field[] gm, final IPlayer plr, final BackgammonFrame bf) {
+    private static boolean notGetStartAndTargetNumbers(final IGame currentGame, final Field[] gm, final IPlayer plr, final BackgammonFrame bf) {
         currentGame.setCurrentMethodName("getStartAndTargetNumbers");
         currentGame.setGameMap(gm);
 
