@@ -1,6 +1,6 @@
 package de.htwg.upfaz.backgammon.gui;
 
-import de.htwg.upfaz.backgammon.controller.IGame;
+import de.htwg.upfaz.backgammon.controller.Game;
 import de.htwg.util.observer.IObserver;
 
 import javax.swing.*;
@@ -18,12 +18,12 @@ public final class BackgammonFrame
     protected static final String CAN_T_JUMP_THIS_FIELD_COLOR_PROBLEM = "Can't jump this Field (Color problem)";
     protected static final String GET_START_NUMBER = "getStartNumber";
 
-    private final IGame currentGame;
+    private final Game currentGame;
     private final StatusPanel statusPanel;
     private String status = "";
     private int result = -1;
 
-    public BackgammonFrame(final IGame gm) {
+    public BackgammonFrame(final Game gm) {
 
         currentGame = gm;
 
@@ -150,7 +150,7 @@ public final class BackgammonFrame
         result = newResult;
     }
 
-    public int getTargetWhileEatenWhite(final IGame currentGame) {
+    public int getTargetWhileEatenWhite() {
         currentGame.setCurrentMethodName(GET_TARGET_WHILE_EATEN_WHITE);
         int targetNumber = result;
         try {
@@ -168,7 +168,7 @@ public final class BackgammonFrame
         return targetNumber;
     }
 
-    public int getTargetWhileEatenBlack(final IGame currentGame) {
+    public int getTargetWhileEatenBlack() {
         currentGame.setCurrentMethodName("getTargetWhileEatenBlack");
         int targetNumber = result;
         try {
@@ -187,7 +187,7 @@ public final class BackgammonFrame
         return targetNumber;
     }
 
-    public void getStartNumber(final IGame currentGame) {
+    public void getStartNumber() {
         currentGame.setCurrentMethodName(GET_START_NUMBER);
         int startNumber = result;
         try {
@@ -208,7 +208,7 @@ public final class BackgammonFrame
         } else {
             System.err.println("You can't move this piece or there are no pieces");
             result = -1;
-            getStartNumber(currentGame);
+            getStartNumber();
         }
     }
 
@@ -233,7 +233,7 @@ public final class BackgammonFrame
         if (currentGame.getGameMap()[targetNumber].isNotJumpable(currentGame.getCurrentPlayer().getColor())) {
             System.err.println(CAN_T_JUMP_THIS_FIELD_COLOR_PROBLEM);
             result = -1;
-            getEndNumber(currentGame);
+            getEndNumber();
         }
     }
 
@@ -242,7 +242,7 @@ public final class BackgammonFrame
             currentGame.setTargetNumber(targetNumber);
         } else {
             result = -1;
-            getEndNumber(currentGame);
+            getEndNumber();
         }
     }
 
@@ -252,7 +252,7 @@ public final class BackgammonFrame
             currentGame.setTargetNumber(Constances.FIELD_END_BLACK);
         } else {
             result = -1;
-            getEndNumber(currentGame);
+            getEndNumber();
         }
     }
 
@@ -262,11 +262,11 @@ public final class BackgammonFrame
             currentGame.setTargetNumber(Constances.FIELD_END_WHITE);
         } else {
             result = -1;
-            getEndNumber(currentGame);
+            getEndNumber();
         }
     }
 
-    public void getEndNumber(final IGame currentGame) {
+    public void getEndNumber() {
         currentGame.setCurrentMethodName("getEndNumber");
         int targetNumber = result;
         try {

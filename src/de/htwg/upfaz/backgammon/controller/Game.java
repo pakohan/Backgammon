@@ -5,6 +5,7 @@ import de.htwg.upfaz.backgammon.entities.IField;
 import de.htwg.upfaz.backgammon.entities.IPlayer;
 import de.htwg.upfaz.backgammon.entities.Player;
 import de.htwg.upfaz.backgammon.gui.Log;
+import de.htwg.util.observer.IObservable;
 import de.htwg.util.observer.Observable;
 
 import java.util.Arrays;
@@ -12,7 +13,7 @@ import java.util.Random;
 
 public final class Game
         extends Observable
-        implements IGame {
+        implements IObservable {
 
     private static final int FIELD_NR_0 = 0;
     private static final int FIELD_NR_5 = 5;
@@ -103,7 +104,6 @@ public final class Game
 		 */
     }
 
-    @Override
     public void setGameMap(final Field[] newGameMap) {
 
         if (newGameMap == null) {
@@ -113,12 +113,10 @@ public final class Game
         }
     }
 
-    @Override
     public Field[] getGameMap() {
         return gameMap;
     }
 
-    @Override
     public int[] rollTheDice() {
         final int[] jumpsToReturn = new int[MAX_JUMPS];
         final Random dice = new Random();
@@ -166,7 +164,6 @@ public final class Game
         return gameMap;
     }
 
-    @Override
     public boolean checkForWinner(final IField[] gameMap) {
         // if (gameMap[FIELD_END_BLACK].getNumberStones() == 15
         // || gameMap[FIELD_END_WHITE].getNumberStones() == 15) {
@@ -189,7 +186,6 @@ public final class Game
         return gameMap;
     }
 
-    @Override
     public Field[] doSomethingWithStones(final Field[] gm, final IPlayer plr, final int startNumber, final int targetNumber, final boolean endPhase) {
         currentMehtodName = "doSomethingWithStones";
         setGameMap(gm);
@@ -208,27 +204,22 @@ public final class Game
         return gameMap;
     }
 
-    @Override
     public int getStartNumber() {
         return startNumber;
     }
 
-    @Override
     public void setStartNumber(final int number) {
         startNumber = number;
     }
 
-    @Override
     public int getTargetNumber() {
         return targetNumber;
     }
 
-    @Override
     public void setTargetNumber(final int number) {
         targetNumber = number;
     }
 
-    @Override
     public boolean isNotCheckDirection(final IPlayer plr) {
         if (plr.getColor() == 0 && targetNumber <= startNumber || plr.getColor() == 1 && targetNumber >= startNumber) {
             setStatus("You're going in the wrong direction!");
@@ -237,7 +228,6 @@ public final class Game
         return false;
     }
 
-    @Override
     public void renewJumps(final int start, final int target) {
         currentMehtodName = "renewJumps";
         if (target >= FIELD_END_BLACK) {
@@ -285,7 +275,6 @@ public final class Game
         return stonesInEndPhase;
     }
 
-    @Override
     public void setJumps(final int[] newJumps) {
 
         if (newJumps == null) {
@@ -295,48 +284,39 @@ public final class Game
         }
     }
 
-    @Override
     public int[] getJumps() {
         return jumps;
     }
 
-    @Override
     public int getWinner() {
         return winner;
     }
 
-    @Override
     public IPlayer getPlayer1() {
         return player1;
     }
 
-    @Override
     public IPlayer getPlayer2() {
         return player2;
     }
 
-    @Override
     public IPlayer getCurrentPlayer() {
         return currentPlayer;
     }
 
-    @Override
     public void setCurrentPlayer(final IPlayer currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
 
-    @Override
     public String getStatus() {
         return status;
     }
 
-    @Override
     public void setStatus(final String s) {
         status = s;
         notifyObservers();
     }
 
-    @Override
     public boolean checkStartNumber(final int number) {
         currentMehtodName = "checkStartNumber";
         try {
@@ -347,30 +327,25 @@ public final class Game
         }
     }
 
-    @Override
     public void printJumpsStatus(final int[] jumps) {
         setStatus(String.format("So, youre moves are: %d, %d, %d, %d", jumps[0], jumps[1], jumps[2], jumps[3]));
     }
 
-    @Override
     public String printJumpsString() {
 
         return String.format("Jumps: %d, %d, %d, %d", jumps[0], jumps[1], jumps[2], jumps[3]);
     }
 
-    @Override
     public int[] getJumpsT() {
         return jumpsT;
     }
 
-    @Override
     public void setJumpsT(final int[] j) {
         jumpsT = new int[2];
         jumpsT[0] = j[0];
         jumpsT[1] = j[1];
     }
 
-    @Override
     public boolean isEatenWhiteCheck(final int target) {
         boolean returnVal = false;
 
@@ -385,7 +360,6 @@ public final class Game
         return returnVal;
     }
 
-    @Override
     public boolean checkNormalEndTarget(final int newTarget) {
         boolean returnVal = false;
 
@@ -399,7 +373,6 @@ public final class Game
         return returnVal;
     }
 
-    @Override
     public boolean checkEndphaseWhiteTarget(final int newTarget) {
         currentMehtodName = "checkEndphaseWhiteTarget";
         // if ((Math.abs(targetNumber - currentGame.getStartNumber()
@@ -424,7 +397,6 @@ public final class Game
         return returnVal;
     }
 
-    @Override
     public boolean checkEndphaseBlackTarget() {
         currentMehtodName = "checkEndphaseBlackTarget";
         // if (currentGame.jumps[0] == (currentGame.getStartNumber() + 1)
@@ -445,7 +417,6 @@ public final class Game
         return returnVal;
     }
 
-    @Override
     public boolean isValidStartLoop() {
         currentMehtodName = "checkStartValidnessLoop";
         boolean toReturn = true;
@@ -474,32 +445,26 @@ public final class Game
         return true;
     }
 
-    @Override
     public String getCurrentMethodName() {
         return currentMehtodName;
     }
 
-    @Override
     public void setCurrentMethodName(final String newName) {
         currentMehtodName = newName;
     }
 
-    @Override
     public boolean isEndPhase() {
         return endPhase;
     }
 
-    @Override
     public void setEndPhase(final boolean endPhase) {
         this.endPhase = endPhase;
     }
 
-    @Override
     public void setWinner(final int winner) {
         this.winner = winner;
     }
 
-    @Override
     public int getTurnsNumber() {
         int returnVal = 4;
 
@@ -510,7 +475,6 @@ public final class Game
         return returnVal;
     }
 
-    @Override
     public void checkEndPhase() {
         if (calcStoneInEndPhase(currentPlayer, gameMap) == STONES_TO_WIN) {
             endPhase = true;
@@ -518,7 +482,6 @@ public final class Game
         }
     }
 
-    @Override
     public boolean checkIfMoveImpossible() {
 
         boolean toReturn = true;
@@ -541,7 +504,6 @@ public final class Game
         return toReturn;
     }
 
-    @Override
     public int automaticTakeOut() {
         int toReturn = 0;
         if (endPhase) {
@@ -592,7 +554,6 @@ public final class Game
         return toReturn;
     }
 
-    @Override
     public String toString() {
         return String.format("Game{gameMap=%s, player1=%s, player2=%s, winner=%d, endPhase=%s, jumps=%s, jumpsT=%s, startNumber=%d, targetNumber=%d, status='%s', currentMehtodName='%s', currentPlayer=%s}", Arrays.toString(gameMap), player1, player2, winner, endPhase, Arrays.toString(jumps), Arrays.toString(jumpsT), startNumber, targetNumber, status, currentMehtodName, currentPlayer);
     }

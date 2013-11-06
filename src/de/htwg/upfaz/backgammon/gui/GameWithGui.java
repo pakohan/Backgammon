@@ -1,6 +1,6 @@
 package de.htwg.upfaz.backgammon.gui;
 
-import de.htwg.upfaz.backgammon.controller.IGame;
+import de.htwg.upfaz.backgammon.controller.Game;
 import de.htwg.upfaz.backgammon.entities.Field;
 import de.htwg.upfaz.backgammon.entities.IPlayer;
 
@@ -9,7 +9,7 @@ public final class GameWithGui {
     protected static final String PLAYER_S_IS_THE_WINNER = "Player %s is the winner!";
     protected static final String PLAYER_S_IT_S_YOUR_TURN = "Player %s, it's your Turn!";
     protected static final String SETTING_START_NUMBER_TO_D_AND_TARGET_NUMBER_TO_D = "Setting startNumber to %d and targetNumber to %d";
-    public static void playTurn(final IGame currentGame, final IPlayer plr, final BackgammonFrame bf) {
+    public static void playTurn(final Game currentGame, final IPlayer plr, final BackgammonFrame bf) {
         currentGame.setCurrentMethodName("playTurn");
         currentGame.setCurrentPlayer(plr);
         currentGame.setEndPhase(false);
@@ -55,7 +55,7 @@ public final class GameWithGui {
         }
     }
 
-    private static boolean notGetStartAndTargetNumbers(final IGame currentGame, final Field[] gm, final IPlayer plr, final BackgammonFrame bf) {
+    private static boolean notGetStartAndTargetNumbers(final Game currentGame, final Field[] gm, final IPlayer plr, final BackgammonFrame bf) {
         currentGame.setCurrentMethodName("getStartAndTargetNumbers");
         currentGame.setGameMap(gm);
 
@@ -65,22 +65,22 @@ public final class GameWithGui {
             currentGame.setStartNumber(25);
             // get targetNumber
             bf.setResult(-1);
-            currentGame.setTargetNumber(bf.getTargetWhileEatenWhite(currentGame));
+            currentGame.setTargetNumber(bf.getTargetWhileEatenWhite());
         } else if (plr.getColor() == 1 && currentGame.getGameMap()[24].getNumberStones() > 0) {
 
             currentGame.setStartNumber(24);
 
             // get targetNumber
             bf.setResult(-1);
-            currentGame.setTargetNumber(bf.getTargetWhileEatenBlack(currentGame));
+            currentGame.setTargetNumber(bf.getTargetWhileEatenBlack());
         } else if (currentGame.isEndPhase()) {
             // get startNumber
             bf.setResult(-1);
-            bf.getStartNumber(currentGame);
+            bf.getStartNumber();
 
             // get targetNumber
             bf.setResult(-1);
-            bf.getEndNumber(currentGame);
+            bf.getEndNumber();
 
             // check direction
             if (currentGame.getTargetNumber() < 24 && currentGame.isNotCheckDirection(plr)) {
@@ -90,7 +90,7 @@ public final class GameWithGui {
 
             // get startNumber
             bf.setResult(-1);
-            bf.getStartNumber(currentGame);
+            bf.getStartNumber();
 
             if (currentGame.isValidStartLoop()) {
                 currentGame.setStatus(GameWithTui.YOU_CAN_NOT_PLAY_WITH_THIS_STONE);
@@ -99,7 +99,7 @@ public final class GameWithGui {
 
             // get targetNumber
             bf.setResult(-1);
-            bf.getEndNumber(currentGame);
+            bf.getEndNumber();
 
             // check direction
             if (currentGame.getTargetNumber() < 24 && currentGame.isNotCheckDirection(plr)) {

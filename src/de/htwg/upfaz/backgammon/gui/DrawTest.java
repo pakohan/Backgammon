@@ -1,6 +1,6 @@
 package de.htwg.upfaz.backgammon.gui;
 
-import de.htwg.upfaz.backgammon.controller.IGame;
+import de.htwg.upfaz.backgammon.controller.Game;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,9 +32,9 @@ public final class DrawTest
     private final Image stoneb;
     private final Image stonew;
     private final Image background;
-    private final IGame currentGame;
+    private final Game currentGame;
 
-    public DrawTest(final IGame game) {
+    public DrawTest(final Game game) {
 
         currentGame = game;
 

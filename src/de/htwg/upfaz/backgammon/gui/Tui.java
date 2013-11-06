@@ -1,6 +1,6 @@
 package de.htwg.upfaz.backgammon.gui;
 
-import de.htwg.upfaz.backgammon.controller.IGame;
+import de.htwg.upfaz.backgammon.controller.Game;
 import de.htwg.upfaz.backgammon.entities.IField;
 import de.htwg.upfaz.backgammon.entities.IPlayer;
 import de.htwg.util.observer.IObserver;
@@ -21,9 +21,9 @@ public final class Tui
     private static final Pattern COMPILE = Pattern.compile("[0-9]|1[0-9]|2[0-3]");
     private static final Pattern COMPILE1 = Pattern.compile("1[8-9]|2[0-3]");
     private static final Pattern COMPIL3 = Pattern.compile("[0-9]|1[0-9]|2[0-3]");
-    private final IGame currentGame;
+    private final Game currentGame;
 
-    public Tui(final IGame gm) {
+    public Tui(final Game gm) {
         currentGame = gm;
     }
 
@@ -61,7 +61,7 @@ public final class Tui
         System.out.println("||012-013-014-015-016-017|OUT|018-019-020-021-022-023||-w-|");
     }
 
-    public int getTargetWhileEatenWhite(final IGame currentGame) {
+    public int getTargetWhileEatenWhite(final Game currentGame) {
 
         String target;
         int targetNumber;
@@ -147,7 +147,7 @@ public final class Tui
         return targetNumber;
     }
 
-    public void getStartNumber(final IGame currentGame) {
+    public void getStartNumber() {
 
         String start;
         int startNumber;
@@ -178,7 +178,7 @@ public final class Tui
         currentGame.setStartNumber(startNumber);
     }
 
-    public void getEndTarget(final IGame currentGame) {
+    public void getEndTarget() {
 
         String target;
         int targetNumber;

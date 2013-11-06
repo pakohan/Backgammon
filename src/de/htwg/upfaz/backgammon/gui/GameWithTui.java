@@ -1,6 +1,6 @@
 package de.htwg.upfaz.backgammon.gui;
 
-import de.htwg.upfaz.backgammon.controller.IGame;
+import de.htwg.upfaz.backgammon.controller.Game;
 import de.htwg.upfaz.backgammon.entities.Field;
 import de.htwg.upfaz.backgammon.entities.IPlayer;
 
@@ -8,7 +8,7 @@ public final class GameWithTui {
 
     protected static final String YOU_CAN_NOT_PLAY_WITH_THIS_STONE = "You can not play with this stone!";
     public GameWithTui() {}
-    public static void playTurn(final IGame currentGame, final IPlayer plr, final Tui tui) {
+    public static void playTurn(final Game currentGame, final IPlayer plr, final Tui tui) {
 
         currentGame.setCurrentPlayer(plr);
         currentGame.setEndPhase(false);
@@ -49,7 +49,7 @@ public final class GameWithTui {
         }
     }
 
-    static boolean notGetStartAndTargetNumbers(final IGame currentGame, final Field[] gm, final IPlayer plr, final Tui tui) {
+    static boolean notGetStartAndTargetNumbers(final Game currentGame, final Field[] gm, final IPlayer plr, final Tui tui) {
 
         currentGame.setGameMap(gm);
         if (plr.getColor() == 0 && currentGame.getGameMap()[25].getNumberStones() > 0) {
@@ -65,13 +65,13 @@ public final class GameWithTui {
             // get targetNumber
             currentGame.setTargetNumber(tui.getTargetWhileEatenBlack(currentGame.getGameMap(), plr, currentGame.getJumps()));
         } else if (currentGame.isEndPhase()) {
-            tui.getStartNumber(currentGame);
-            tui.getEndTarget(currentGame);
+            tui.getStartNumber();
+            tui.getEndTarget();
         } else {
 
             // get startNumber
 
-            tui.getStartNumber(currentGame);
+            tui.getStartNumber();
 
             if (currentGame.isValidStartLoop()) {
                 currentGame.setStatus(YOU_CAN_NOT_PLAY_WITH_THIS_STONE);
@@ -79,7 +79,7 @@ public final class GameWithTui {
             }
 
             // get targetNumber
-            tui.getEndTarget(currentGame);
+            tui.getEndTarget();
         }
 
         // check direction

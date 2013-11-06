@@ -1,7 +1,6 @@
 package de.htwg.upfaz.backgammon;
 
 import de.htwg.upfaz.backgammon.controller.Game;
-import de.htwg.upfaz.backgammon.controller.IGame;
 import de.htwg.upfaz.backgammon.gui.*;
 
 import java.util.Scanner;
@@ -14,7 +13,7 @@ public final class MainGUI {
     private MainGUI() { }
 
     public static void main(final String[] args) {
-        final IGame currentGame = new Game();
+        final Game currentGame = new Game();
         System.out.println("Welcome to upfaz backgammon.");
 
         final int choiceNumber = chooseUI();
@@ -49,7 +48,7 @@ public final class MainGUI {
         }
     }
 
-    private static void playGameWithTui(final IGame currentGame) {
+    private static void playGameWithTui(final Game currentGame) {
 
         final GameWithTui tuiGame = new GameWithTui();
         final Tui tui = new Tui(currentGame);
@@ -69,7 +68,7 @@ public final class MainGUI {
         System.out.println(currentGame.getCurrentPlayer() + " is the winner!");
     }
 
-    private static void playGameWithGui(final IGame currentGame) {
+    private static void playGameWithGui(final Game currentGame) {
 
         final GameWithGui guiGame = new GameWithGui();
         final BackgammonFrame bf = new BackgammonFrame(currentGame);
