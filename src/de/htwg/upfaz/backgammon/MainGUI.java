@@ -11,77 +11,90 @@ import java.util.Scanner;
 @SuppressWarnings("UseOfSystemOutOrSystemErr")
 public final class MainGUI {
 
-    private static int curPl = 1;
+	private static int curPl = 1;
 
-    private MainGUI() { }
+	private MainGUI() {
+	}
 
-    public static void main(final String[] args) {
-        final Game currentGame = new Game();
-        System.out.println("Welcome to upfaz backgammon.");
+	public static void main(final String[] args) {
+		final Game currentGame = new Game();
+		System.out.println("Welcome to upfaz backgammon.");
+		playGameWithGui(currentGame);
+		
+//		final int choiceNumber = chooseUI();
+//
+//		if (choiceNumber == 1) {
+//			playGameWithTui(currentGame);
+//		} else {
+//			playGameWithGui(currentGame);
+//		}
+	}
 
-        final int choiceNumber = chooseUI();
+	/*
+	 * Player chooses what UI he wants to play -> has to be refactored
+	 * All UIs have to run parallel without choosing
+	 */
+	private static int chooseUI() {
+		final Scanner scanner = new Scanner(System.in);
+		try {
+			System.out.println("Choose the UI:");
+			System.out.println("\t1.Tui");
+			System.out.println("\t2.Gui");
+			final String choice = scanner.nextLine();
+			scanner.close();
+			final int choiceNumber = Integer.valueOf(choice);
+			if (choiceNumber == 1 || choiceNumber == 2) {
 
-        if (choiceNumber == 1) {
-            playGameWithTui(currentGame);
-        } else {
-            playGameWithGui(currentGame);
-        }
-    }
+				return choiceNumber;
+			} else {
+				System.out.printf("Input doesn't match: %s%n", choice);
 
-    private static int chooseUI() {
-        final Scanner scanner = new Scanner(System.in);
-        try {
-            System.out.println("Choose the UI:");
-            System.out.println("\t1.Tui");
-            System.out.println("\t2.Gui");
-            final String choice = scanner.nextLine();
-            final int choiceNumber = Integer.valueOf(choice);
-            if (choiceNumber == 1 || choiceNumber == 2) {
-                return choiceNumber;
-            } else {
-                System.out.printf("Input doesn't match: %s%n", choice);
-                return 0;
-            }
-        } catch (NumberFormatException e) {
-            Log.verbose(e);
-            return 0;
-        } catch (Exception e) {
-            Log.verbose(e);
-            return 0;
-        }
-    }
+				return 0;
+			}
+		} catch (NumberFormatException e) {
+			Log.verbose(e);
+			return 0;
+		} catch (Exception e) {
+			Log.verbose(e);
+			return 0;
+		}
 
-    private static void playGameWithTui(final Game currentGame) {
+	}
 
-        final GameWithTui tuiGame = new GameWithTui();
-        final Tui tui = new Tui(currentGame);
-        currentGame.addObserver(tui);
-        currentGame.notifyObservers();
-        while (currentGame.getWinner() == 0) {
+	private static void playGameWithTui(final Game currentGame) {
 
-            if (curPl == 1) {
-                tuiGame.playTurn(currentGame, currentGame.getPlayer1(), tui);
-                curPl = 2;
-            } else {
-                tuiGame.playTurn(currentGame, currentGame.getPlayer2(), tui);
-                curPl = 1;
-            }
-        }
+		final GameWithTui tuiGame = new GameWithTui();
+		final Tui tui = new Tui(currentGame);
+		currentGame.addObserver(tui);
+		currentGame.notifyObservers();
+		while (currentGame.getWinner() == 0) {
 
-        System.out.println(currentGame.getCurrentPlayer() + " is the winner!");
-    }
+			if (curPl == 1) {
+				tuiGame.playTurn(currentGame, currentGame.getPlayer1(), tui);
+				curPl = 2;
+			} else {
+				tuiGame.playTurn(currentGame, currentGame.getPlayer2(), tui);
+				curPl = 1;
+			}
+		}
 
-    private static void playGameWithGui(final Game currentGame) {
+		System.out.println(currentGame.getCurrentPlayer() + " is the winner!");
+	}
 
-        //final GameWithGui guiGame = new GameWithGui();
-        final BackgammonFrame bf = new BackgammonFrame(currentGame);
+	private static void playGameWithGui(final Game currentGame) {
 
-        currentGame.addObserver(bf);
-        currentGame.notifyObservers();
-        while (currentGame.getWinner() == 0) {
-            currentGame.startRound();
-        }
+		// final GameWithGui guiGame = new GameWithGui();
 
-        bf.winnerDialog();
-    }
+		// actually backgammom frame is initialised in Game constructor
+		// final BackgammonFrame bf = new BackgammonFrame(currentGame);
+		final BackgammonFrame bf = currentGame.getBackgammonFrame();
+
+		currentGame.addObserver(bf);
+		currentGame.notifyObservers();
+		while (currentGame.getWinner() == 0) {
+			currentGame.startRound();
+		}
+
+		bf.winnerDialog();
+	}
 }

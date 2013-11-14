@@ -75,7 +75,7 @@ public final class Tui
                     // targetNumber = new int(target);
 
                     targetNumber = Integer.valueOf(target); // sonar recommends
-
+                    
                     if (currentGame.getGameMap()[targetNumber].isNotJumpable(currentGame.getCurrentPlayer().getColor())) {
                         System.out.println(CAN_T_JUMP_THIS_FIELD_COLOR_PROBLEM);
                         continue;
@@ -94,7 +94,7 @@ public final class Tui
             }
         }
         currentGame.setStatus(YOUR_INPUT + target);
-
+        scanner.close();
         return targetNumber;
     }
 
@@ -143,7 +143,7 @@ public final class Tui
             }
         }
         currentGame.setStatus(YOUR_INPUT + target);
-
+        scanner.close();
         return targetNumber;
     }
 
@@ -158,6 +158,7 @@ public final class Tui
 
                 System.out.printf("%nChoose the stone: ");
                 start = scanner.nextLine();
+                scanner.close();
                 // startNumber = new int(start);
 
                 startNumber = Integer.valueOf(start); // sonar recommends
@@ -176,6 +177,7 @@ public final class Tui
 
         currentGame.setStatus(YOUR_INPUT + start);
         currentGame.setStartNumber(startNumber);
+        
     }
 
     public void getEndTarget() {
@@ -190,7 +192,7 @@ public final class Tui
                 System.out.println("");
                 System.out.printf(CHOOSE_THE_TARGET_FIELD);
                 target = scanner.nextLine();
-
+                
                 if (COMPILE.matcher(target).matches()) {
                     // targetNumber = new int(target);
 
@@ -229,6 +231,7 @@ public final class Tui
 
         currentGame.setStatus(YOUR_INPUT + target);
         currentGame.setTargetNumber(targetNumber);
+        scanner.close();
     }
 
     private void setStatusInputMismatch() {
