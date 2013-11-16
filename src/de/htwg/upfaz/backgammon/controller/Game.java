@@ -200,14 +200,14 @@ public final class Game extends Observable implements IObservable {
 		return gameMap;
 	}
 
-	public boolean checkForWinner(final IField[] gameMap) {
+	public boolean checkForWinner() {
 		// if (gameMap[FIELD_END_BLACK].getNumberStones() == 15
 		// || gameMap[FIELD_END_WHITE].getNumberStones() == 15) {
 		// return true;
 		// } else {
 		// return false;
 		// }
-
+		IField[] gameMap = getGameMap();
 		return gameMap[FIELD_END_BLACK].getNumberStones() == STONES_TO_WIN
 				|| gameMap[FIELD_END_WHITE].getNumberStones() == STONES_TO_WIN;
 	}
@@ -708,7 +708,7 @@ public final class Game extends Observable implements IObservable {
 		// Actual "turn" - one player has 0 to 4 turns per round
 		for (int i = index; i < getTurnsNumber(); i++) {
 			// check for winner
-			if (checkForWinner(getGameMap())) {
+			if (checkForWinner()) {
 				setStatus(String.format(PLAYER_S_IS_THE_WINNER,
 						players[currentPlayer]));
 				setWinner(players[currentPlayer].getColor() + 1);
@@ -738,7 +738,7 @@ public final class Game extends Observable implements IObservable {
 			setTargetNumber(-1);
 
 			// check for winner
-			if (checkForWinner(getGameMap())) {
+			if (checkForWinner()) {
 				setStatus(String.format(PLAYER_S_IS_THE_WINNER,
 						players[currentPlayer].toString()));
 				setWinner(players[currentPlayer].getColor() + 1);

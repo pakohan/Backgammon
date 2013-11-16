@@ -25,7 +25,7 @@ public final class GameWithGui {
 				.getTurnsNumber(); index++) {
 
 			// check for winner
-			if (currentGame.checkForWinner(currentGame.getGameMap())) {
+			if (currentGame.checkForWinner()) {
 				currentGame.setStatus(String
 						.format(PLAYER_S_IS_THE_WINNER, plr));
 				currentGame.setWinner(plr.getColor() + 1);
@@ -52,7 +52,7 @@ public final class GameWithGui {
 			currentGame.setTargetNumber(-1);
 
 			// check for winner
-			if (currentGame.checkForWinner(currentGame.getGameMap())) {
+			if (currentGame.checkForWinner()) {
 				currentGame.setStatus(String.format(PLAYER_S_IS_THE_WINNER,
 						plr.toString()));
 				currentGame.setWinner(plr.getColor() + 1);

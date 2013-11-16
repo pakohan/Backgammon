@@ -47,7 +47,7 @@ public final class GameWithTui {
 			currentGame.setTargetNumber(0);
 
 			// check for winner
-			if (currentGame.checkForWinner(currentGame.getGameMap())) {
+			if (currentGame.checkForWinner()) {
 				currentGame.setStatus(String.format(
 						GameWithGui.PLAYER_S_IS_THE_WINNER, plr.toString()));
 				currentGame.setWinner(plr.getColor() + 1);
