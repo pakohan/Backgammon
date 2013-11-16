@@ -45,7 +45,7 @@ public final class BackgammonFrame
             pane.add(ds);
         */
 
-        final DrawTest test = new DrawTest(currentGame);
+        final DrawDesk test = new DrawDesk(currentGame);
         pane.add(test);
         statusPanel = new StatusPanel();
         pane.add(statusPanel, BorderLayout.SOUTH);

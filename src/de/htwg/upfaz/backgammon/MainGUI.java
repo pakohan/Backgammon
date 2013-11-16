@@ -19,8 +19,10 @@ public final class MainGUI {
 	public static void main(final String[] args) {
 		final Game currentGame = new Game();
 		System.out.println("Welcome to upfaz backgammon.");
-		playGameWithGui(currentGame);
 		
+		
+		
+		//here was the choice that ui to play
 //		final int choiceNumber = chooseUI();
 //
 //		if (choiceNumber == 1) {
@@ -28,6 +30,17 @@ public final class MainGUI {
 //		} else {
 //			playGameWithGui(currentGame);
 //		}
+		
+		//after that I decided to avoid the choice
+		//no need in this function
+		//playGameWithGui(currentGame);
+		
+		final BackgammonFrame bf = currentGame.getBackgammonFrame();
+		while (currentGame.getWinner() == 0) {
+			currentGame.startRound();
+		}
+
+		bf.winnerDialog();
 	}
 
 	/*
@@ -80,7 +93,9 @@ public final class MainGUI {
 
 		System.out.println(currentGame.getCurrentPlayer() + " is the winner!");
 	}
-
+	
+	
+	
 	private static void playGameWithGui(final Game currentGame) {
 
 		// final GameWithGui guiGame = new GameWithGui();
@@ -89,8 +104,7 @@ public final class MainGUI {
 		// final BackgammonFrame bf = new BackgammonFrame(currentGame);
 		final BackgammonFrame bf = currentGame.getBackgammonFrame();
 
-		currentGame.addObserver(bf);
-		currentGame.notifyObservers();
+		
 		while (currentGame.getWinner() == 0) {
 			currentGame.startRound();
 		}
