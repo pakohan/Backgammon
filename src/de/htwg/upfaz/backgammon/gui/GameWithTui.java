@@ -48,6 +48,8 @@ public final class GameWithTui {
         }
     }
 
+    
+    //has to be moved in Game ?
     static boolean notGetStartAndTargetNumbers(final Game currentGame, final Field[] gm, final IPlayer plr, final Tui tui) {
 
         currentGame.setGameMap(gm);

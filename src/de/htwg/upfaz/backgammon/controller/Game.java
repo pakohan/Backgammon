@@ -7,6 +7,7 @@ import de.htwg.upfaz.backgammon.entities.Player;
 import de.htwg.upfaz.backgammon.gui.BackgammonFrame;
 import de.htwg.upfaz.backgammon.gui.GameWithTui;
 import de.htwg.upfaz.backgammon.gui.Log;
+import de.htwg.upfaz.backgammon.gui.Tui;
 import de.htwg.util.observer.IObservable;
 import de.htwg.util.observer.Observable;
 
@@ -49,6 +50,7 @@ public final class Game extends Observable implements IObservable {
 	private String status = "Let's the game begin!";
 	private String currentMehtodName = "Begin";
 	private int currentPlayer;
+	private Tui tui;
 
 	protected static final String PLAYER_S_IS_THE_WINNER = "Player %s is the winner!";
 	protected static final String PLAYER_S_IT_S_YOUR_TURN = "Player %s, it's your Turn!";
@@ -67,6 +69,10 @@ public final class Game extends Observable implements IObservable {
 		players[1] = new Player(1);
 		currentPlayer = 1;
 		this.bf = new BackgammonFrame(this); // actually gui
+		
+		// here should be created tui. 
+		this.tui = new Tui (this); // tui
+		this.addObserver(tui);
 
 		// was before in playGameWithGui() function
 		this.addObserver(bf);
@@ -526,7 +532,7 @@ public final class Game extends Observable implements IObservable {
 			if (gameMap[i].getStoneColor() == players[currentPlayer].getColor()) {
 				startNumber = i;
 				if (!isValidStartLoop()) {
-					System.out.println("isValidStartLoop is false, returning");
+					
 					toReturn = false;
 				}
 			}
