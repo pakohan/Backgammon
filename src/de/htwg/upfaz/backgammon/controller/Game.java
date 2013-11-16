@@ -607,28 +607,30 @@ public final class Game extends Observable implements IObservable {
 						status, currentMehtodName, currentPlayer);
 	}
 
-	private boolean notGetStartAndTargetNumbers(final Game currentGame,
-			final Field[] gm, final IPlayer plr) {
-		currentGame.setCurrentMethodName("getStartAndTargetNumbers");
-		currentGame.setGameMap(gm);
+	//this function works now with gui - that's why the tui for the moment doesn't work
+	// it will be called in startRound() and works with BackgammonFrame bf (which is actually ONLY for gui).
+	// There is similar function for the tui.
+	private boolean notGetStartAndTargetNumbers() {
+		setCurrentMethodName("getStartAndTargetNumbers");
+		
 
-		if (plr.getColor() == 0
-				&& currentGame.getGameMap()[25].getNumberStones() > 0) {
+		if (getCurrentPlayer().getColor() == 0
+				&& getGameMap()[25].getNumberStones() > 0) {
 
 			// TO ADD: check if is possible to play turn
-			currentGame.setStartNumber(25);
+			setStartNumber(25);
 			// get targetNumber
 			bf.setResult(-1);
-			currentGame.setTargetNumber(bf.getTargetWhileEatenWhite());
-		} else if (plr.getColor() == 1
-				&& currentGame.getGameMap()[24].getNumberStones() > 0) {
+			setTargetNumber(bf.getTargetWhileEatenWhite());
+		} else if (getCurrentPlayer().getColor() == 1
+				&& getGameMap()[24].getNumberStones() > 0) {
 
-			currentGame.setStartNumber(24);
+			setStartNumber(24);
 
 			// get targetNumber
 			bf.setResult(-1);
-			currentGame.setTargetNumber(bf.getTargetWhileEatenBlack());
-		} else if (currentGame.isEndPhase()) {
+			setTargetNumber(bf.getTargetWhileEatenBlack());
+		} else if (isEndPhase()) {
 			// get startNumber
 			bf.setResult(-1);
 			bf.getStartNumber();
@@ -638,8 +640,8 @@ public final class Game extends Observable implements IObservable {
 			bf.getEndNumber();
 
 			// check direction
-			if (currentGame.getTargetNumber() < 24
-					&& currentGame.isNotCheckDirection(plr)) {
+			if (getTargetNumber() < 24
+					&& isNotCheckDirection(getCurrentPlayer())) {
 				return true;
 			}
 		} else {
@@ -648,9 +650,8 @@ public final class Game extends Observable implements IObservable {
 			bf.setResult(-1);
 			bf.getStartNumber();
 
-			if (currentGame.isValidStartLoop()) {
-				currentGame
-						.setStatus(GameWithTui.YOU_CAN_NOT_PLAY_WITH_THIS_STONE);
+			if (isValidStartLoop()) {
+				setStatus(GameWithTui.YOU_CAN_NOT_PLAY_WITH_THIS_STONE);
 				return true;
 			}
 
@@ -659,15 +660,15 @@ public final class Game extends Observable implements IObservable {
 			bf.getEndNumber();
 
 			// check direction
-			if (currentGame.getTargetNumber() < 24
-					&& currentGame.isNotCheckDirection(plr)) {
+			if (getTargetNumber() < 24
+					&& isNotCheckDirection(getCurrentPlayer())) {
 				return true;
 			}
 		}
 
-		currentGame.setStatus(String.format(
+		setStatus(String.format(
 				SETTING_START_NUMBER_TO_D_AND_TARGET_NUMBER_TO_D,
-				currentGame.getStartNumber(), currentGame.getTargetNumber()));
+				getStartNumber(), getTargetNumber()));
 		return false;
 	}
 
@@ -721,8 +722,7 @@ public final class Game extends Observable implements IObservable {
 				return;
 			}
 
-			if (notGetStartAndTargetNumbers(this, getGameMap(),
-					players[currentPlayer])) {
+			if (notGetStartAndTargetNumbers()) {
 				setStartNumber(-1);
 				i--;
 				continue;

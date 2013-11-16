@@ -61,6 +61,7 @@ public final class BackgammonFrame
     public void mouseClicked(final MouseEvent e) {
         final int x = e.getX();
         final int y = e.getY();
+        // convert coordinates in field number 
         result = getClickedField(x, y);
         mouseHandler(e);
     }
