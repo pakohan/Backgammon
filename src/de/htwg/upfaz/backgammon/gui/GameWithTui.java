@@ -35,7 +35,7 @@ public final class GameWithTui {
 			tui.printField(currentGame.getGameMap());
 
 			if (notGetStartAndTargetNumbers(currentGame,
-					currentGame.getGameMap(), plr, tui)) {
+					tui)) {
 				index--;
 				continue;
 			}
@@ -59,9 +59,10 @@ public final class GameWithTui {
 
 	// has to be moved in Game ?
 	static boolean notGetStartAndTargetNumbers(final Game currentGame,
-			final Field[] gm, final IPlayer plr, final Tui tui) {
-
-		currentGame.setGameMap(gm);
+			final Tui tui) {
+		
+		IPlayer plr = currentGame.getCurrentPlayer();
+		
 		if (plr.getColor() == 0
 				&& currentGame.getGameMap()[25].getNumberStones() > 0) {
 
@@ -84,10 +85,9 @@ public final class GameWithTui {
 		} else {
 
 			// get startNumber
-
 			tui.getStartNumber();
 
-			if (currentGame.isValidStartLoop()) {
+			if (currentGame.checkAllStartnumbersValidness()) {
 				currentGame.setStatus(YOU_CAN_NOT_PLAY_WITH_THIS_STONE);
 				return true;
 			}

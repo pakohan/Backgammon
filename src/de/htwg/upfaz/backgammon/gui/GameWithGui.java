@@ -103,7 +103,7 @@ public final class GameWithGui {
 			bf.setResult(-1);
 			bf.getStartNumber();
 
-			if (currentGame.isValidStartLoop()) {
+			if (currentGame.checkAllStartnumbersValidness()) {
 				currentGame
 						.setStatus(GameWithTui.YOU_CAN_NOT_PLAY_WITH_THIS_STONE);
 				return true;

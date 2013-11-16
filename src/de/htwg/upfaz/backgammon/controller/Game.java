@@ -72,6 +72,7 @@ public final class Game extends Observable implements IObservable {
 
 		// here should be created tui.
 		this.tui = new Tui(this); // tui
+
 		this.addObserver(tui);
 
 		// was before in playGameWithGui() function
@@ -454,11 +455,11 @@ public final class Game extends Observable implements IObservable {
 		return returnVal;
 	}
 
-	public boolean isValidStartLoop() {
+	public boolean checkAllStartnumbersValidness() {
 		currentMehtodName = "checkStartValidnessLoop";
 		boolean toReturn = true;
 		for (int i = 0; i < 4; i++) {
-			if (jumps[i] != 0 && checkStartValidness(i)) {
+			if (jumps[i] != 0 && checkSingleStartValidness(i)) {
 				toReturn = false;
 			}
 		}
@@ -466,7 +467,7 @@ public final class Game extends Observable implements IObservable {
 		return toReturn;
 	}
 
-	private boolean checkStartValidness(final int i) {
+	private boolean checkSingleStartValidness(final int i) {
 		currentMehtodName = "checkStartValidness";
 
 		try {
@@ -533,7 +534,7 @@ public final class Game extends Observable implements IObservable {
 		for (int i = 0; i < 24; i++) {
 			if (gameMap[i].getStoneColor() == players[currentPlayer].getColor()) {
 				startNumber = i;
-				if (!isValidStartLoop()) {
+				if (!checkAllStartnumbersValidness()) {
 
 					toReturn = false;
 				}
@@ -600,6 +601,20 @@ public final class Game extends Observable implements IObservable {
 		return toReturn;
 	}
 
+	private void changeCurrentPlayer() {
+		if (currentPlayer == 1) {
+			currentPlayer = 0;
+		} else {
+			currentPlayer = 1;
+		}
+		setStatus(String
+				.format(PLAYER_S_IT_S_YOUR_TURN, players[currentPlayer]));
+	}
+
+	public BackgammonFrame getBackgammonFrame() {
+		return bf;
+	}
+
 	public String toString() {
 		return String
 				.format("Game{gameMap=%s, player1=%s, player2=%s, winner=%d, endPhase=%s, jumps=%s, jumpsT=%s, startNumber=%d, targetNumber=%d, status='%s', currentMehtodName='%s', currentPlayer=%s}",
@@ -653,7 +668,7 @@ public final class Game extends Observable implements IObservable {
 			bf.setResult(-1);
 			bf.getStartNumber();
 
-			if (isValidStartLoop()) {
+			if (checkAllStartnumbersValidness()) {
 				setStatus(GameWithTui.YOU_CAN_NOT_PLAY_WITH_THIS_STONE);
 				return true;
 			}
@@ -673,20 +688,6 @@ public final class Game extends Observable implements IObservable {
 				SETTING_START_NUMBER_TO_D_AND_TARGET_NUMBER_TO_D,
 				getStartNumber(), getTargetNumber()));
 		return false;
-	}
-
-	private void changeCurrentPlayer() {
-		if (currentPlayer == 1) {
-			currentPlayer = 0;
-		} else {
-			currentPlayer = 1;
-		}
-		setStatus(String
-				.format(PLAYER_S_IT_S_YOUR_TURN, players[currentPlayer]));
-	}
-
-	public BackgammonFrame getBackgammonFrame() {
-		return bf;
 	}
 
 	/*
