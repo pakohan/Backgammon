@@ -5,7 +5,7 @@ import de.htwg.upfaz.backgammon.controller.Game;
 import javax.swing.*;
 import java.awt.*;
 
-public final class DrawTest
+public final class DrawDesk
         extends JPanel {
 
     private static final long serialVersionUID = 1L;
@@ -34,7 +34,7 @@ public final class DrawTest
     private final Image background;
     private final Game currentGame;
 
-    public DrawTest(final Game game) {
+    public DrawDesk(final Game game) {
 
         currentGame = game;
 
