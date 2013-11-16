@@ -144,6 +144,7 @@ public final class BackgammonFrame
     public void mouseReleased(final MouseEvent e) { }
 
     public void update() {
+    	statusPanel.setText(currentGame.getStatus());
         repaint();
     }
 
@@ -303,6 +304,7 @@ public final class BackgammonFrame
         final int x = e.getX();
         final int y = e.getY();
         status = String.format("x = %d, y = %d\t start = %d, target = %d, result = %d; Current player: %s; %s; Method: %s", x, y, currentGame.getStartNumber(), currentGame.getTargetNumber(), result, currentGame.getCurrentPlayer(), currentGame.printJumpsString(), currentGame.getCurrentMethodName());
+        currentGame.setStatus(status);
         update();
     }
 

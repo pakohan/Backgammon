@@ -10,7 +10,6 @@ import java.util.regex.Pattern;
 
 import static de.htwg.upfaz.backgammon.gui.BackgammonFrame.CAN_T_JUMP_THIS_FIELD_COLOR_PROBLEM;
 
-@SuppressWarnings("UseOfSystemOutOrSystemErr")
 public final class Tui
         implements IObserver {
 
@@ -27,8 +26,7 @@ public final class Tui
         currentGame = gm;
     }
 
-    @SuppressWarnings("MagicNumber")
-    public static void printField(final IField[] gameMap) {
+    public void printField(final IField[] gameMap) {
         System.out.println("||011-010-009-008-007-006|OUT|005-004-003-002-001-000||-s-|");
         System.out.println("||---------------------------------------------------||---|");
         System.out.print("||");

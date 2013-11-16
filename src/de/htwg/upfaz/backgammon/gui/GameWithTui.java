@@ -8,7 +8,7 @@ public final class GameWithTui {
 
     public static final String YOU_CAN_NOT_PLAY_WITH_THIS_STONE = "You can not play with this stone!";
     public GameWithTui() {}
-    public static void playTurn(final Game currentGame, final IPlayer plr, final Tui tui) {
+    public void playTurn(final Game currentGame, final IPlayer plr, final Tui tui) {
 
         currentGame.setEndPhase(false);
         currentGame.checkEndPhase();

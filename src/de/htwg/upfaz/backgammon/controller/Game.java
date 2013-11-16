@@ -683,11 +683,15 @@ public final class Game extends Observable implements IObservable {
 		return bf;
 	}
 
+	
+	/* 
+	 * Turn logic
+	 * */
 	public void startRound() {
-		changeCurrentPlayer(); // is it okay, that I change the player at start?
+		changeCurrentPlayer();
 		endPhase = false;
 		checkEndPhase();
-		System.out.println(String.format(PLAYER_S_IT_S_YOUR_TURN,
+		setStatus(String.format(PLAYER_S_IT_S_YOUR_TURN,
 				players[currentPlayer]));
 		// i don't know how it works, but don't remove it - here was the problem
 		setJumps(rollTheDice());
@@ -697,6 +701,8 @@ public final class Game extends Observable implements IObservable {
 		// useful in endphase or when stone is eaten and has to be returned back
 		// to desk
 		int index = automaticTakeOut();
+		
+		// Actual "turn" - one player has 0 to 4 turns per round
 		for (int i = index; i < getTurnsNumber(); i++) {
 			// check for winner
 			if (checkForWinner(getGameMap())) {
@@ -738,7 +744,7 @@ public final class Game extends Observable implements IObservable {
 			}
 			printJumpsStatus(getJumps());
 		}
-		// statusPanel.setText(status);
+		
 		notifyObservers();
 		// repaint();
 	}
