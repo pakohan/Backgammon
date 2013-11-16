@@ -624,16 +624,17 @@ public final class Game extends Observable implements IObservable {
 						status, currentMehtodName, currentPlayer);
 	}
 
-	// this function works now with gui - that's why the tui for the moment
-	// doesn't work
-	// it will be called in startRound() and works with BackgammonFrame bf
-	// (which is actually ONLY for gui).
-	// There is similar function for the tui.
+	// this function works with gui - that's why the tui
+	// doesn't work now
+	// called in startRound() and works with BackgammonFrame bf
+	// (which is actually the gui).
+	// There is similar function for the tui,
+	// but I don't know how to make them work parallel
 	private boolean notGetStartAndTargetNumbers() {
 		setCurrentMethodName("getStartAndTargetNumbers");
 
 		if (getCurrentPlayer().getColor() == 0
-				&& getGameMap()[25].getNumberStones() > 0) {
+				&& getGameMap()[25].getNumberStones() > 0) { //white eaten
 
 			// TO ADD: check if is possible to play turn
 			setStartNumber(25);
@@ -641,14 +642,14 @@ public final class Game extends Observable implements IObservable {
 			bf.setResult(-1);
 			setTargetNumber(bf.getTargetWhileEatenWhite());
 		} else if (getCurrentPlayer().getColor() == 1
-				&& getGameMap()[24].getNumberStones() > 0) {
+				&& getGameMap()[24].getNumberStones() > 0) { //black eaten
 
 			setStartNumber(24);
 
 			// get targetNumber
 			bf.setResult(-1);
 			setTargetNumber(bf.getTargetWhileEatenBlack());
-		} else if (isEndPhase()) {
+		} else if (isEndPhase()) { //endphase
 			// get startNumber
 			bf.setResult(-1);
 			bf.getStartNumber();
@@ -662,7 +663,7 @@ public final class Game extends Observable implements IObservable {
 					&& isNotCheckDirection(getCurrentPlayer())) {
 				return true;
 			}
-		} else {
+		} else { //normal turn
 
 			// get startNumber
 			bf.setResult(-1);
@@ -724,7 +725,8 @@ public final class Game extends Observable implements IObservable {
 				return;
 			}
 
-			// getting start and target number.
+			// getting start and target number (for now from GUI! - has to be
+			// parallelised)
 			// if no numbers got - try one more time
 			if (notGetStartAndTargetNumbers()) {
 				setStartNumber(-1);
