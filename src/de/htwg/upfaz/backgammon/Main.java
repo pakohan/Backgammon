@@ -18,33 +18,32 @@ public final class Main {
 	public static void main(final String[] args) {
 		final Game currentGame = new Game();
 		System.out.println("Welcome to upfaz backgammon.");
-		
-		
-		
-		//here was the choice that ui to play
-//		final int choiceNumber = chooseUI();
-//
-//		if (choiceNumber == 1) {
-//			playGameWithTui(currentGame);
-//		} else {
-//			playGameWithGui(currentGame);
-//		}
-		
-		//after that I decided to avoid the choice
-		//no need in this function
-		//playGameWithGui(currentGame);
-		
-		final BackgammonFrame bf = currentGame.getBackgammonFrame();
+
+		// here was the choice that ui to play
+		// final int choiceNumber = chooseUI();
+		//
+		// if (choiceNumber == 1) {
+		// playGameWithTui(currentGame);
+		// } else {
+		// playGameWithGui(currentGame);
+		// }
+
+		// after that I decided to avoid the choice
+		// no need in this function
+		// playGameWithGui(currentGame);
+
+
 		while (currentGame.getWinner() == 0) {
 			currentGame.startRound();
 		}
 
-		bf.winnerDialog();
+		//show winner
+		currentGame.getBackgammonFrame().winnerDialog();
 	}
 
 	/*
-	 * Player chooses what UI he wants to play -> has to be refactored
-	 * All UIs have to run parallel without choosing
+	 * Player chooses what UI he wants to play -> has to be refactored All UIs
+	 * have to run parallel without choosing
 	 */
 	@SuppressWarnings("unused")
 	private static int chooseUI() {
@@ -94,9 +93,7 @@ public final class Main {
 
 		System.out.println(currentGame.getCurrentPlayer() + " is the winner!");
 	}
-	
-	
-	
+
 	@SuppressWarnings("unused")
 	private static void playGameWithGui(final Game currentGame) {
 
@@ -106,7 +103,6 @@ public final class Main {
 		// final BackgammonFrame bf = new BackgammonFrame(currentGame);
 		final BackgammonFrame bf = currentGame.getBackgammonFrame();
 
-		
 		while (currentGame.getWinner() == 0) {
 			currentGame.startRound();
 		}

@@ -69,9 +69,9 @@ public final class Game extends Observable implements IObservable {
 		players[1] = new Player(1);
 		currentPlayer = 1;
 		this.bf = new BackgammonFrame(this); // actually gui
-		
-		// here should be created tui. 
-		this.tui = new Tui (this); // tui
+
+		// here should be created tui.
+		this.tui = new Tui(this); // tui
 		this.addObserver(tui);
 
 		// was before in playGameWithGui() function
@@ -518,6 +518,7 @@ public final class Game extends Observable implements IObservable {
 	}
 
 	public void checkEndPhase() {
+		endPhase = false;
 		if (calcStoneInEndPhase(players[currentPlayer], gameMap) == STONES_TO_WIN) {
 			endPhase = true;
 			setStatus("End Phase!");
@@ -532,7 +533,7 @@ public final class Game extends Observable implements IObservable {
 			if (gameMap[i].getStoneColor() == players[currentPlayer].getColor()) {
 				startNumber = i;
 				if (!isValidStartLoop()) {
-					
+
 					toReturn = false;
 				}
 			}
@@ -607,12 +608,13 @@ public final class Game extends Observable implements IObservable {
 						status, currentMehtodName, currentPlayer);
 	}
 
-	//this function works now with gui - that's why the tui for the moment doesn't work
-	// it will be called in startRound() and works with BackgammonFrame bf (which is actually ONLY for gui).
+	// this function works now with gui - that's why the tui for the moment
+	// doesn't work
+	// it will be called in startRound() and works with BackgammonFrame bf
+	// (which is actually ONLY for gui).
 	// There is similar function for the tui.
 	private boolean notGetStartAndTargetNumbers() {
 		setCurrentMethodName("getStartAndTargetNumbers");
-		
 
 		if (getCurrentPlayer().getColor() == 0
 				&& getGameMap()[25].getNumberStones() > 0) {
@@ -678,22 +680,21 @@ public final class Game extends Observable implements IObservable {
 		} else {
 			currentPlayer = 1;
 		}
+		setStatus(String
+				.format(PLAYER_S_IT_S_YOUR_TURN, players[currentPlayer]));
 	}
 
 	public BackgammonFrame getBackgammonFrame() {
 		return bf;
 	}
 
-	
-	/* 
+	/*
 	 * Turn logic
-	 * */
+	 */
 	public void startRound() {
-		changeCurrentPlayer();
-		endPhase = false;
+		changeCurrentPlayer(); 
 		checkEndPhase();
-		setStatus(String.format(PLAYER_S_IT_S_YOUR_TURN,
-				players[currentPlayer]));
+		
 		// i don't know how it works, but don't remove it - here was the problem
 		setJumps(rollTheDice());
 		setJumpsT(getJumps());
@@ -702,7 +703,7 @@ public final class Game extends Observable implements IObservable {
 		// useful in endphase or when stone is eaten and has to be returned back
 		// to desk
 		int index = automaticTakeOut();
-		
+
 		// Actual "turn" - one player has 0 to 4 turns per round
 		for (int i = index; i < getTurnsNumber(); i++) {
 			// check for winner
@@ -716,18 +717,20 @@ public final class Game extends Observable implements IObservable {
 			checkEndPhase();
 
 			// check if it possible to make move
-
 			if (checkIfMoveImpossible()) { // noMovesDialog();
 				System.out.println("no moves available");
 				return;
 			}
 
+			// getting start and target number.
+			// if no numbers got - try one more time
 			if (notGetStartAndTargetNumbers()) {
 				setStartNumber(-1);
 				i--;
 				continue;
 			}
 
+			//change gameMap (move stones with given start and end number)
 			setGameMap(doSomethingWithStones(getGameMap(),
 					players[currentPlayer], getStartNumber(),
 					getTargetNumber(), isEndPhase()));
@@ -744,8 +747,7 @@ public final class Game extends Observable implements IObservable {
 			}
 			printJumpsStatus(getJumps());
 		}
-		
+
 		notifyObservers();
-		// repaint();
 	}
 }

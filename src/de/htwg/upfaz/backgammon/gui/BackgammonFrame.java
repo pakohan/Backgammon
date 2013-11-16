@@ -90,7 +90,7 @@ public final class BackgammonFrame
         return left;
     }
 
-    private static int getClickedField(final int x, final int y) {
+	private static int getClickedField(final int x, final int y) {
 
         final int left = getLeft(x);
         int output = -1;
