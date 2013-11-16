@@ -226,18 +226,19 @@ public final class Game extends Observable implements IObservable {
 		return gameMap;
 	}
 
-	public Field[] doSomethingWithStones(final Field[] gm, final IPlayer plr,
-			final int startNumber, final int targetNumber,
-			final boolean endPhase) {
+	/* Move, take out or eat another stone. */
+	public Field[] doSomethingWithStones() {
 		currentMehtodName = "doSomethingWithStones";
-		setGameMap(gm);
+		IPlayer plr = getCurrentPlayer();
+		int startNumber = getStartNumber();
+		int targetNumber = getTargetNumber();
 
 		// eat or move stone
 		if (gameMap[targetNumber].getNumberStones() == 1
 				&& gameMap[targetNumber].getStoneColor() != plr.getColor()) {
 
 			gameMap = eatStone(gameMap, plr, startNumber, targetNumber);
-		} else if (endPhase && this.targetNumber > 25) {
+		} else if (isEndPhase() && this.targetNumber > 25) {
 
 			gameMap = takeOutStone(gameMap, startNumber, targetNumber);
 		} else {
@@ -692,9 +693,9 @@ public final class Game extends Observable implements IObservable {
 	 * Turn logic
 	 */
 	public void startRound() {
-		changeCurrentPlayer(); 
+		changeCurrentPlayer();
 		checkEndPhase();
-		
+
 		// i don't know how it works, but don't remove it - here was the problem
 		setJumps(rollTheDice());
 		setJumpsT(getJumps());
@@ -730,10 +731,8 @@ public final class Game extends Observable implements IObservable {
 				continue;
 			}
 
-			//change gameMap (move stones with given start and end number)
-			setGameMap(doSomethingWithStones(getGameMap(),
-					players[currentPlayer], getStartNumber(),
-					getTargetNumber(), isEndPhase()));
+			// change gameMap (Move, take out or eat another stone)
+			setGameMap(doSomethingWithStones());
 			renewJumps(getStartNumber(), getTargetNumber());
 			setStartNumber(-1);
 			setTargetNumber(-1);

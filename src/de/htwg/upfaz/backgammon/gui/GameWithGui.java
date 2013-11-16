@@ -45,10 +45,7 @@ public final class GameWithGui {
 				continue;
 			}
 
-			currentGame.setGameMap(currentGame.doSomethingWithStones(
-					currentGame.getGameMap(), plr,
-					currentGame.getStartNumber(),
-					currentGame.getTargetNumber(), currentGame.isEndPhase()));
+			currentGame.setGameMap(currentGame.doSomethingWithStones());
 			currentGame.renewJumps(currentGame.getStartNumber(),
 					currentGame.getTargetNumber());
 			currentGame.setStartNumber(-1);
