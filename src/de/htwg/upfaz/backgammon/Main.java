@@ -8,12 +8,11 @@ import de.htwg.upfaz.backgammon.gui.Tui;
 
 import java.util.Scanner;
 
-@SuppressWarnings("UseOfSystemOutOrSystemErr")
-public final class MainGUI {
+public final class Main {
 
 	private static int curPl = 1;
 
-	private MainGUI() {
+	private Main() {
 	}
 
 	public static void main(final String[] args) {
@@ -47,6 +46,7 @@ public final class MainGUI {
 	 * Player chooses what UI he wants to play -> has to be refactored
 	 * All UIs have to run parallel without choosing
 	 */
+	@SuppressWarnings("unused")
 	private static int chooseUI() {
 		final Scanner scanner = new Scanner(System.in);
 		try {
@@ -74,6 +74,7 @@ public final class MainGUI {
 
 	}
 
+	@SuppressWarnings("unused")
 	private static void playGameWithTui(final Game currentGame) {
 
 		final GameWithTui tuiGame = new GameWithTui();
@@ -96,6 +97,7 @@ public final class MainGUI {
 	
 	
 	
+	@SuppressWarnings("unused")
 	private static void playGameWithGui(final Game currentGame) {
 
 		// final GameWithGui guiGame = new GameWithGui();
