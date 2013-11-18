@@ -14,13 +14,9 @@ public final class BackgammonFrame
         implements MouseListener, MouseMotionListener, IObserver {
 
     private static final long serialVersionUID = 1L;
-    private static final String GET_TARGET_WHILE_EATEN_WHITE = "getTargetWhileEatenWhite";
-    static final String STRING2 = "Can't jump this Field (Color problem)";
-    static final String GET_START_NUMBER = "getStartNumber";
 
     private final Game currentGame;
     private final StatusPanel statusPanel;
-    private int result = -1;
 
     public BackgammonFrame(final Game gm) {
 
@@ -59,7 +55,8 @@ public final class BackgammonFrame
         final int x = e.getX();
         final int y = e.getY();
         // convert coordinates in field number
-        result = getClickedField(x, y);
+        currentGame.setResult(getClickedField(x, y));
+
         mouseHandler(e);
     }
 
@@ -146,147 +143,8 @@ public final class BackgammonFrame
         repaint();
     }
 
-    public void setResult(final int newResult) {
-        result = newResult;
-    }
 
-    public int getTargetWhileEatenWhite() {
-        currentGame.setCurrentMethodName(GET_TARGET_WHILE_EATEN_WHITE);
-        int targetNumber = result;
-        try {
 
-            while (targetNumber == -1 || targetNumber > 6) {
-                Thread.sleep(Constances.TIME_TO_SLEEP_IN_MS);
-                targetNumber = result;
-            }
-        } catch (InterruptedException e) {
-            Log.verbose(e);
-        } catch (Exception e) {
-            Log.verbose(e);
-        }
-
-        return targetNumber;
-    }
-
-    public int getTargetWhileEatenBlack() {
-        currentGame.setCurrentMethodName("getTargetWhileEatenBlack");
-        int targetNumber = result;
-        try {
-
-            while (targetNumber >= Constances.FIELD_EATEN_BLACK || targetNumber < 18) {
-                Thread.sleep(Constances.TIME_TO_SLEEP_IN_MS);
-                targetNumber = result;
-            }
-        } catch (InterruptedException e) {
-            Log.verbose(e);
-        } catch (Exception e) {
-            Log.verbose("getTargetWhileEatenBlack");
-            Log.verbose(e);
-        }
-
-        return targetNumber;
-    }
-
-    public void getStartNumber() {
-        currentGame.setCurrentMethodName(GET_START_NUMBER);
-        int startNumber = result;
-        try {
-
-            while (startNumber < 0 || startNumber >= Constances.FIELD_EATEN_BLACK) {
-                Thread.sleep(Constances.TIME_TO_SLEEP_IN_MS);
-                startNumber = result;
-            }
-        } catch (InterruptedException e) {
-            Log.verbose(e);
-        } catch (Exception e) {
-            Log.verbose(GET_START_NUMBER);
-            Log.verbose(e);
-        }
-
-        if (currentGame.checkStartNumber(startNumber)) {
-            currentGame.setStartNumber(startNumber);
-        } else {
-            System.err.println("You can't move this piece or there are no pieces");
-            result = -1;
-            getStartNumber();
-        }
-    }
-
-    private int getTargetResult(final int oldTarget) {
-
-        int newTarget = oldTarget;
-        try {
-            while (newTarget < 0 || newTarget == Constances.FIELD_EATEN_BLACK || newTarget == Constances.FIELD_EATEN_WHITE || newTarget == currentGame.getStartNumber() || (newTarget == Constances.FIELD_END_BLACK || newTarget == Constances.FIELD_END_WHITE) && !currentGame.isEndPhase()) {
-                Thread.sleep(Constances.TIME_TO_SLEEP_IN_MS);
-                newTarget = result;
-            }
-        } catch (InterruptedException e) {
-            Log.verbose(e);
-        } catch (Exception e) {
-            Log.verbose("getTargetResult");
-            Log.verbose(e);
-        }
-        return newTarget;
-    }
-
-    private void checkColorProblem(final int targetNumber) {
-        if (currentGame.getGameMap()[targetNumber].isNotJumpable(currentGame.getCurrentPlayer().getColor())) {
-            System.err.println(STRING2);
-            result = -1;
-            getEndNumber();
-        }
-    }
-
-    private void checkTargetValidness(final int targetNumber) {
-        if (currentGame.checkNormalEndTarget(targetNumber)) {
-            currentGame.setTargetNumber(targetNumber);
-        } else {
-            result = -1;
-            getEndNumber();
-        }
-    }
-
-    private void checkEndphaseBlack() {
-        // endphase black
-        if (currentGame.checkEndphaseBlackTarget()) {
-            currentGame.setTargetNumber(Constances.FIELD_END_BLACK);
-        } else {
-            result = -1;
-            getEndNumber();
-        }
-    }
-
-    private void checkEndphaseWhite() {
-        // endphase white
-        if (currentGame.checkEndphaseWhiteTarget(Constances.FIELD_END_WHITE)) {
-            currentGame.setTargetNumber(Constances.FIELD_END_WHITE);
-        } else {
-            result = -1;
-            getEndNumber();
-        }
-    }
-
-    public void getEndNumber() {
-        currentGame.setCurrentMethodName("getEndNumber");
-        int targetNumber = result;
-        try {
-
-            targetNumber = getTargetResult(targetNumber);
-
-            if (targetNumber >= 0 && targetNumber < Constances.FIELD_EATEN_BLACK) {
-
-                checkColorProblem(targetNumber);
-                checkTargetValidness(targetNumber);
-            } else if (targetNumber == Constances.FIELD_END_BLACK) {
-                checkEndphaseBlack();
-            } else if (targetNumber == Constances.FIELD_END_WHITE) {
-                checkEndphaseWhite();
-            }
-        } catch (Exception e) {
-            Log.verbose("getEndNumber");
-            Log.verbose(e);
-        }
-    }
 
     @Override
     public void mouseDragged(final MouseEvent e) {
@@ -301,13 +159,9 @@ public final class BackgammonFrame
     private void mouseHandler(final MouseEvent e) {
         final int x = e.getX();
         final int y = e.getY();
-        String status = String.format("x = %d, y = %d\t start = %d, target = %d, result = %d; Current player: %s; %s; Method: %s", x, y, currentGame.getStartNumber(), currentGame.getTargetNumber(), result, currentGame.getCurrentPlayer(), currentGame.printJumpsString(), currentGame.getCurrentMethodName());
+        String status = String.format("x = %d, y = %d\t start = %d, target = %d, result = %d; Current player: %s; %s; Method: %s", x, y, currentGame.getStartNumber1(), currentGame.getTargetNumber(), currentGame.getResult(), currentGame.getCurrentPlayer(), currentGame.printJumpsString(), currentGame.getCurrentMethodName());
         currentGame.setStatus(status);
         update();
-    }
-
-    public void noMovesDialog() {
-        JOptionPane.showMessageDialog(this, "No possible moves available", "Bad luck", JOptionPane.WARNING_MESSAGE);
     }
 
     public void winnerDialog() {

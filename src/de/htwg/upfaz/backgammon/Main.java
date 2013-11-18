@@ -1,10 +1,10 @@
 package de.htwg.upfaz.backgammon;
 
 import de.htwg.upfaz.backgammon.controller.Game;
+import de.htwg.upfaz.backgammon.gui.BackgammonFrame;
+import de.htwg.upfaz.backgammon.gui.Tui;
 
 public final class Main {
-
-    private static int curPl = 1;
 
     private Main() {
     }
@@ -12,6 +12,14 @@ public final class Main {
     public static void main(final String[] args) {
         final Game currentGame = new Game();
         System.out.println("Welcome to upfaz backgammon.");
+
+        BackgammonFrame bf = new BackgammonFrame(currentGame); // actually gui
+
+        // here should be created tui.
+        Tui tui = new Tui(currentGame);
+
+        currentGame.addObserver(tui);
+        currentGame.addObserver(bf);
 
         // here was the choice that ui to play
         // final int choiceNumber = chooseUI();
@@ -26,19 +34,20 @@ public final class Main {
         // no need in this function
         // playGameWithGui(currentGame);
 
+        currentGame.notifyObservers();
+
         while (currentGame.getWinner() == 0) {
             currentGame.startRound();
         }
 
         //show winner
-        currentGame.getBackgammonFrame().winnerDialog();
+        bf.winnerDialog();
     }
 
 	/*
      * Player chooses what UI he wants to play -> has to be refactored All UIs
 	 * have to run parallel without choosing
 	 *
-	@SuppressWarnings("unused")
 	private static int chooseUI() {
 		final Scanner scanner = new Scanner(System.in);
 		try {

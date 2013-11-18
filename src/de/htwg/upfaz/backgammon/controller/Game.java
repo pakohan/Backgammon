@@ -4,10 +4,7 @@ import de.htwg.upfaz.backgammon.entities.Field;
 import de.htwg.upfaz.backgammon.entities.IField;
 import de.htwg.upfaz.backgammon.entities.IPlayer;
 import de.htwg.upfaz.backgammon.entities.Player;
-import de.htwg.upfaz.backgammon.gui.BackgammonFrame;
-import de.htwg.upfaz.backgammon.gui.GameWithTui;
-import de.htwg.upfaz.backgammon.gui.Log;
-import de.htwg.upfaz.backgammon.gui.Tui;
+import de.htwg.upfaz.backgammon.gui.*;
 import de.htwg.util.observer.IObservable;
 import de.htwg.util.observer.Observable;
 
@@ -37,7 +34,6 @@ public final class Game
     private static final int DICE_RANDOM = 6;
     private static final int MAX_JUMPS = 4;
     private static final int STONES_TO_WIN = 15;
-    private final BackgammonFrame bf;
 
     private Field[] gameMap;
     private final IPlayer[] players;
@@ -56,6 +52,8 @@ public final class Game
     private static final String PLAYER_S_IS_THE_WINNER = "Player %s is the winner!";
     private static final String PLAYER_S_IT_S_YOUR_TURN = "Player %s, it's your Turn!";
     private static final String STRING1 = "Setting startNumber to %d and targetNumber to %d";
+    public static final String STRING2 = "Can't jump this Field (Color problem)";
+    public static final String YOU_CAN_NOT_PLAY_WITH_THIS_STONE = "You can not play with this stone!";
 
     public Game() {
         gameMap = new Field[TOTAL_FIELDS_NR];
@@ -69,15 +67,6 @@ public final class Game
         players[0] = new Player(0);
         players[1] = new Player(1);
         currentPlayer = 1;
-        bf = new BackgammonFrame(this); // actually gui
-
-        // here should be created tui.
-        Tui tui = new Tui(this);
-
-        addObserver(tui);
-
-        // was before in playGameWithGui() function
-        addObserver(bf);
         notifyObservers();
     }
 
@@ -233,7 +222,7 @@ public final class Game
         return gameMap;
     }
 
-    public int getStartNumber() {
+    public int getStartNumber1() {
         return startNumber;
     }
 
@@ -316,10 +305,6 @@ public final class Game
         }
     }
 
-    public int[] getJumps() {
-        return jumps;
-    }
-
     public int getWinner() {
         return winner;
     }
@@ -368,20 +353,6 @@ public final class Game
         jumpsT = new int[2];
         jumpsT[0] = j[0];
         jumpsT[1] = j[1];
-    }
-
-    public boolean isEatenWhiteCheck(final int target) {
-        boolean returnVal = false;
-
-        for (int i = 0; i < MAX_JUMPS; i++) {
-            returnVal = target == jumps[i] - 1;
-            if (returnVal) {
-                jumps[i] = 0;
-                break;
-            }
-        }
-
-        return returnVal;
     }
 
     public boolean checkNormalEndTarget(final int newTarget) {
@@ -459,20 +430,8 @@ public final class Game
         return currentMehtodName;
     }
 
-    public void setCurrentMethodName(final String newName) {
-        currentMehtodName = newName;
-    }
-
     public boolean isEndPhase() {
         return endPhase;
-    }
-
-    public void setEndPhase(final boolean endPhase) {
-        this.endPhase = endPhase;
-    }
-
-    public void setWinner(final int winner) {
-        this.winner = winner;
     }
 
     public int getTurnsNumber() {
@@ -574,13 +533,11 @@ public final class Game
         setStatus(String.format(PLAYER_S_IT_S_YOUR_TURN, players[currentPlayer]));
     }
 
-    public BackgammonFrame getBackgammonFrame() {
-        return bf;
-    }
-
     public String toString() {
         return String.format("Game{gameMap=%s, player1=%s, player2=%s, winner=%d, endPhase=%s, jumps=%s, jumpsT=%s, startNumber=%d, targetNumber=%d, status='%s', currentMehtodName='%s', currentPlayer=%s}", Arrays.toString(gameMap), players[0], players[1], winner, endPhase, Arrays.toString(jumps), Arrays.toString(jumpsT), startNumber, targetNumber, status, currentMehtodName, currentPlayer);
     }
+
+    private int result;
 
     // this function works with gui - that's why the tui
     // doesn't work now
@@ -596,23 +553,23 @@ public final class Game
             // TO ADD: check if is possible to play turn
             startNumber = 25;
             // get targetNumber
-            bf.setResult(-1);
-            targetNumber = bf.getTargetWhileEatenWhite();
+            result = -1;
+            targetNumber = getTargetWhileEatenWhite();
         } else if (getCurrentPlayer().getColor() == 1 && gameMap[24].getNumberStones() > 0) { //black eaten
 
             startNumber = 24;
 
             // get targetNumber
-            bf.setResult(-1);
-            targetNumber = bf.getTargetWhileEatenBlack();
+            result = -1;
+            targetNumber = getTargetWhileEatenBlack();
         } else if (endPhase) { //endphase
             // get startNumber
-            bf.setResult(-1);
-            bf.getStartNumber();
+            result = -1;
+            getStartNumber();
 
             // get targetNumber
-            bf.setResult(-1);
-            bf.getEndNumber();
+            result = -1;
+            getEndNumber();
 
             // check direction
             if (targetNumber < 24 && isNotCheckDirection(getCurrentPlayer())) {
@@ -621,17 +578,17 @@ public final class Game
         } else { //normal turn
 
             // get startNumber
-            bf.setResult(-1);
-            bf.getStartNumber();
+            result = -1;
+            getStartNumber();
 
             if (checkAllStartnumbersValidness()) {
-                setStatus(GameWithTui.YOU_CAN_NOT_PLAY_WITH_THIS_STONE);
+                setStatus(YOU_CAN_NOT_PLAY_WITH_THIS_STONE);
                 return true;
             }
 
             // get targetNumber
-            bf.setResult(-1);
-            bf.getEndNumber();
+            result = -1;
+            getEndNumber();
 
             // check direction
             if (targetNumber < 24 && isNotCheckDirection(getCurrentPlayer())) {
@@ -701,5 +658,142 @@ public final class Game
         }
 
         notifyObservers();
+    }
+    public void setResult(final int result) {
+        this.result = result;
+    }
+
+    public int getResult() {
+        return result;
+    }
+
+    public int getTargetWhileEatenWhite() {
+        try {
+            while (result == -1 || result > 6) {
+                Thread.sleep(Constances.TIME_TO_SLEEP_IN_MS);
+            }
+        } catch (InterruptedException e) {
+            Log.verbose(e);
+        } catch (Exception e) {
+            Log.verbose(e);
+        }
+
+        return result;
+    }
+
+    public int getTargetWhileEatenBlack() {
+        try {
+            while (result >= Constances.FIELD_EATEN_BLACK || result < 18) {
+                Thread.sleep(Constances.TIME_TO_SLEEP_IN_MS);
+            }
+        } catch (InterruptedException e) {
+            Log.verbose(e);
+        } catch (Exception e) {
+            Log.verbose("getTargetWhileEatenBlack");
+            Log.verbose(e);
+        }
+
+        return result;
+    }
+
+    public void getStartNumber() {
+
+        int startNumber = getResult();
+        try {
+
+            while (startNumber < 0 || startNumber >= Constances.FIELD_EATEN_BLACK) {
+                Thread.sleep(Constances.TIME_TO_SLEEP_IN_MS);
+                startNumber = getResult();
+            }
+        } catch (InterruptedException e) {
+            Log.verbose(e);
+        } catch (Exception e) {
+
+            Log.verbose(e);
+        }
+
+        if (checkStartNumber(startNumber)) {
+            setStartNumber(startNumber);
+        } else {
+            System.err.println("You can't move this piece or there are no pieces");
+            setResult(-1);
+            getStartNumber();
+        }
+    }
+
+    public void getEndNumber() {
+
+        int targetNumber = getResult();
+        try {
+
+            targetNumber = getTargetResult(targetNumber);
+
+            if (targetNumber >= 0 && targetNumber < Constances.FIELD_EATEN_BLACK) {
+
+                checkColorProblem(targetNumber);
+                checkTargetValidness(targetNumber);
+            } else if (targetNumber == Constances.FIELD_END_BLACK) {
+                checkEndphaseBlack();
+            } else if (targetNumber == Constances.FIELD_END_WHITE) {
+                checkEndphaseWhite();
+            }
+        } catch (Exception e) {
+            Log.verbose("getEndNumber");
+            Log.verbose(e);
+        }
+    }
+
+    public int getTargetResult(final int oldTarget) {
+
+        int newTarget = oldTarget;
+        try {
+            while (newTarget < 0 || newTarget == Constances.FIELD_EATEN_BLACK || newTarget == Constances.FIELD_EATEN_WHITE || newTarget == getStartNumber1() || (newTarget == Constances.FIELD_END_BLACK || newTarget == Constances.FIELD_END_WHITE) && !isEndPhase()) {
+                Thread.sleep(Constances.TIME_TO_SLEEP_IN_MS);
+                newTarget = getResult();
+            }
+        } catch (InterruptedException e) {
+            Log.verbose(e);
+        } catch (Exception e) {
+            Log.verbose("getTargetResult");
+            Log.verbose(e);
+        }
+        return newTarget;
+    }
+
+    public void checkColorProblem(final int targetNumber) {
+        if (getGameMap()[targetNumber].isNotJumpable(getCurrentPlayer().getColor())) {
+            System.err.println(STRING2);
+            setResult(-1);
+            getEndNumber();
+        }
+    }
+
+    public void checkTargetValidness(final int targetNumber) {
+        if (checkNormalEndTarget(targetNumber)) {
+            setTargetNumber(targetNumber);
+        } else {
+            setResult(-1);
+            getEndNumber();
+        }
+    }
+
+    public void checkEndphaseBlack() {
+        // endphase black
+        if (checkEndphaseBlackTarget()) {
+            setTargetNumber(Constances.FIELD_END_BLACK);
+        } else {
+            setResult(-1);
+            getEndNumber();
+        }
+    }
+
+    public void checkEndphaseWhite() {
+        // endphase white
+        if (checkEndphaseWhiteTarget(Constances.FIELD_END_WHITE)) {
+            setTargetNumber(Constances.FIELD_END_WHITE);
+        } else {
+            setResult(-1);
+            getEndNumber();
+        }
     }
 }
