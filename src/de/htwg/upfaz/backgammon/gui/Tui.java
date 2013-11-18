@@ -8,7 +8,7 @@ import de.htwg.util.observer.IObserver;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-import static de.htwg.upfaz.backgammon.gui.BackgammonFrame.CAN_T_JUMP_THIS_FIELD_COLOR_PROBLEM;
+import static de.htwg.upfaz.backgammon.gui.BackgammonFrame.STRING2;
 
 public final class Tui
         implements IObserver {
@@ -73,9 +73,9 @@ public final class Tui
                     // targetNumber = new int(target);
 
                     targetNumber = Integer.valueOf(target); // sonar recommends
-                    
+
                     if (currentGame.getGameMap()[targetNumber].isNotJumpable(currentGame.getCurrentPlayer().getColor())) {
-                        System.out.println(CAN_T_JUMP_THIS_FIELD_COLOR_PROBLEM);
+                        System.out.println(STRING2);
                         continue;
                     }
 
@@ -113,7 +113,7 @@ public final class Tui
 
                     // TO ADD: check if movable
                     if (gameMap[targetNumber].isNotJumpable(plr.getColor())) {
-                        System.out.println(CAN_T_JUMP_THIS_FIELD_COLOR_PROBLEM);
+                        System.out.println(STRING2);
                         continue;
                     }
 
@@ -175,7 +175,6 @@ public final class Tui
 
         currentGame.setStatus(YOUR_INPUT + start);
         currentGame.setStartNumber(startNumber);
-        
     }
 
     public void getEndTarget() {
@@ -190,7 +189,7 @@ public final class Tui
                 System.out.println("");
                 System.out.printf(CHOOSE_THE_TARGET_FIELD);
                 target = scanner.nextLine();
-                
+
                 if (COMPILE.matcher(target).matches()) {
                     // targetNumber = new int(target);
 
@@ -198,7 +197,7 @@ public final class Tui
 
                     // TO ADD: check if movable
                     if (currentGame.getGameMap()[targetNumber].isNotJumpable(currentGame.getCurrentPlayer().getColor())) {
-                        System.out.println(CAN_T_JUMP_THIS_FIELD_COLOR_PROBLEM);
+                        System.out.println(STRING2);
                         continue;
                     }
 
@@ -242,7 +241,7 @@ public final class Tui
 
     @Override
     public void update() {
-    	printField(currentGame.getGameMap());
+        printField(currentGame.getGameMap());
         System.out.println(currentGame.getStatus());
     }
     @Override

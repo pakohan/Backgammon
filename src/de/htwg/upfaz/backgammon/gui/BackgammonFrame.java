@@ -15,15 +15,12 @@ public final class BackgammonFrame
 
     private static final long serialVersionUID = 1L;
     private static final String GET_TARGET_WHILE_EATEN_WHITE = "getTargetWhileEatenWhite";
-    protected static final String CAN_T_JUMP_THIS_FIELD_COLOR_PROBLEM = "Can't jump this Field (Color problem)";
-    protected static final String GET_START_NUMBER = "getStartNumber";
+    static final String STRING2 = "Can't jump this Field (Color problem)";
+    static final String GET_START_NUMBER = "getStartNumber";
 
     private final Game currentGame;
     private final StatusPanel statusPanel;
-    private String status = "";
     private int result = -1;
-
-    private Point start;
 
     public BackgammonFrame(final Game gm) {
 
@@ -48,7 +45,7 @@ public final class BackgammonFrame
         final DrawDesk test = new DrawDesk(currentGame);
         pane.add(test);
         statusPanel = new StatusPanel();
-        pane.add(statusPanel, BorderLayout.SOUTH);
+        pane.add(statusPanel, BorderLayout.PAGE_END);
 
         addMouseListener(this);
         addMouseMotionListener(this);
@@ -61,7 +58,7 @@ public final class BackgammonFrame
     public void mouseClicked(final MouseEvent e) {
         final int x = e.getX();
         final int y = e.getY();
-        // convert coordinates in field number 
+        // convert coordinates in field number
         result = getClickedField(x, y);
         mouseHandler(e);
     }
@@ -90,7 +87,7 @@ public final class BackgammonFrame
         return left;
     }
 
-	private static int getClickedField(final int x, final int y) {
+    private static int getClickedField(final int x, final int y) {
 
         final int left = getLeft(x);
         int output = -1;
@@ -145,7 +142,7 @@ public final class BackgammonFrame
     public void mouseReleased(final MouseEvent e) { }
 
     public void update() {
-    	statusPanel.setText(currentGame.getStatus());
+        statusPanel.setText(currentGame.getStatus());
         repaint();
     }
 
@@ -234,7 +231,7 @@ public final class BackgammonFrame
 
     private void checkColorProblem(final int targetNumber) {
         if (currentGame.getGameMap()[targetNumber].isNotJumpable(currentGame.getCurrentPlayer().getColor())) {
-            System.err.println(CAN_T_JUMP_THIS_FIELD_COLOR_PROBLEM);
+            System.err.println(STRING2);
             result = -1;
             getEndNumber();
         }
@@ -298,13 +295,13 @@ public final class BackgammonFrame
 
     @Override
     public void mouseMoved(final MouseEvent e) {
-        mouseHandler(e);
+        // mouseHandler(e);
     }
 
     private void mouseHandler(final MouseEvent e) {
         final int x = e.getX();
         final int y = e.getY();
-        status = String.format("x = %d, y = %d\t start = %d, target = %d, result = %d; Current player: %s; %s; Method: %s", x, y, currentGame.getStartNumber(), currentGame.getTargetNumber(), result, currentGame.getCurrentPlayer(), currentGame.printJumpsString(), currentGame.getCurrentMethodName());
+        String status = String.format("x = %d, y = %d\t start = %d, target = %d, result = %d; Current player: %s; %s; Method: %s", x, y, currentGame.getStartNumber(), currentGame.getTargetNumber(), result, currentGame.getCurrentPlayer(), currentGame.printJumpsString(), currentGame.getCurrentMethodName());
         currentGame.setStatus(status);
         update();
     }
