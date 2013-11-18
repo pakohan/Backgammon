@@ -206,7 +206,7 @@ public final class Game
     /* Move, take out or eat another stone. */
     public Field[] doSomethingWithStones() {
         currentMehtodName = "doSomethingWithStones";
-        final IPlayer plr = getCurrentPlayer();
+        final IPlayer plr = players[currentPlayer];
 
         // eat or move stone
         if (gameMap[targetNumber].getNumberStones() == 1 && gameMap[targetNumber].getStoneColor() != plr.getColor()) {
@@ -226,16 +226,8 @@ public final class Game
         return startNumber;
     }
 
-    public void setStartNumber(final int number) {
-        startNumber = number;
-    }
-
     public int getTargetNumber() {
         return targetNumber;
-    }
-
-    public void setTargetNumber(final int number) {
-        targetNumber = number;
     }
 
     public boolean isNotCheckDirection(final IPlayer plr) {
@@ -307,10 +299,6 @@ public final class Game
 
     public int getWinner() {
         return winner;
-    }
-
-    public IPlayer getCurrentPlayer() {
-        return players[currentPlayer];
     }
 
 	/*
@@ -430,10 +418,6 @@ public final class Game
         return currentMehtodName;
     }
 
-    public boolean isEndPhase() {
-        return endPhase;
-    }
-
     public int getTurnsNumber() {
         int returnVal = 4;
 
@@ -444,10 +428,9 @@ public final class Game
         return returnVal;
     }
 
-    public void checkEndPhase() {
-        endPhase = false;
-        if (calcStoneInEndPhase(players[currentPlayer], gameMap) == STONES_TO_WIN) {
-            endPhase = true;
+    private void checkEndPhase() {
+        endPhase = calcStoneInEndPhase(players[currentPlayer], gameMap) == STONES_TO_WIN;
+        if (endPhase) {
             setStatus("End Phase!");
         }
     }
@@ -548,14 +531,14 @@ public final class Game
     private boolean notGetStartAndTargetNumbers() {
         currentMehtodName = "getStartAndTargetNumbers";
 
-        if (getCurrentPlayer().getColor() == 0 && gameMap[25].getNumberStones() > 0) { //white eaten
+        if (players[currentPlayer].getColor() == 0 && gameMap[25].getNumberStones() > 0) { //white eaten
 
             // TO ADD: check if is possible to play turn
             startNumber = 25;
             // get targetNumber
             result = -1;
             targetNumber = getTargetWhileEatenWhite();
-        } else if (getCurrentPlayer().getColor() == 1 && gameMap[24].getNumberStones() > 0) { //black eaten
+        } else if (players[currentPlayer].getColor() == 1 && gameMap[24].getNumberStones() > 0) { //black eaten
 
             startNumber = 24;
 
@@ -572,7 +555,7 @@ public final class Game
             getEndNumber();
 
             // check direction
-            if (targetNumber < 24 && isNotCheckDirection(getCurrentPlayer())) {
+            if (targetNumber < 24 && isNotCheckDirection(players[currentPlayer])) {
                 return true;
             }
         } else { //normal turn
@@ -591,7 +574,7 @@ public final class Game
             getEndNumber();
 
             // check direction
-            if (targetNumber < 24 && isNotCheckDirection(getCurrentPlayer())) {
+            if (targetNumber < 24 && isNotCheckDirection(players[currentPlayer])) {
                 return true;
             }
         }
@@ -698,12 +681,12 @@ public final class Game
 
     public void getStartNumber() {
 
-        int startNumber = getResult();
+        int localStartNumber = result;
         try {
 
-            while (startNumber < 0 || startNumber >= Constances.FIELD_EATEN_BLACK) {
+            while (localStartNumber < 0 || localStartNumber >= Constances.FIELD_EATEN_BLACK) {
                 Thread.sleep(Constances.TIME_TO_SLEEP_IN_MS);
-                startNumber = getResult();
+                localStartNumber = result;
             }
         } catch (InterruptedException e) {
             Log.verbose(e);
@@ -712,29 +695,29 @@ public final class Game
             Log.verbose(e);
         }
 
-        if (checkStartNumber(startNumber)) {
-            setStartNumber(startNumber);
+        if (checkStartNumber(localStartNumber)) {
+            startNumber = localStartNumber;
         } else {
             System.err.println("You can't move this piece or there are no pieces");
-            setResult(-1);
+            result = -1;
             getStartNumber();
         }
     }
 
     public void getEndNumber() {
 
-        int targetNumber = getResult();
+        int localTargetNumber = result;
         try {
 
-            targetNumber = getTargetResult(targetNumber);
+            localTargetNumber = getTargetResult(localTargetNumber);
 
-            if (targetNumber >= 0 && targetNumber < Constances.FIELD_EATEN_BLACK) {
+            if (localTargetNumber >= 0 && localTargetNumber < Constances.FIELD_EATEN_BLACK) {
 
-                checkColorProblem(targetNumber);
-                checkTargetValidness(targetNumber);
-            } else if (targetNumber == Constances.FIELD_END_BLACK) {
+                checkColorProblem(localTargetNumber);
+                checkTargetValidness(localTargetNumber);
+            } else if (localTargetNumber == Constances.FIELD_END_BLACK) {
                 checkEndphaseBlack();
-            } else if (targetNumber == Constances.FIELD_END_WHITE) {
+            } else if (localTargetNumber == Constances.FIELD_END_WHITE) {
                 checkEndphaseWhite();
             }
         } catch (Exception e) {
@@ -747,9 +730,9 @@ public final class Game
 
         int newTarget = oldTarget;
         try {
-            while (newTarget < 0 || newTarget == Constances.FIELD_EATEN_BLACK || newTarget == Constances.FIELD_EATEN_WHITE || newTarget == getStartNumber1() || (newTarget == Constances.FIELD_END_BLACK || newTarget == Constances.FIELD_END_WHITE) && !isEndPhase()) {
+            while (newTarget < 0 || newTarget == Constances.FIELD_EATEN_BLACK || newTarget == Constances.FIELD_EATEN_WHITE || newTarget == startNumber || (newTarget == Constances.FIELD_END_BLACK || newTarget == Constances.FIELD_END_WHITE) && !endPhase) {
                 Thread.sleep(Constances.TIME_TO_SLEEP_IN_MS);
-                newTarget = getResult();
+                newTarget = result;
             }
         } catch (InterruptedException e) {
             Log.verbose(e);
@@ -761,18 +744,18 @@ public final class Game
     }
 
     public void checkColorProblem(final int targetNumber) {
-        if (getGameMap()[targetNumber].isNotJumpable(getCurrentPlayer().getColor())) {
+        if (gameMap[targetNumber].isNotJumpable(players[currentPlayer].getColor())) {
             System.err.println(STRING2);
-            setResult(-1);
+            result = -1;
             getEndNumber();
         }
     }
 
     public void checkTargetValidness(final int targetNumber) {
         if (checkNormalEndTarget(targetNumber)) {
-            setTargetNumber(targetNumber);
+            this.targetNumber = targetNumber;
         } else {
-            setResult(-1);
+            result = -1;
             getEndNumber();
         }
     }
@@ -780,9 +763,9 @@ public final class Game
     public void checkEndphaseBlack() {
         // endphase black
         if (checkEndphaseBlackTarget()) {
-            setTargetNumber(Constances.FIELD_END_BLACK);
+            targetNumber = Constances.FIELD_END_BLACK;
         } else {
-            setResult(-1);
+            result = -1;
             getEndNumber();
         }
     }
@@ -790,10 +773,13 @@ public final class Game
     public void checkEndphaseWhite() {
         // endphase white
         if (checkEndphaseWhiteTarget(Constances.FIELD_END_WHITE)) {
-            setTargetNumber(Constances.FIELD_END_WHITE);
+            targetNumber = Constances.FIELD_END_WHITE;
         } else {
-            setResult(-1);
+            result = -1;
             getEndNumber();
         }
+    }
+    public IPlayer getCurrentPlayer() {
+        return players[currentPlayer];
     }
 }
