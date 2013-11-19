@@ -142,9 +142,6 @@ public final class BackgammonFrame
         repaint();
     }
 
-
-
-
     @Override
     public void mouseDragged(final MouseEvent e) {
         // mouseHandler(e);
@@ -158,8 +155,7 @@ public final class BackgammonFrame
     private void mouseHandler(final MouseEvent e) {
         final int x = e.getX();
         final int y = e.getY();
-        String status = String.format("x = %d, y = %d\t start = %d, target = %d, result = %d; Current player: %s; %s; Method: %s", x, y, currentGame.getStartNumber1(), currentGame.getTargetNumber(), currentGame.getResult(), currentGame.getCurrentPlayer(), currentGame.printJumpsString(), currentGame.getCurrentMethodName());
-        currentGame.setStatus(status);
+        currentGame.setStatus(x + ":" + y + " -#- " +currentGame.toString());
         update();
     }
 

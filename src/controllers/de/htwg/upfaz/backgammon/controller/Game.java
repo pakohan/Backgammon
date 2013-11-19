@@ -49,6 +49,7 @@ public final class Game
     private String status = "Let's the game begin!";
     private String currentMehtodName = "Begin";
     private int currentPlayer;
+    private int result;
 
     private static final String PLAYER_S_IS_THE_WINNER = "Player %s is the winner!";
     private static final String PLAYER_S_IT_S_YOUR_TURN = "Player %s, it's your Turn!";
@@ -75,6 +76,40 @@ public final class Game
         while (getWinner() == 0) {
             startRound();
         }
+    }
+
+    public Field[] getGameMap() {
+        return gameMap;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(final String s) {
+        status = s;
+        notifyObservers();
+    }
+
+    public int[] getJumpsT() {
+        return jumpsT;
+    }
+
+    public void setResult(final int result) {
+        this.result = result;
+    }
+
+    public IPlayer getCurrentPlayer() {
+        return players[currentPlayer];
+    }
+
+    @Override
+    public String toString() {
+        return String.format("start = %d, target = %d, result = %d; Current player: %s; %s; Method: %s", startNumber, targetNumber, result, getCurrentPlayer(), printJumpsString(), currentMehtodName);
+    }
+
+    private String printJumpsString() {
+        return String.format("Jumps: %d, %d, %d, %d", jumps[0], jumps[1], jumps[2], jumps[3]);
     }
 
     private static void initStones(final IField[] gm) {
@@ -119,9 +154,6 @@ public final class Game
 		 * gm[19].setNumberStones(5); gm[20].setNumberStones(5);
 		 */
     }
-    public Field[] getGameMap() {
-        return gameMap;
-    }
 
     private void setGameMap(final Field[] newGameMap) {
 
@@ -132,8 +164,6 @@ public final class Game
         }
     }
 
-
-    /* Generate jumps (before the turn) */
     private int[] rollTheDice() {
         final int[] jumpsToReturn = new int[MAX_JUMPS];
         final Random dice = new Random();
@@ -229,14 +259,6 @@ public final class Game
         return gameMap;
     }
 
-    public int getStartNumber1() {
-        return startNumber;
-    }
-
-    public int getTargetNumber() {
-        return targetNumber;
-    }
-
     private boolean isNotCheckDirection(final IPlayer plr) {
         if (plr.getColor() == 0 && targetNumber <= startNumber || plr.getColor() == 1 && targetNumber >= startNumber) {
             setStatus("You're going in the wrong direction!");
@@ -308,20 +330,6 @@ public final class Game
         return winner;
     }
 
-	/*
-     * public void setCurrentPlayer(final IPlayer currentPlayer) {
-	 * this.currentPlayer = currentPlayer; }
-	 */
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(final String s) {
-        status = s;
-        notifyObservers();
-    }
-
     private boolean checkStartNumber(final int number) {
         currentMehtodName = "checkStartNumber";
         try {
@@ -334,14 +342,6 @@ public final class Game
 
     private void printJumpsStatus(final int[] jumps) {
         setStatus(String.format("So, youre moves are: %d, %d, %d, %d", jumps[0], jumps[1], jumps[2], jumps[3]));
-    }
-
-    public String printJumpsString() {
-        return String.format("Jumps: %d, %d, %d, %d", jumps[0], jumps[1], jumps[2], jumps[3]);
-    }
-
-    public int[] getJumpsT() {
-        return jumpsT;
     }
 
     private void setJumpsT(final int[] j) {
@@ -419,10 +419,6 @@ public final class Game
             Log.verbose(e);
         }
         return true;
-    }
-
-    public String getCurrentMethodName() {
-        return currentMehtodName;
     }
 
     private int getTurnsNumber() {
@@ -522,13 +518,6 @@ public final class Game
         }
         setStatus(String.format(PLAYER_S_IT_S_YOUR_TURN, players[currentPlayer]));
     }
-
-    @Override
-    public String toString() {
-        return String.format("Game{gameMap=%s, player1=%s, player2=%s, winner=%d, endPhase=%s, jumps=%s, jumpsT=%s, startNumber=%d, targetNumber=%d, status='%s', currentMehtodName='%s', currentPlayer=%s}", Arrays.toString(gameMap), players[0], players[1], winner, endPhase, Arrays.toString(jumps), Arrays.toString(jumpsT), startNumber, targetNumber, status, currentMehtodName, currentPlayer);
-    }
-
-    private int result;
 
     // this function works with gui - that's why the tui
     // doesn't work now
@@ -649,13 +638,6 @@ public final class Game
         }
 
         notifyObservers();
-    }
-    public void setResult(final int result) {
-        this.result = result;
-    }
-
-    public int getResult() {
-        return result;
     }
 
     private int getTargetWhileEatenWhite() {
@@ -786,8 +768,5 @@ public final class Game
             result = -1;
             getEndNumber();
         }
-    }
-    public IPlayer getCurrentPlayer() {
-        return players[currentPlayer];
     }
 }
