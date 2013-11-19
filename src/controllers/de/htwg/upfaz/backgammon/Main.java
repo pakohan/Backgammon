@@ -11,7 +11,6 @@ public final class Main {
 
     public static void main(final String[] args) {
         final Game currentGame = new Game();
-        System.out.println("Welcome to upfaz backgammon.");
 
         BackgammonFrame bf = new BackgammonFrame(currentGame);
         Tui tui = new Tui(currentGame);
@@ -20,9 +19,7 @@ public final class Main {
         currentGame.addObserver(bf);
         currentGame.notifyObservers();
 
-        while (currentGame.getWinner() == 0) {
-            currentGame.startRound();
-        }
+        currentGame.run();
 
         bf.winnerDialog();
     }

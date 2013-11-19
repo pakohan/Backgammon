@@ -156,6 +156,7 @@ public final class DrawDesk
             Log.verbose(e);
         }
     }
+
     @Override
     public String toString() {
         return String.format("DrawTest{dice1=%s, dice2=%s, dice3=%s, dice4=%s, dice5=%s, dice6=%s, stoneb=%s, stonew=%s, background=%s, currentGame=%s}", dice1, dice2, dice3, dice4, dice5, dice6, stoneb, stonew, background, currentGame);
