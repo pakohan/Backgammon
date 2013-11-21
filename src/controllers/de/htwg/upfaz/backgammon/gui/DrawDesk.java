@@ -111,7 +111,6 @@ public final class DrawDesk
         }
     }
 
-    @SuppressWarnings("RefusedBequest")
     @Override
     public void paintComponent(final Graphics g) {
         // TODO find out if needed or if breaking sth: super.paintComponent(g);

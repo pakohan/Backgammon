@@ -7,10 +7,6 @@ public final class Constances {
     public static final int DEFAULT_X_RESOLUTION = 740;
     public static final int DEFAULT_Y_RESOLUTION = 710;
     public static final long TIME_TO_SLEEP_IN_MS = 200;
-    public static final int FIELD_EATEN_WHITE = 25;
-    public static final int FIELD_EATEN_BLACK = 24;
-    public static final int FIELD_END_WHITE = 27;
-    public static final int FIELD_END_BLACK = 26;
     public static final int FIELD_SIZE_PXL = 50;
     public static final int LEFT_BORDER = 45;
     public static final int LEFT_CENTER_BORDER = 295;
@@ -28,4 +24,8 @@ public final class Constances {
     public static final int DICE_X = 480;
     public static final int DICE_Y = 295;
     public static final int DICE_SIZE = 60;
+    public static final int FIELD_EATEN_WHITE = 25;
+    public static final int FIELD_EATEN_BLACK = 24;
+    public static final int FIELD_END_WHITE = 27;
+    public static final int FIELD_END_BLACK = 26;
 }
