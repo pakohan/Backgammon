@@ -7,6 +7,7 @@ public final class Dice {
     private static final Random rand = new Random(System.currentTimeMillis());
 
     private int[] values;
+    private int numberTurnsLeft = 2;
     private int numberTurns = 2;
 
     public Dice() {
@@ -24,6 +25,7 @@ public final class Dice {
             values[2] = values[0];
             values[3] = values[0];
             numberTurns = 4;
+            numberTurnsLeft = 4;
         }
     }
 
@@ -31,17 +33,61 @@ public final class Dice {
         return numberTurns;
     }
 
-    public boolean move(int distance) {
+    public int getNumberTurnsLeft() {
+        return numberTurnsLeft;
+    }
+
+    public boolean hasTurnsLeft() {
+        return numberTurnsLeft > 0;
+    }
+
+    public int getDiceAt(final int i) {
+        return values[i];
+    }
+
+    public boolean renewJumps(final int distance) {
         boolean returnVal = false;
-        if (numberTurns == 0) {
+        if (numberTurnsLeft == 0) {
             return returnVal;
         }
 
         for (int i = 0; i < values.length; i++) {
             if (values[i] == distance) {
                 values[i] = 0;
-                numberTurns--;
+                numberTurnsLeft--;
                 returnVal = true;
+                break;
+            }
+        }
+
+        return returnVal;
+    }
+
+    public boolean renewJumpsEndPhase(final int start) {
+        boolean returnVal = false;
+        if (numberTurnsLeft == 0) {
+            return returnVal;
+        }
+
+        for (int i = 0; i < values.length; i++) {
+            if (24 - start == values[i] || start + 1 == values[i]) {
+                values[i] = 0;
+                numberTurnsLeft--;
+                returnVal = true;
+                break;
+            }
+        }
+
+        return returnVal;
+    }
+
+    public boolean checkNormalEndTarget(final int newTarget) {
+        boolean returnVal = false;
+
+        for (final int val : values) {
+            returnVal = newTarget == val;
+            if (returnVal) {
+                break;
             }
         }
 

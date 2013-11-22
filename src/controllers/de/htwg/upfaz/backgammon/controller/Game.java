@@ -15,27 +15,14 @@ public final class Game
         extends Observable
         implements IObservable, Runnable, IGame {
 
-    private static final int FIELD_NR_0 = 0;
-    private static final int FIELD_NR_5 = 5;
-    private static final int FIELD_NR_7 = 7;
-    private static final int FIELD_NR_11 = 11;
-    private static final int FIELD_NR_16 = 16;
-    private static final int FIELD_NR_12 = 12;
-    private static final int FIELD_NR_18 = 18;
-    private static final int FIELD_NR_23 = 23;
     private static final int FIELD_EATEN_WHITE = 25;
     private static final int FIELD_EATEN_BLACK = 24;
     private static final int FIELD_END_WHITE = 27;
     private static final int FIELD_END_BLACK = 26;
     private static final int TOTAL_FIELDS_NR = 28;
-    private static final int STONE_INIT_2 = 2;
-    private static final int STONE_INIT_5 = 5;
-    private static final int STONE_INIT_3 = 3;
     private static final int STONES_TO_WIN = 15;
     private static final int PLAYER_COLOR_WHITE = 0;
     private static final int PLAYER_COLOR_BLACK = 1;
-
-    private static final Game GAME = new Game();
 
     private Field[] gameMap;
     private final IPlayer[] players;
@@ -43,6 +30,8 @@ public final class Game
     private int winner;
     private boolean endPhase;
     private Dice dice;
+    private State state;
+
     private int startNumber = -1;
     private int targetNumber = -1;
 
@@ -91,12 +80,10 @@ public final class Game
         notifyObservers();
     }
 
-    private State state;
-
     public void setResult(final int result) {
         //public boolean setResult(final int result) {
         /*
-		boolean returnVal = false;
+        boolean returnVal = false;
 		try {
 			this.state = state.click(result);
 			notifyObservers();
@@ -121,29 +108,29 @@ public final class Game
 
     private static void initStones(final IField[] gm) {
 
-        gm[FIELD_NR_0].setStoneColor(0);
-        gm[FIELD_NR_0].setNumberStones(STONE_INIT_2);
+        gm[0].setStoneColor(0);
+        gm[0].setNumberStones(2);
 
-        gm[FIELD_NR_11].setStoneColor(0);
-        gm[FIELD_NR_11].setNumberStones(STONE_INIT_5);
+        gm[11].setStoneColor(0);
+        gm[11].setNumberStones(5);
 
-        gm[FIELD_NR_16].setStoneColor(0);
-        gm[FIELD_NR_16].setNumberStones(STONE_INIT_3);
+        gm[16].setStoneColor(0);
+        gm[16].setNumberStones(3);
 
-        gm[FIELD_NR_18].setStoneColor(0);
-        gm[FIELD_NR_18].setNumberStones(STONE_INIT_5);
+        gm[18].setStoneColor(0);
+        gm[18].setNumberStones(5);
 
-        gm[FIELD_NR_23].setStoneColor(1);
-        gm[FIELD_NR_23].setNumberStones(STONE_INIT_2);
+        gm[23].setStoneColor(1);
+        gm[23].setNumberStones(2);
 
-        gm[FIELD_NR_12].setStoneColor(1);
-        gm[FIELD_NR_12].setNumberStones(STONE_INIT_5);
+        gm[12].setStoneColor(1);
+        gm[12].setNumberStones(5);
 
-        gm[FIELD_NR_7].setStoneColor(1);
-        gm[FIELD_NR_7].setNumberStones(STONE_INIT_3);
+        gm[7].setStoneColor(1);
+        gm[7].setNumberStones(3);
 
-        gm[FIELD_NR_5].setStoneColor(1);
-        gm[FIELD_NR_5].setNumberStones(STONE_INIT_5);
+        gm[5].setStoneColor(1);
+        gm[5].setNumberStones(5);
 
         gm[FIELD_EATEN_BLACK].setStoneColor(1); // 24
         gm[FIELD_EATEN_WHITE].setStoneColor(0); // 25
@@ -245,25 +232,9 @@ public final class Game
     private void renewJumps(final int start, final int target) {
         currentMehtodName = "renewJumps";
         if (target >= FIELD_END_BLACK) {
-            renewJumpsEndPhase(start);
+            dice.renewJumpsEndPhase(start);
         } else {
-            for (int i = 0; i < MAX_JUMPS; i++) {
-                if (Math.abs(target - start) == jumps[i]) {
-                    jumps[i] = 0;
-                    setStatus(String.format("Setting jumps[%d] to 0", i));
-                    break;
-                }
-            }
-        }
-    }
-
-    private void renewJumpsEndPhase(final int start) {
-        for (int i = 0; i < MAX_JUMPS; i++) {
-            if (24 - start == jumps[i] || start + 1 == jumps[i]) {
-                jumps[i] = 0;
-                setStatus(String.format("Setting jumps[%d] to 0", i));
-                return; // TODO check if break also stops for loop
-            }
+            dice.renewJumps(Math.abs(start - target));
         }
     }
 
@@ -297,11 +268,6 @@ public final class Game
         this.dice = dice;
     }
 
-    @Override
-    public Game getInstance() {
-        return GAME;
-    }
-
     private int getWinner() {
         return winner;
     }
@@ -316,33 +282,8 @@ public final class Game
         }
     }
 
-    private boolean checkNormalEndTarget(final int newTarget) {
-        boolean returnVal = false;
 
-        for (int i = 0; i < MAX_JUMPS; i++) {
-            returnVal = Math.abs(newTarget - startNumber) == jumps[i];
-            if (returnVal) {
-                break;
-            }
-        }
 
-        return returnVal;
-    }
-
-    private boolean checkEndphaseWhiteTarget(final int newTarget) {
-        currentMehtodName = "checkEndphaseWhiteTarget";
-
-        boolean returnVal = false;
-
-        for (int i = 0; i < MAX_JUMPS; i++) {
-            returnVal = Math.abs(newTarget - startNumber - 3) <= jumps[i];
-            if (returnVal) {
-                break;
-            }
-        }
-
-        return returnVal;
-    }
 
     private boolean checkEndphaseBlackTarget() {
         currentMehtodName = "checkEndphaseBlackTarget";
@@ -350,7 +291,7 @@ public final class Game
         boolean returnVal = false;
 
         for (int i = 0; i < 4; i++) {
-            returnVal = jumps[i] >= startNumber + 1;
+            returnVal = dice.getDiceAt(i) >= startNumber + 1;
             if (returnVal) {
                 break;
             }
@@ -363,7 +304,7 @@ public final class Game
         currentMehtodName = "checkAllStartnumbersValidness";
         boolean toReturn = true;
         for (int i = 0; i < 4; i++) {
-            if (jumps[i] != 0 && checkSingleStartValidness(i)) {
+            if (dice.getDiceAt(i) != 0 && checkSingleStartValidness(i)) {
                 toReturn = false;
             }
         }
@@ -375,9 +316,9 @@ public final class Game
         currentMehtodName = "checkSingleStartValidness";
 
         try {
-            if (players[currentPlayer].getColor() == PLAYER_COLOR_WHITE && (startNumber + jumps[i] > 23 || gameMap[startNumber + jumps[i]].isNotJumpable(players[currentPlayer].getColor()))) {
+            if (players[currentPlayer].getColor() == PLAYER_COLOR_WHITE && (startNumber + dice.getDiceAt(i) > 23 || gameMap[startNumber + dice.getDiceAt(i)].isNotJumpable(players[currentPlayer].getColor()))) {
                 return false;
-            } else if (players[currentPlayer].getColor() == PLAYER_COLOR_BLACK && (startNumber - jumps[i] < 0 || gameMap[startNumber - jumps[i]].isNotJumpable(players[currentPlayer].getColor()))) {
+            } else if (players[currentPlayer].getColor() == PLAYER_COLOR_BLACK && (startNumber - dice.getDiceAt(i) < 0 || gameMap[startNumber - dice.getDiceAt(i)].isNotJumpable(players[currentPlayer].getColor()))) {
                 return false;
             }
         } catch (Exception e) {
@@ -387,15 +328,6 @@ public final class Game
         return true;
     }
 
-    private int getTurnsNumber() {
-        int returnVal = 4;
-
-        if (jumps[3] == 0) {
-            returnVal = 2;
-        }
-
-        return returnVal;
-    }
 
     private void checkEndPhase() {
         endPhase = calcStoneInEndPhase() == STONES_TO_WIN;
@@ -452,7 +384,7 @@ public final class Game
             }
 
             for (int i = 0; i < 4; i++) {
-                if (jumps[i] >= counter) {
+                if (dice.getDiceAt(i) >= counter) {
                     if (players[currentPlayer].getColor() == PLAYER_COLOR_BLACK) {
                         startNumber = counter - 1;
                         targetNumber = 26;
@@ -576,7 +508,7 @@ public final class Game
         final int index = automaticTakeOut();
 
         // Actual "turn" - one player has 0 to 4 turns per round
-        for (int i = index; i < getTurnsNumber(); i++) {
+        while (dice.hasTurnsLeft()) {
             // check for winner
             if (checkForWinner()) {
                 setStatus(String.format(PLAYER_S_IS_THE_WINNER, players[currentPlayer]));
@@ -597,7 +529,6 @@ public final class Game
             // if no numbers got - try one more time
             if (notGetStartAndTargetNumbers()) {
                 startNumber = -1;
-                i--;
                 continue;
             }
 
@@ -720,7 +651,7 @@ public final class Game
     }
 
     private void checkTargetValidness(final int targetNumber) {
-        if (checkNormalEndTarget(targetNumber)) {
+        if (dice.checkNormalEndTarget(Math.abs(targetNumber - startNumber))) {
             this.targetNumber = targetNumber;
         } else {
             result = -1;
@@ -740,7 +671,7 @@ public final class Game
 
     private void checkEndphaseWhite() {
         // endphase white
-        if (checkEndphaseWhiteTarget(FIELD_END_WHITE)) {
+        if (dice.checkNormalEndTarget(Math.abs(FIELD_END_WHITE - startNumber - 3))) {
             targetNumber = FIELD_END_WHITE;
         } else {
             result = -1;
