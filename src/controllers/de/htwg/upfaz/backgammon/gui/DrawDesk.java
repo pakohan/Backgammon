@@ -23,12 +23,7 @@ public final class DrawDesk
     private static final int INT_11 = 11;
     private static final int INT_565 = 565;
     private static final int INT_23 = 23;
-    private final Image dice1;
-    private final Image dice2;
-    private final Image dice3;
-    private final Image dice4;
-    private final Image dice5;
-    private final Image dice6;
+    private final Image dice[];
     private final Image stoneb;
     private final Image stonew;
     private final Image background;
@@ -39,12 +34,12 @@ public final class DrawDesk
         currentGame = game;
 
         background = getImage("background");
-        dice1 = getImage("dice1");
-        dice2 = getImage("dice2");
-        dice3 = getImage("dice3");
-        dice4 = getImage("dice4");
-        dice5 = getImage("dice5");
-        dice6 = getImage("dice6");
+
+        dice = new Image[6];
+
+        for (int i = 0; i < dice.length; i++) {
+            dice[i] = getImage("dice" + i);
+        }
         stoneb = getImage("grau");
         stonew = getImage("weiss");
     }
@@ -128,29 +123,7 @@ public final class DrawDesk
         final int diceX = Constances.DICE_X + i * Constances.DICE_SIZE;
 
         try {
-
-            switch (currentGame.getJumpsT()[i]) {
-            case 1:
-                g.drawImage(dice1, diceX, Constances.DICE_Y, null);
-                break;
-            case 2:
-                g.drawImage(dice2, diceX, Constances.DICE_Y, null);
-                break;
-            case 3:
-                g.drawImage(dice3, diceX, Constances.DICE_Y, null);
-                break;
-            case 4:
-                g.drawImage(dice4, diceX, Constances.DICE_Y, null);
-                break;
-            case 5:
-                g.drawImage(dice5, diceX, Constances.DICE_Y, null);
-                break;
-            case 6:
-                g.drawImage(dice6, diceX, Constances.DICE_Y, null);
-                break;
-            default:
-                break;
-            }
+            g.drawImage(dice[currentGame.getDiceAt(i)], diceX, Constances.DICE_Y, null);
         } catch (Exception e) {
             Log.verbose(e);
         }
@@ -158,6 +131,6 @@ public final class DrawDesk
 
     @Override
     public String toString() {
-        return String.format("DrawTest{dice1=%s, dice2=%s, dice3=%s, dice4=%s, dice5=%s, dice6=%s, stoneb=%s, stonew=%s, background=%s, currentGame=%s}", dice1, dice2, dice3, dice4, dice5, dice6, stoneb, stonew, background, currentGame);
+        return String.format("DrawTest{stoneb=%s, stonew=%s, background=%s, currentGame=%s}", stoneb, stonew, background, currentGame);
     }
 }

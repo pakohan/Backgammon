@@ -45,7 +45,7 @@ public final class Dice {
         return values[i];
     }
 
-    public boolean renewJumps(final int distance) {
+    public boolean move(final int distance) {
         boolean returnVal = false;
         if (numberTurnsLeft == 0) {
             return returnVal;

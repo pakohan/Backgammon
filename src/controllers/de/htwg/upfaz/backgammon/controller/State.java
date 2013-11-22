@@ -19,7 +19,7 @@ public abstract class State {
         return state;
     }
 
-    public final void setState(STATE state) {
+    public final void setState(final STATE state) {
         this.state = state;
     }
 

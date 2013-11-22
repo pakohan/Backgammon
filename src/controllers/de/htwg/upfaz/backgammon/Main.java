@@ -12,8 +12,8 @@ public final class Main {
     public static void main(final String[] args) {
         final Game currentGame = new Game();
 
-        BackgammonFrame bf = new BackgammonFrame(currentGame);
-        Tui tui = new Tui(currentGame);
+        final BackgammonFrame bf = new BackgammonFrame(currentGame);
+        final Tui tui = new Tui(currentGame);
 
         currentGame.addObserver(tui);
         currentGame.addObserver(bf);

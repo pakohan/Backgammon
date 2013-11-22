@@ -101,6 +101,10 @@ public final class Game
         return players[currentPlayer];
     }
 
+    public int getDiceAt(final int i) {
+        return dice.getDiceAt(i);
+    }
+
     @Override
     public String toString() {
         return String.format("start = %d, target = %d, result = %d; Current player: %s; Method: %s", startNumber, targetNumber, result, getCurrentPlayer(), currentMehtodName);
@@ -230,11 +234,11 @@ public final class Game
     }
 
     private void renewJumps(final int start, final int target) {
-        currentMehtodName = "renewJumps";
+        currentMehtodName = "move";
         if (target >= FIELD_END_BLACK) {
             dice.renewJumpsEndPhase(start);
         } else {
-            dice.renewJumps(Math.abs(start - target));
+            dice.move(Math.abs(start - target));
         }
     }
 
@@ -282,52 +286,17 @@ public final class Game
         }
     }
 
-
-
-
-    private boolean checkEndphaseBlackTarget() {
-        currentMehtodName = "checkEndphaseBlackTarget";
-
-        boolean returnVal = false;
-
-        for (int i = 0; i < 4; i++) {
-            returnVal = dice.getDiceAt(i) >= startNumber + 1;
-            if (returnVal) {
-                break;
-            }
-        }
-
-        return returnVal;
-    }
-
     private boolean checkAllStartnumbersValidness() {
         currentMehtodName = "checkAllStartnumbersValidness";
         boolean toReturn = true;
         for (int i = 0; i < 4; i++) {
-            if (dice.getDiceAt(i) != 0 && checkSingleStartValidness(i)) {
+            if (dice.getDiceAt(i) != 0 && !((players[currentPlayer].getColor() == PLAYER_COLOR_WHITE && (startNumber + dice.getDiceAt(i) > 23 || gameMap[startNumber + dice.getDiceAt(i)].isNotJumpable(players[currentPlayer].getColor()))) || (players[currentPlayer].getColor() == PLAYER_COLOR_BLACK && (startNumber - dice.getDiceAt(i) < 0 || gameMap[startNumber - dice.getDiceAt(i)].isNotJumpable(players[currentPlayer].getColor()))))) {
                 toReturn = false;
             }
         }
 
         return toReturn;
     }
-
-    private boolean checkSingleStartValidness(final int i) {
-        currentMehtodName = "checkSingleStartValidness";
-
-        try {
-            if (players[currentPlayer].getColor() == PLAYER_COLOR_WHITE && (startNumber + dice.getDiceAt(i) > 23 || gameMap[startNumber + dice.getDiceAt(i)].isNotJumpable(players[currentPlayer].getColor()))) {
-                return false;
-            } else if (players[currentPlayer].getColor() == PLAYER_COLOR_BLACK && (startNumber - dice.getDiceAt(i) < 0 || gameMap[startNumber - dice.getDiceAt(i)].isNotJumpable(players[currentPlayer].getColor()))) {
-                return false;
-            }
-        } catch (Exception e) {
-            Log.verbose("checkStartValidness");
-            Log.verbose(e);
-        }
-        return true;
-    }
-
 
     private void checkEndPhase() {
         endPhase = calcStoneInEndPhase() == STONES_TO_WIN;
@@ -479,8 +448,8 @@ public final class Game
     }
 
     // private STATE s = STATE_UNDEFINED;
-	/*
-		initialize game
+    /*
+        initialize game
 
 		game starts: this.s = STATE_NO_MOVE;
 
@@ -505,7 +474,7 @@ public final class Game
         // automatic takeout for taking out stones automatically if its possible
         // useful in endphase or when stone is eaten and has to be returned back
         // to desk
-        final int index = automaticTakeOut();
+        automaticTakeOut();
 
         // Actual "turn" - one player has 0 to 4 turns per round
         while (dice.hasTurnsLeft()) {
@@ -615,9 +584,25 @@ public final class Game
                 checkColorProblem(localTargetNumber);
                 checkTargetValidness(localTargetNumber);
             } else if (localTargetNumber == FIELD_END_BLACK) {
-                checkEndphaseBlack();
+                boolean returnVal = false;
+
+                for (int i = 0; i < 4; i++) {
+                    returnVal = returnVal || dice.getDiceAt(i) >= startNumber + 1;
+                }
+
+                if (returnVal) {
+                    targetNumber = FIELD_END_BLACK;
+                } else {
+                    result = -1;
+                    getEndNumber();//or get startNumber()?
+                }
             } else if (localTargetNumber == FIELD_END_WHITE) {
-                checkEndphaseWhite();
+                if (dice.checkNormalEndTarget(Math.abs(FIELD_END_WHITE - startNumber - 3))) {
+                    targetNumber = FIELD_END_WHITE;
+                } else {
+                    result = -1;
+                    getEndNumber();//or get startNumber()?
+                }
             }
         } catch (Exception e) {
             Log.verbose("getEndNumber");
@@ -653,26 +638,6 @@ public final class Game
     private void checkTargetValidness(final int targetNumber) {
         if (dice.checkNormalEndTarget(Math.abs(targetNumber - startNumber))) {
             this.targetNumber = targetNumber;
-        } else {
-            result = -1;
-            getEndNumber();//or get startNumber()?
-        }
-    }
-
-    private void checkEndphaseBlack() {
-        // endphase black
-        if (checkEndphaseBlackTarget()) {
-            targetNumber = FIELD_END_BLACK;
-        } else {
-            result = -1;
-            getEndNumber();//or get startNumber()?
-        }
-    }
-
-    private void checkEndphaseWhite() {
-        // endphase white
-        if (dice.checkNormalEndTarget(Math.abs(FIELD_END_WHITE - startNumber - 3))) {
-            targetNumber = FIELD_END_WHITE;
         } else {
             result = -1;
             getEndNumber();//or get startNumber()?
