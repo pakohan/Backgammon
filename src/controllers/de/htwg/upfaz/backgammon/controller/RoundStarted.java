@@ -1,19 +1,22 @@
 package controllers.de.htwg.upfaz.backgammon.controller;
 
-import controllers.de.htwg.upfaz.backgammon.controller.State;
+public final class RoundStarted
+        extends State {
 
-public final class RoundStarted extends State {
-	private int clickBefore;
+    private int clickBefore;
+    private IGame game;
 
-	public RoundStarted(int lastClick) {
-		this.clickBefore = lastClick;
-		super.setState(STATE.STATE_ROUND_STARTED);
-	}
-	
-	public final State click(int fieldClicked) {
-		
-		// three input parameters: current player; gamemap; click;
-		// evaluation if click is valid
-		return null;
-	}
+    public RoundStarted(final int lastClick, final IGame game) {
+        super(STATE.STATE_ROUND_STARTED);
+        this.clickBefore = lastClick;
+
+        game.setDice(new Dice());
+    }
+
+    public final State click(final int fieldClicked) {
+
+        // three input parameters: current player; gamemap; click;
+        // evaluation if click is valid
+        return null;
+    }
 }

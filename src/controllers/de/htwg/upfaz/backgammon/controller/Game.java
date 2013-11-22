@@ -10,11 +10,10 @@ import controllers.de.htwg.util.observer.IObservable;
 import controllers.de.htwg.util.observer.Observable;
 
 import java.util.Arrays;
-import java.util.Random;
 
 public final class Game
         extends Observable
-        implements IObservable, Runnable {
+        implements IObservable, Runnable, IGame {
 
     private static final int FIELD_NR_0 = 0;
     private static final int FIELD_NR_5 = 5;
@@ -32,19 +31,18 @@ public final class Game
     private static final int STONE_INIT_2 = 2;
     private static final int STONE_INIT_5 = 5;
     private static final int STONE_INIT_3 = 3;
-    private static final int DICE_RANDOM = 6;
-    private static final int MAX_JUMPS = 4;
     private static final int STONES_TO_WIN = 15;
-	private static final int PLAYER_COLOR_WHITE = 0;
-	private static final int PLAYER_COLOR_BLACK = 1;
-	
+    private static final int PLAYER_COLOR_WHITE = 0;
+    private static final int PLAYER_COLOR_BLACK = 1;
+
+    private static final Game GAME = new Game();
+
     private Field[] gameMap;
     private final IPlayer[] players;
 
     private int winner;
     private boolean endPhase;
-    private int[] jumps = new int[4];
-    private int[] jumpsT = new int[4];
+    private Dice dice;
     private int startNumber = -1;
     private int targetNumber = -1;
 
@@ -93,15 +91,11 @@ public final class Game
         notifyObservers();
     }
 
-    public int[] getJumpsT() {
-        return jumpsT;
-    }
-	
-	private State state;
+    private State state;
 
-	public void setResult(final int result) {
-    //public boolean setResult(final int result) {
-		/*
+    public void setResult(final int result) {
+        //public boolean setResult(final int result) {
+        /*
 		boolean returnVal = false;
 		try {
 			this.state = state.click(result);
@@ -110,7 +104,7 @@ public final class Game
 		} catch (WrongClickException e) {
 			Log.v(e);
 		}
-		
+
 		return returnVal;
 		*/
         this.result = result;
@@ -122,11 +116,7 @@ public final class Game
 
     @Override
     public String toString() {
-        return String.format("start = %d, target = %d, result = %d; Current player: %s; %s; Method: %s", startNumber, targetNumber, result, getCurrentPlayer(), printJumpsString(), currentMehtodName);
-    }
-
-    private String printJumpsString() {
-        return String.format("Jumps: %d, %d, %d, %d", jumps[0], jumps[1], jumps[2], jumps[3]);
+        return String.format("start = %d, target = %d, result = %d; Current player: %s; Method: %s", startNumber, targetNumber, result, getCurrentPlayer(), currentMehtodName);
     }
 
     private static void initStones(final IField[] gm) {
@@ -179,29 +169,6 @@ public final class Game
         } else {
             gameMap = Arrays.copyOf(newGameMap, newGameMap.length);
         }
-    }
-
-    private int[] rollTheDice() {
-        final int[] jumpsToReturn = new int[MAX_JUMPS];
-        final Random dice = new Random();
-        for (int index = 0; index < 2; index++) {
-            jumpsToReturn[index] = dice.nextInt(DICE_RANDOM) + 1;
-        }
-        if (jumpsToReturn[0] == jumpsToReturn[1]) {
-            jumpsToReturn[2] = jumpsToReturn[0];
-            jumpsToReturn[3] = jumpsToReturn[0];
-            setStatus("You're lucky bastard");
-        } else {
-            jumpsToReturn[2] = 0;
-            jumpsToReturn[3] = 0;
-        }
-
-        System.out.println(String.format("So, youre moves are: %d, %d", jumpsToReturn[0], jumpsToReturn[1]));
-
-        // setStatus(String.format("So, youre moves are: %d, %d",
-        // jumpsToReturn[0], jumpsToReturn[1]));
-        setStatus("");
-        return jumpsToReturn;
     }
 
     /*
@@ -268,8 +235,7 @@ public final class Game
     }
 
     private boolean isNotCheckDirection() {
-        if (players[currentPlayer].getColor() == PLAYER_COLOR_WHITE && targetNumber <= startNumber ||
-			players[currentPlayer].getColor() == PLAYER_COLOR_BLACK && targetNumber >= startNumber) {
+        if (players[currentPlayer].getColor() == PLAYER_COLOR_WHITE && targetNumber <= startNumber || players[currentPlayer].getColor() == PLAYER_COLOR_BLACK && targetNumber >= startNumber) {
             setStatus("You're going in the wrong direction!");
             return true;
         }
@@ -326,13 +292,14 @@ public final class Game
         return stonesInEndPhase;
     }
 
-    private void setJumps(final int[] newJumps) {
+    @Override
+    public void setDice(final Dice dice) {
+        this.dice = dice;
+    }
 
-        if (newJumps == null) {
-            jumps = new int[0];
-        } else {
-            jumps = Arrays.copyOf(newJumps, newJumps.length);
-        }
+    @Override
+    public Game getInstance() {
+        return GAME;
     }
 
     private int getWinner() {
@@ -347,16 +314,6 @@ public final class Game
             Log.verbose(e);
             return false;
         }
-    }
-
-    private void printJumpsStatus(final int[] jumps) {
-        setStatus(String.format("So, youre moves are: %d, %d, %d, %d", jumps[0], jumps[1], jumps[2], jumps[3]));
-    }
-
-    private void setJumpsT(final int[] j) {
-        jumpsT = new int[2];
-        jumpsT[0] = j[0];
-        jumpsT[1] = j[1];
     }
 
     private boolean checkNormalEndTarget(final int newTarget) {
@@ -588,19 +545,17 @@ public final class Game
         setStatus(String.format(STRING1, startNumber, targetNumber));
         return false;
     }
-	
-	// private STATE s = STATE_UNDEFINED;
+
+    // private STATE s = STATE_UNDEFINED;
 	/*
 		initialize game
-		
+
 		game starts: this.s = STATE_NO_MOVE;
-		
+
 		initialize round
-		
+
 		first click: this.s = STATE_FIRST_CLICK;
-		
-		
-		
+
 		second click this.s = STATE_FIRST_MOVE;
 	*/
 
@@ -612,8 +567,8 @@ public final class Game
         checkEndPhase();
 
         // i don't know how it works, but don't remove it - here was the problem
-        setJumps(rollTheDice());
-        setJumpsT(jumps);
+
+        // setJumps(rollTheDice());
 
         // automatic takeout for taking out stones automatically if its possible
         // useful in endphase or when stone is eaten and has to be returned back
@@ -658,7 +613,6 @@ public final class Game
                 winner = players[currentPlayer].getColor() + 1;
                 return;
             }
-            printJumpsStatus(jumps);
         }
 
         notifyObservers();
