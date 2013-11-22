@@ -13,6 +13,13 @@ public final class Dice {
     public Dice() {
         rollTheDice();
     }
+    public Dice(final int x) {
+        values = new int[IGame.MAX_JUMPS];
+
+        for (int i = 0; i < values.length; i++) {
+            values[i] = x;
+        }
+    }
 
     private void rollTheDice() {
         values = new int[IGame.MAX_JUMPS];
