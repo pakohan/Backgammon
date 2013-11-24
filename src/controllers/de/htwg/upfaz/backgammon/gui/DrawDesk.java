@@ -123,7 +123,7 @@ public final class DrawDesk
         final int diceX = Constances.DICE_X + i * Constances.DICE_SIZE;
 
         try {
-            g.drawImage(dice[currentGame.getDiceAt(i) - 1], diceX, Constances.DICE_Y, null);
+            g.drawImage(dice[currentGame.getDiceToDraw(i) - 1], diceX, Constances.DICE_Y, null);
         } catch (Exception e) {
             Log.verbose(e);
         }

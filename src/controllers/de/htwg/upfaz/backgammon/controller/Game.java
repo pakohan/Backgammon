@@ -79,6 +79,9 @@ public final class Game extends Observable implements IObservable, Runnable,
 	public int getDiceAt(final int i) {
 		return dice.getDiceAt(i);
 	}
+	public int getDiceToDraw(final int i) {
+		return dice.getDiceToDraw(i);
+	}
 
 	@Override
 	public String toString() {
@@ -118,8 +121,10 @@ public final class Game extends Observable implements IObservable, Runnable,
 		this.dice = dice;
 	}
 
+	//24.11 - removed the validation, has to be added later
 	private boolean checkAllStartnumbersValidness() {
 		currentMehtodName = "checkAllStartnumbersValidness";
+		System.out.println("In " + currentMehtodName);
 		boolean toReturn = true;
 		for (int i = 0; i < 4; i++) {
 			try {
@@ -142,7 +147,8 @@ public final class Game extends Observable implements IObservable, Runnable,
 
 		return toReturn;
 	}
-
+	
+	
 	private void checkEndPhase() {
 		int stonesInEndPhase = 0;
 		if (players.getColor() == Players.PLAYER_COLOR_WHITE) {
@@ -180,6 +186,8 @@ public final class Game extends Observable implements IObservable, Runnable,
 	private boolean notGetStartAndTargetNumbers() throws InterruptedException {
 		currentMehtodName = "getStartAndTargetNumbers";
 
+		System.out.println("In " + currentMehtodName);
+		
 		if (gameMap.isWhiteEaten()) { // white eaten
 
 			// TO ADD: check if is possible to play turn
@@ -219,10 +227,13 @@ public final class Game extends Observable implements IObservable, Runnable,
 			result = -1;
 			getStartNumber();
 
+			//24.11 - removed the validation, has to be added later
+			/*
 			if (checkAllStartnumbersValidness()) {
 				setStatus(YOU_CAN_NOT_PLAY_WITH_THIS_STONE);
 				return true;
 			}
+			*/
 
 			// get targetNumber
 			result = -1;
@@ -248,7 +259,7 @@ public final class Game extends Observable implements IObservable, Runnable,
 		// useful in endphase or when stone is eaten and has to be returned back
 		// to desk
 		if (endPhase) {
-
+			System.out.println("It's endphase, trying automatic takeout");
 			int counter = 6;
 			if (players.getColor() == Players.PLAYER_COLOR_BLACK) { // black
 
@@ -303,6 +314,8 @@ public final class Game extends Observable implements IObservable, Runnable,
 
 			checkEndPhase();
 
+			//24.11 - removed the validation, has to be added later
+			/*
 			for (int i = 0; i < 24; i++) {
 				if (gameMap.getField(i).getStoneColor() == players.getColor()) {
 					startNumber = i;
@@ -312,6 +325,7 @@ public final class Game extends Observable implements IObservable, Runnable,
 					}
 				}
 			}
+			*/
 
 			if (endPhase) {
 				startNumber = -1;
@@ -424,4 +438,6 @@ public final class Game extends Observable implements IObservable, Runnable,
 			Log.verbose(e);
 		}
 	}
+
+	
 }
