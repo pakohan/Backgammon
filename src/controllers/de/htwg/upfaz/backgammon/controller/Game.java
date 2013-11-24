@@ -1,7 +1,6 @@
 package controllers.de.htwg.upfaz.backgammon.controller;
 
 import controllers.de.htwg.upfaz.backgammon.entities.IPlayer;
-import controllers.de.htwg.upfaz.backgammon.entities.Player;
 import controllers.de.htwg.upfaz.backgammon.gui.Constances;
 import controllers.de.htwg.upfaz.backgammon.gui.Log;
 import controllers.de.htwg.util.observer.IObservable;
@@ -13,35 +12,29 @@ public final class Game
 
     private static final int STONES_TO_WIN = 15;
 
-    private final IPlayer[] players;
+    private Players players;
     private GameMap gameMap;
 
     private int winner;
     private boolean endPhase;
     private Dice dice = new Dice(0);
-    private State state;
 
     private int startNumber = -1;
     private int targetNumber = -1;
 
     private String status = "Let's the game begin!";
     private String currentMehtodName = "Begin";
-    private int currentPlayer;
     private int result;
 
     private static final String PLAYER_S_IS_THE_WINNER = "Player %s is the winner!";
-    private static final String PLAYER_S_IT_S_YOUR_TURN = "Player %s, it's your Turn!";
     private static final String STRING1 = "Setting startNumber to %d and targetNumber to %d";
     public static final String STRING2 = "Can't jump this Field (Color problem)";
     public static final String YOU_CAN_NOT_PLAY_WITH_THIS_STONE = "You can not play with this stone!";
 
     public Game() {
 
-        gameMap = new GameMap();
-        players = new IPlayer[2];
-        players[0] = new Player(0);
-        players[1] = new Player(1);
-        currentPlayer = 1;
+        players = new Players(this);
+        gameMap = new GameMap(this, players);
         notifyObservers();
     }
 
@@ -86,7 +79,7 @@ public final class Game
     }
 
     public IPlayer getCurrentPlayer() {
-        return players[currentPlayer];
+        return players.getCurrentPlayer();
     }
 
     public int getDiceAt(final int i) {
@@ -103,24 +96,8 @@ public final class Game
     }
 
 
-    /* Move, take out or eat another stone. */
-    private void doSomethingWithStones() {
-        currentMehtodName = "doSomethingWithStones";
-
-        if (gameMap.getField(targetNumber).getNumberStones() == 1 && gameMap.getField(targetNumber).getStoneColor() != players[currentPlayer].getColor()) {
-
-            gameMap.eatStone(startNumber, targetNumber, players[currentPlayer]);
-        } else if (endPhase && targetNumber > GameMap.FIELD_EATEN_WHITE) {
-
-            gameMap.takeOutStone(startNumber, targetNumber);
-        } else {
-
-            gameMap.moveStone(startNumber, targetNumber, players[currentPlayer]);
-        }
-    }
-
     private boolean isNotCheckDirection() {
-        if (players[currentPlayer].getColor() == GameMap.PLAYER_COLOR_WHITE && targetNumber <= startNumber || players[currentPlayer].getColor() == GameMap.PLAYER_COLOR_BLACK && targetNumber >= startNumber) {
+        if (players.getColor() == Players.PLAYER_COLOR_WHITE && targetNumber <= startNumber || players.getColor() == Players.PLAYER_COLOR_BLACK && targetNumber >= startNumber) {
             setStatus("You're going in the wrong direction!");
             return true;
         }
@@ -145,7 +122,7 @@ public final class Game
         currentMehtodName = "checkAllStartnumbersValidness";
         boolean toReturn = true;
         for (int i = 0; i < 4; i++) {
-            if (dice.getDiceAt(i) != 0 && !((players[currentPlayer].getColor() == GameMap.PLAYER_COLOR_WHITE && (startNumber + dice.getDiceAt(i) > 23 || gameMap.getField(startNumber + dice.getDiceAt(i)).isNotJumpable(players[currentPlayer].getColor()))) || (players[currentPlayer].getColor() == GameMap.PLAYER_COLOR_BLACK && (startNumber - dice.getDiceAt(i) < 0 || gameMap.getField(startNumber - dice.getDiceAt(i)).isNotJumpable(players[currentPlayer].getColor()))))) {
+            if (dice.getDiceAt(i) != 0 && !((players.getColor() == Players.PLAYER_COLOR_WHITE && (startNumber + dice.getDiceAt(i) > 23 || gameMap.getField(startNumber + dice.getDiceAt(i)).isNotJumpable(players.getColor()))) || (players.getColor() == Players.PLAYER_COLOR_BLACK && (startNumber - dice.getDiceAt(i) < 0 || gameMap.getField(startNumber - dice.getDiceAt(i)).isNotJumpable(players.getColor()))))) {
                 toReturn = false;
             }
         }
@@ -155,10 +132,10 @@ public final class Game
 
     private void checkEndPhase() {
         int stonesInEndPhase = 0;
-        if (players[currentPlayer].getColor() == GameMap.PLAYER_COLOR_WHITE) {
+        if (players.getColor() == Players.PLAYER_COLOR_WHITE) {
             for (int i = 18; i <= 23; i++) { // Fields 18-23 for white player
                 // are endphase fields
-                if (gameMap.getField(i).getStoneColor() == players[currentPlayer].getColor()) {
+                if (gameMap.getField(i).getStoneColor() == players.getColor()) {
                     stonesInEndPhase += gameMap.getField(i).getNumberStones();
                 }
             }
@@ -166,7 +143,7 @@ public final class Game
         } else {
             for (int i = 5; i >= 0; i--) { // Fields 0-5 for black player are
                 // endphase fields
-                if (gameMap.getField(i).getStoneColor() == players[currentPlayer].getColor()) {
+                if (gameMap.getField(i).getStoneColor() == players.getColor()) {
                     stonesInEndPhase += gameMap.getField(i).getNumberStones();
                 }
             }
@@ -180,16 +157,6 @@ public final class Game
         }
     }
 
-
-    private void changeCurrentPlayer() {
-        if (currentPlayer == 1) {
-            currentPlayer = 0;
-        } else {
-            currentPlayer = 1;
-        }
-        setStatus(String.format(PLAYER_S_IT_S_YOUR_TURN, players[currentPlayer]));
-    }
-
     // this function works with gui - that's why the tui
     // doesn't work now
     // called in startRound() and works with BackgammonFrame bf
@@ -200,7 +167,7 @@ public final class Game
             throws InterruptedException {
         currentMehtodName = "getStartAndTargetNumbers";
 
-        if (players[currentPlayer].getColor() == GameMap.PLAYER_COLOR_WHITE && gameMap.getField(GameMap.FIELD_EATEN_WHITE).getNumberStones() > 0) { //white eaten
+        if (gameMap.isWhiteEaten()) { //white eaten
 
             // TO ADD: check if is possible to play turn
             startNumber = GameMap.FIELD_EATEN_WHITE;
@@ -210,7 +177,7 @@ public final class Game
                 Thread.sleep(Constances.TIME_TO_SLEEP_IN_MS);
             }
             targetNumber = result;
-        } else if (players[currentPlayer].getColor() == GameMap.PLAYER_COLOR_BLACK && gameMap.getField(GameMap.FIELD_EATEN_BLACK).getNumberStones() > 0) { //black eaten
+        } else if (gameMap.isBlackEaten()) { //black eaten
 
             startNumber = GameMap.FIELD_EATEN_BLACK;
 
@@ -260,7 +227,7 @@ public final class Game
 
     private void startRound()
             throws InterruptedException {
-        changeCurrentPlayer();
+        players.changeCurrentPlayer();
         checkEndPhase();
 
         dice = new Dice();
@@ -271,19 +238,19 @@ public final class Game
         if (endPhase) {
 
             int counter = 6;
-            if (players[currentPlayer].getColor() == GameMap.PLAYER_COLOR_BLACK) { // black
+            if (players.getColor() == Players.PLAYER_COLOR_BLACK) { // black
 
                 for (int i = 5; i >= 0; i--) {
-                    if (gameMap.getField(i).getStoneColor() == players[currentPlayer].getColor()) {
+                    if (gameMap.getField(i).getStoneColor() == Players.PLAYER_COLOR_BLACK) {
                         break;
                     } else {
-                        counter--;
+                        counter--; // wtf!
                     }
                 }
             } else { // white
 
                 for (int i = 18; i <= 23; i++) {
-                    if (gameMap.getField(i).getStoneColor() == players[currentPlayer].getColor()) {
+                    if (gameMap.getField(i).getStoneColor() == players.getColor()) {
                         break;
                     } else {
                         counter--;
@@ -293,7 +260,7 @@ public final class Game
 
             for (int i = 0; i < 4; i++) {
                 if (dice.getDiceAt(i) >= counter) {
-                    if (players[currentPlayer].getColor() == GameMap.PLAYER_COLOR_BLACK) {
+                    if (players.getColor() == Players.PLAYER_COLOR_BLACK) {
                         startNumber = counter - 1;
                         targetNumber = 26;
                     } else {
@@ -316,8 +283,8 @@ public final class Game
         while (dice.hasTurnsLeft()) {
             // check for winner
             if (checkForWinner()) {
-                setStatus(String.format(PLAYER_S_IS_THE_WINNER, players[currentPlayer]));
-                winner = players[currentPlayer].getColor() + 1;
+                setStatus(String.format(PLAYER_S_IS_THE_WINNER, players.getCurrentPlayer()));
+                winner = players.getColor() + 1;
                 return;
             }
 
@@ -325,7 +292,7 @@ public final class Game
 
 
             for (int i = 0; i < 24; i++) {
-                if (gameMap.getField(i).getStoneColor() == players[currentPlayer].getColor()) {
+                if (gameMap.getField(i).getStoneColor() == players.getColor()) {
                     startNumber = i;
                     if (!checkAllStartnumbersValidness()) {
                         startNumber = -1;
@@ -354,8 +321,8 @@ public final class Game
 
             // check for winner
             if (checkForWinner()) {
-                setStatus(String.format(PLAYER_S_IS_THE_WINNER, players[currentPlayer].toString()));
-                winner = players[currentPlayer].getColor() + 1;
+                setStatus(String.format(PLAYER_S_IS_THE_WINNER, players.getCurrentPlayer().toString()));
+                winner = players.getColor() + 1;
                 return;
             }
         }
@@ -379,10 +346,10 @@ public final class Game
             Log.verbose(e);
         }
 
-        if (gameMap.getField(localStartNumber).getStoneColor() == players[currentPlayer].getColor()) {
+        if (gameMap.getField(localStartNumber).getStoneColor() == players.getColor()) {
             startNumber = localStartNumber;
         } else {
-            System.err.println("You can't move this piece or there are no pieces");
+            Log.verbose("You can't move this piece or there are no pieces");
             result = -1;
             getStartNumber();
         }
@@ -397,8 +364,8 @@ public final class Game
 
             if (result >= 0 && result < GameMap.FIELD_EATEN_BLACK) {
 
-                if (gameMap.getField(result).isNotJumpable(players[currentPlayer].getColor())) {
-                    System.err.println(STRING2);
+                if (gameMap.getField(result).isNotJumpable(players.getColor())) {
+                    Log.verbose(STRING2);
                     result = -1;
                     getEndNumber();//or get startNumber()?
                 }

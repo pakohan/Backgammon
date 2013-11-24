@@ -8,19 +8,21 @@ public final class GameMap {
     public static final int TOTAL_FIELDS_NR = 28;
     public static final int FIELD_EATEN_WHITE = 25;
     public static final int FIELD_EATEN_BLACK = 24;
-    public static final int PLAYER_COLOR_WHITE = 0;
-    public static final int PLAYER_COLOR_BLACK = 1;
     public static final int FIELD_END_WHITE = 27;
     public static final int FIELD_END_BLACK = 26;
 
     private Field[] gameMap;
+    private IPlayer players;
 
-    public GameMap() {
+    public GameMap(final IGame game /*will be used later*/, final IPlayer players) {
+        this.players = players;
         gameMap = new Field[TOTAL_FIELDS_NR];
 
         for (int i = 0; i < gameMap.length; i++) {
             gameMap[i] = new Field(i);
         }
+
+        initStones();
     }
 
     public Field[] moveStone(final int startNumber, final int targetNumber, IPlayer currentPlayer) {
@@ -44,7 +46,7 @@ public final class GameMap {
     public void eatStone(final int startNumber, final int targetNumber, IPlayer currentPlayer) {
         gameMap[targetNumber].setNumberStones(1);
         gameMap[targetNumber].setStoneColor(currentPlayer.getColor());
-        if (currentPlayer.getColor() == PLAYER_COLOR_WHITE) {
+        if (currentPlayer.getColor() == Players.PLAYER_COLOR_WHITE) {
             gameMap[FIELD_EATEN_BLACK].setNumberStones(gameMap[FIELD_EATEN_BLACK].getNumberStones() + 1);
             gameMap[FIELD_EATEN_BLACK].setStoneColor(1);
         } else {
@@ -55,6 +57,15 @@ public final class GameMap {
     }
     public IField getField(final int targetNumber) {
         return gameMap[targetNumber];
+    }
+    public IField[] getFields() {
+        return gameMap;
+    }
+    public boolean isWhiteEaten() {
+        return players.getColor() == Players.PLAYER_COLOR_WHITE && getField(FIELD_EATEN_WHITE).getNumberStones() > 0;
+    }
+    public boolean isBlackEaten() {
+        return players.getColor() == Players.PLAYER_COLOR_BLACK && getField(FIELD_EATEN_BLACK).getNumberStones() > 0;
     }
 
     private void initStones() {

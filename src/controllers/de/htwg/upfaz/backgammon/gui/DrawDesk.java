@@ -49,7 +49,7 @@ public final class DrawDesk
     }
 
     void paintStones(final Graphics g, final Image image, final int x, final int y, final int a) {
-        for (int i = 0; i < currentGame.getGameMap()[a].getNumberStones(); i++) {
+        for (int i = 0; i < currentGame.getGameMap().getField(a).getNumberStones(); i++) {
             if (a < INT_12 || a == Constances.FIELD_EATEN_BLACK || a == Constances.FIELD_END_BLACK) {
                 g.drawImage(image, x, y + i * DRAW_STONE_STEP, null);
             } else {
@@ -97,7 +97,7 @@ public final class DrawDesk
     private void drawStones(final Graphics g) {
         for (int i = 0; i < Constances.TOTAL_FIELDS_NR; i++) {
             final Image imageToDraw;
-            if (currentGame.getGameMap()[i].getStoneColor() == 0) {
+            if (currentGame.getGameMap().getField(i).getStoneColor() == 0) {
                 imageToDraw = stonew;
             } else {
                 imageToDraw = stoneb;

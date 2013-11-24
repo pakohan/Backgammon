@@ -53,7 +53,7 @@ public final class Tui
 
     @Override
     public void update() {
-        printField(currentGame.getGameMap());
+        printField(currentGame.getGameMap().getFields());
         System.out.println(currentGame.getStatus());
     }
     @Override

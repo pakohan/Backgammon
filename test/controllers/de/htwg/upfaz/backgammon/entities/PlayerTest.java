@@ -24,9 +24,9 @@ public class PlayerTest
     //	}
 
     public void testgetColor() {
-        player.setColor(0);
+        // player.setColor(0);
         assertEquals(0, player.getColor());
-        player.setColor(1);
+        // player.setColor(1);
         assertEquals(1, player.getColor());
     }
 }

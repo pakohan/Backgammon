@@ -10,11 +10,6 @@ public final class Player
     }
 
     @Override
-    public void setColor(final int newVar) {
-        color = newVar;
-    }
-
-    @Override
     public int getColor() {
         return color;
     }
