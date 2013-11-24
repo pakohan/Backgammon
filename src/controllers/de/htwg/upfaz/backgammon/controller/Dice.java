@@ -49,6 +49,7 @@ public final class Dice {
     }
 
     public int getDiceAt(final int i) {
+    	System.out.println("getDiceAt value: " + values[i]);
         return values[i];
     }
 

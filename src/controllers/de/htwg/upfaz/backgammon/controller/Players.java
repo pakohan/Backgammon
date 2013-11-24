@@ -12,9 +12,9 @@ public final class Players implements IPlayer {
 
     public Players(final IGame game /*will be used later*/) {
         players = new IPlayer[2];
-        players[0] = new Player(0);
-        players[1] = new Player(1);
-        currentPlayer = 1;
+        players[0] = new Player(PLAYER_COLOR_WHITE);
+        players[1] = new Player(PLAYER_COLOR_BLACK);
+        currentPlayer = PLAYER_COLOR_BLACK;
     }
 
     public IPlayer getCurrentPlayer() {

@@ -38,7 +38,7 @@ public final class DrawDesk
         dice = new Image[6];
 
         for (int i = 0; i < dice.length; i++) {
-            dice[i] = getImage("dice" + i);
+            dice[i] = getImage("dice" + (i+1));
         }
         stoneb = getImage("grau");
         stonew = getImage("weiss");
@@ -123,7 +123,7 @@ public final class DrawDesk
         final int diceX = Constances.DICE_X + i * Constances.DICE_SIZE;
 
         try {
-            g.drawImage(dice[currentGame.getDiceAt(i)], diceX, Constances.DICE_Y, null);
+            g.drawImage(dice[currentGame.getDiceAt(i) - 1], diceX, Constances.DICE_Y, null);
         } catch (Exception e) {
             Log.verbose(e);
         }
