@@ -18,8 +18,8 @@ public final class Game extends Observable implements IObservable, Runnable,
 	private boolean endPhase;
 	private Dice dice;
 
-	private int startNumber = -1;
-	private int targetNumber = -1;
+	private int firstClick = -1;
+	private int secondClick = -1;
 
 	private String status = "Let's the game begin!";
 	private String currentMehtodName = "Begin";
@@ -87,7 +87,7 @@ public final class Game extends Observable implements IObservable, Runnable,
 	public String toString() {
 		return String
 				.format("start = %d, target = %d, result = %d; Current player: %s; Method: %s",
-						startNumber, targetNumber, result, getCurrentPlayer(),
+						firstClick, secondClick, result, getCurrentPlayer(),
 						currentMehtodName);
 	}
 
@@ -98,9 +98,9 @@ public final class Game extends Observable implements IObservable, Runnable,
 
 	private boolean isNotCheckDirection() {
 		if (players.getColor() == Players.PLAYER_COLOR_WHITE
-				&& targetNumber <= startNumber
+				&& secondClick <= firstClick
 				|| players.getColor() == Players.PLAYER_COLOR_BLACK
-				&& targetNumber >= startNumber) {
+				&& secondClick >= firstClick) {
 			setStatus("You're going in the wrong direction!");
 			return true;
 		}
@@ -129,12 +129,12 @@ public final class Game extends Observable implements IObservable, Runnable,
 		for (int i = 0; i < 4; i++) {
 			try {
 				if (dice.getDiceAt(i) != 0
-						&& !((players.getColor() == Players.PLAYER_COLOR_WHITE && (startNumber
+						&& !((players.getColor() == Players.PLAYER_COLOR_WHITE && (firstClick
 								+ dice.getDiceAt(i) > 23 || gameMap.getField(
-								startNumber + dice.getDiceAt(i)).isNotJumpable(
-								players.getColor()))) || (players.getColor() == Players.PLAYER_COLOR_BLACK && (startNumber
+								firstClick + dice.getDiceAt(i)).isNotJumpable(
+								players.getColor()))) || (players.getColor() == Players.PLAYER_COLOR_BLACK && (firstClick
 								- dice.getDiceAt(i) < 0 || gameMap.getField(
-								startNumber - dice.getDiceAt(i)).isNotJumpable(
+								firstClick - dice.getDiceAt(i)).isNotJumpable(
 								players.getColor()))))) {
 					toReturn = false;
 				}
@@ -191,23 +191,23 @@ public final class Game extends Observable implements IObservable, Runnable,
 		if (gameMap.isWhiteEaten()) { // white eaten
 
 			// TO ADD: check if is possible to play turn
-			startNumber = GameMap.FIELD_EATEN_WHITE;
+			firstClick = GameMap.FIELD_EATEN_WHITE;
 			// get targetNumber
 			result = -1;
 			while (result == -1 || result > 6) {
 				Thread.sleep(Constances.TIME_TO_SLEEP_IN_MS);
 			}
-			targetNumber = result;
+			secondClick = result;
 		} else if (gameMap.isBlackEaten()) { // black eaten
 
-			startNumber = GameMap.FIELD_EATEN_BLACK;
+			firstClick = GameMap.FIELD_EATEN_BLACK;
 
 			// get targetNumber
 			result = -1;
 			while (result >= GameMap.FIELD_EATEN_BLACK || result < 18) {
 				Thread.sleep(Constances.TIME_TO_SLEEP_IN_MS);
 			}
-			targetNumber = result;
+			secondClick = result;
 		} else if (endPhase) { // endphase
 			// get startNumber
 			result = -1;
@@ -218,7 +218,7 @@ public final class Game extends Observable implements IObservable, Runnable,
 			getEndNumber();
 
 			// check direction
-			if (targetNumber < 24 && isNotCheckDirection()) {
+			if (secondClick < 24 && isNotCheckDirection()) {
 				return true;
 			}
 		} else { // normal turn
@@ -240,12 +240,12 @@ public final class Game extends Observable implements IObservable, Runnable,
 			getEndNumber();
 
 			// check direction
-			if (targetNumber < 24 && isNotCheckDirection()) {
+			if (secondClick < 24 && isNotCheckDirection()) {
 				return true;
 			}
 		}
 
-		setStatus(String.format(STRING1, startNumber, targetNumber));
+		setStatus(String.format(STRING1, firstClick, secondClick));
 		return false;
 	}
 
@@ -284,16 +284,16 @@ public final class Game extends Observable implements IObservable, Runnable,
 			for (int i = 0; i < 4; i++) {
 				if (dice.getDiceAt(i) >= counter) {
 					if (players.getColor() == Players.PLAYER_COLOR_BLACK) {
-						startNumber = counter - 1;
-						targetNumber = 26;
+						firstClick = counter - 1;
+						secondClick = 26;
 					} else {
-						startNumber = 24 - counter;
-						targetNumber = 27;
+						firstClick = 24 - counter;
+						secondClick = 27;
 					}
 					try {
-						if (gameMap.getField(startNumber).getNumberStones() > 0) {
-							gameMap.takeOutStone(startNumber, targetNumber);
-							renewJumps(startNumber, targetNumber);
+						if (gameMap.getField(firstClick).getNumberStones() > 0) {
+							gameMap.moveStone(firstClick, secondClick);
+							renewJumps(firstClick, secondClick);
 						}
 					} catch (Exception ignored) {
 						return;
@@ -328,7 +328,7 @@ public final class Game extends Observable implements IObservable, Runnable,
 			*/
 
 			if (endPhase) {
-				startNumber = -1;
+				firstClick = -1;
 				return;
 			}
 
@@ -336,14 +336,15 @@ public final class Game extends Observable implements IObservable, Runnable,
 			// parallelised)
 			// if no numbers got - try one more time
 			if (notGetStartAndTargetNumbers()) {
-				startNumber = -1;
+				firstClick = -1;
 				continue;
 			}
 
 			// change gameMap (Move, take out or eat another stone)
-			renewJumps(startNumber, targetNumber);
-			startNumber = -1;
-			targetNumber = -1;
+			gameMap.moveStone(firstClick, secondClick);
+			renewJumps(firstClick, secondClick);
+			firstClick = -1;
+			secondClick = -1;
 
 			// check for winner
 			if (checkForWinner()) {
@@ -376,7 +377,7 @@ public final class Game extends Observable implements IObservable, Runnable,
 
 		if (gameMap.getField(localStartNumber).getStoneColor() == players
 				.getColor()) {
-			startNumber = localStartNumber;
+			firstClick = localStartNumber;
 		} else {
 			Log.verbose("You can't move this piece or there are no pieces");
 			result = -1;
@@ -390,7 +391,7 @@ public final class Game extends Observable implements IObservable, Runnable,
 			while (result < 0
 					|| result == GameMap.FIELD_EATEN_BLACK
 					|| result == GameMap.FIELD_EATEN_WHITE
-					|| result == startNumber
+					|| result == firstClick
 					|| (result == GameMap.FIELD_END_BLACK || result == GameMap.FIELD_END_WHITE)
 					&& !endPhase) {
 				Thread.sleep(Constances.TIME_TO_SLEEP_IN_MS);
@@ -404,8 +405,8 @@ public final class Game extends Observable implements IObservable, Runnable,
 					getEndNumber();// or get startNumber()?
 				}
 
-				if (dice.checkNormalEndTarget(Math.abs(result - startNumber))) {
-					this.targetNumber = result;
+				if (dice.checkNormalEndTarget(Math.abs(result - firstClick))) {
+					this.secondClick = result;
 				} else {
 					result = -1;
 					getEndNumber();// or get startNumber()?
@@ -415,19 +416,19 @@ public final class Game extends Observable implements IObservable, Runnable,
 
 				for (int i = 0; i < 4; i++) {
 					returnVal = returnVal
-							|| dice.getDiceAt(i) >= startNumber + 1;
+							|| dice.getDiceAt(i) >= firstClick + 1;
 				}
 
 				if (returnVal) {
-					targetNumber = GameMap.FIELD_END_BLACK;
+					secondClick = GameMap.FIELD_END_BLACK;
 				} else {
 					result = -1;
 					getEndNumber();// or get startNumber()?
 				}
 			} else if (result == GameMap.FIELD_END_WHITE) {
 				if (dice.checkNormalEndTarget(Math.abs(GameMap.FIELD_END_WHITE
-						- startNumber - 3))) {
-					targetNumber = GameMap.FIELD_END_WHITE;
+						- firstClick - 3))) {
+					secondClick = GameMap.FIELD_END_WHITE;
 				} else {
 					result = -1;
 					getEndNumber();// or get startNumber()?

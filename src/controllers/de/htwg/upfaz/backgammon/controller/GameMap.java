@@ -25,28 +25,23 @@ public final class GameMap {
         initStones();
     }
 
-    public Field[] moveStone(final int startNumber, final int targetNumber, IPlayer currentPlayer) {
+    public void moveStone(final int startNumber, final int targetNumber) {
         gameMap[targetNumber].setNumberStones(gameMap[targetNumber].getNumberStones() + 1);
-        gameMap[targetNumber].setStoneColor(currentPlayer.getColor());
+        if (targetNumber != 26 || targetNumber != 27) {
+        	gameMap[targetNumber].setStoneColor(players.getColor());
+        }
         gameMap[startNumber].setNumberStones(gameMap[startNumber].getNumberStones() - 1);
         if (gameMap[startNumber].getNumberStones() == 0) {
             gameMap[startNumber].setStoneColor(-1);
         }
-        return gameMap;
+       
     }
 
-    public void takeOutStone(final int startNumber, final int targetNumber) {
-        gameMap[targetNumber].setNumberStones(gameMap[targetNumber].getNumberStones() + 1);
-        gameMap[startNumber].setNumberStones(gameMap[startNumber].getNumberStones() - 1);
-        if (gameMap[startNumber].getNumberStones() == 0) {
-            gameMap[startNumber].setStoneColor(-1);
-        }
-    }
 
-    public void eatStone(final int startNumber, final int targetNumber, IPlayer currentPlayer) {
+    public void eatStone(final int startNumber, final int targetNumber) {
         gameMap[targetNumber].setNumberStones(1);
-        gameMap[targetNumber].setStoneColor(currentPlayer.getColor());
-        if (currentPlayer.getColor() == Players.PLAYER_COLOR_WHITE) {
+        gameMap[targetNumber].setStoneColor(players.getColor());
+        if (players.getColor() == Players.PLAYER_COLOR_WHITE) {
             gameMap[FIELD_EATEN_BLACK].setNumberStones(gameMap[FIELD_EATEN_BLACK].getNumberStones() + 1);
             gameMap[FIELD_EATEN_BLACK].setStoneColor(1);
         } else {
