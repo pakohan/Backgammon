@@ -1,9 +1,11 @@
 package controllers.de.htwg.upfaz.backgammon.gui;
 
 import controllers.de.htwg.upfaz.backgammon.controller.Game;
+import controllers.de.htwg.upfaz.backgammon.controller.GameNew;
 import controllers.de.htwg.util.observer.IObserver;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -14,10 +16,11 @@ public final class BackgammonFrame extends JFrame implements MouseListener,
 
 	private static final long serialVersionUID = 1L;
 
-	private final Game currentGame;
+	//private final Game currentGame;
+	private final GameNew currentGame;
 	private final StatusPanel statusPanel;
 
-	public BackgammonFrame(final Game gm) {
+	public BackgammonFrame(final GameNew gm) {
 		currentGame = gm;
 
 		setTitle("Upfaz backgammon");
@@ -52,8 +55,9 @@ public final class BackgammonFrame extends JFrame implements MouseListener,
 		final int x = e.getX();
 		final int y = e.getY();
 		// convert coordinates in field number
-		currentGame.setResult(getClickedField(x, y));
+		//currentGame.setResult(getClickedField(x, y));
 
+		currentGame.click(getClickedField(x, y));
 		mouseHandler(e);
 	}
 

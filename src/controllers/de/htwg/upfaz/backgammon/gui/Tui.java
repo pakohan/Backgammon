@@ -1,6 +1,7 @@
 package controllers.de.htwg.upfaz.backgammon.gui;
 
 import controllers.de.htwg.upfaz.backgammon.controller.Game;
+import controllers.de.htwg.upfaz.backgammon.controller.GameNew;
 import controllers.de.htwg.upfaz.backgammon.entities.IField;
 import controllers.de.htwg.util.observer.IObserver;
 
@@ -8,10 +9,12 @@ import controllers.de.htwg.util.observer.IObserver;
 public final class Tui
         implements IObserver {
 
-    private final Game currentGame;
+    //private final Game currentGame;
 
-    public Tui(final Game gm) {
-        currentGame = gm;
+    private final GameNew currentGame;
+    
+    public Tui(final GameNew currentGame2) {
+        currentGame = currentGame2;
     }
 
     public void printField(final IField[] gameMap) {
@@ -53,8 +56,8 @@ public final class Tui
 
     @Override
     public void update() {
-        printField(currentGame.getGameMap().getFields());
-        System.out.println(currentGame.getStatus());
+        //printField(currentGame.getGameMap().getFields());
+        //System.out.println(currentGame.getStatus());
     }
     @Override
     public String toString() {
