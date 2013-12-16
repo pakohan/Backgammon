@@ -28,4 +28,8 @@ public final class Constances {
     public static final int FIELD_EATEN_BLACK = 24;
     public static final int FIELD_END_WHITE = 27;
     public static final int FIELD_END_BLACK = 26;
+    
+    public static final int STONES_TO_WIN = 15;
+    
+	public static final String PLAYER_S_IS_THE_WINNER = "Player %s is the winner!";
 }

@@ -25,7 +25,7 @@ public final class Game extends Observable implements IObservable, Runnable,
 	private String currentMehtodName = "Begin";
 	private int result;
 
-	private static final String PLAYER_S_IS_THE_WINNER = "Player %s is the winner!";
+
 	private static final String STRING1 = "Setting startNumber to %d and targetNumber to %d";
 	public static final String STRING2 = "Can't jump this Field (Color problem)";
 	public static final String YOU_CAN_NOT_PLAY_WITH_THIS_STONE = "You can not play with this stone!";
@@ -83,19 +83,12 @@ public final class Game extends Observable implements IObservable, Runnable,
 		return dice.getDiceToDraw(i);
 	}
 
-	@Override
-	public String toString() {
-		return String
-				.format("start = %d, target = %d, result = %d; Current player: %s; Method: %s",
-						firstClick, secondClick, result, getCurrentPlayer(),
-						currentMehtodName);
-	}
-
+	/*  IMPLEMENTED IN GAMENEW
 	private boolean checkForWinner() {
 		return gameMap.getField(GameMap.FIELD_END_BLACK).getNumberStones() == STONES_TO_WIN
 				|| gameMap.getField(GameMap.FIELD_END_WHITE).getNumberStones() == STONES_TO_WIN;
 	}
-
+ 	*/
 	private boolean isNotCheckDirection() {
 		if (players.getColor() == Players.PLAYER_COLOR_WHITE
 				&& secondClick <= firstClick
@@ -106,7 +99,7 @@ public final class Game extends Observable implements IObservable, Runnable,
 		}
 		return false;
 	}
-
+	/*  IMPLEMENTED IN GAMENEW
 	private void renewJumps(final int start, final int target) {
 		currentMehtodName = "move";
 		if (target >= GameMap.FIELD_END_BLACK) {
@@ -115,6 +108,7 @@ public final class Game extends Observable implements IObservable, Runnable,
 			dice.move(Math.abs(start - target));
 		}
 	}
+	*/
 
 	@Override
 	public void setDice(final Dice dice) {
@@ -250,11 +244,13 @@ public final class Game extends Observable implements IObservable, Runnable,
 	}
 
 	private void startRound() throws InterruptedException {
+		/* IMPLEMENTED IN GAMENEW
 		players.changeCurrentPlayer();
 		checkEndPhase();
 
 		dice = new Dice();
-
+		
+		*/
 		// automatic takeout for taking out stones automatically if its possible
 		// useful in endphase or when stone is eaten and has to be returned back
 		// to desk
@@ -304,18 +300,11 @@ public final class Game extends Observable implements IObservable, Runnable,
 
 		// Actual "turn" - one player has 0 to 4 turns per round
 		while (dice.hasTurnsLeft()) {
-			// check for winner
-			if (checkForWinner()) {
-				setStatus(String.format(PLAYER_S_IS_THE_WINNER,
-						players.getCurrentPlayer()));
-				winner = players.getColor() + 1;
-				return;
-			}
+			
 
 			checkEndPhase();
 
-			//24.11 - removed the validation, has to be added later
-			/*
+			
 			for (int i = 0; i < 24; i++) {
 				if (gameMap.getField(i).getStoneColor() == players.getColor()) {
 					startNumber = i;
@@ -325,7 +314,7 @@ public final class Game extends Observable implements IObservable, Runnable,
 					}
 				}
 			}
-			*/
+			
 
 			if (endPhase) {
 				firstClick = -1;
@@ -338,43 +327,18 @@ public final class Game extends Observable implements IObservable, Runnable,
 			if (notGetStartAndTargetNumbers()) {
 				firstClick = -1;
 				continue;
-			}
-
-			// change gameMap (Move, take out or eat another stone)
-			gameMap.moveStone(firstClick, secondClick);
-			renewJumps(firstClick, secondClick);
-			firstClick = -1;
-			secondClick = -1;
-
-			// check for winner
-			if (checkForWinner()) {
-				setStatus(String.format(PLAYER_S_IS_THE_WINNER, players
-						.getCurrentPlayer().toString()));
-				winner = players.getColor() + 1;
-				return;
-			}
+			}			
 		}
 
 		notifyObservers();
 	}
 
+	private void getStartNumber() {}
+	/* IMPLEMENTED IN GAMENEW	
 	private void getStartNumber() {
 
 		int localStartNumber = result;
-		try {
-
-			while (localStartNumber < 0
-					|| localStartNumber >= GameMap.FIELD_EATEN_BLACK) {
-				Thread.sleep(Constances.TIME_TO_SLEEP_IN_MS);
-				localStartNumber = result;
-			}
-		} catch (InterruptedException e) {
-			Log.verbose(e);
-		} catch (Exception e) {
-
-			Log.verbose(e);
-		}
-
+		
 		if (gameMap.getField(localStartNumber).getStoneColor() == players
 				.getColor()) {
 			firstClick = localStartNumber;
@@ -384,6 +348,7 @@ public final class Game extends Observable implements IObservable, Runnable,
 			getStartNumber();
 		}
 	}
+	*/
 
 	private void getEndNumber() {
 		try {

@@ -1,11 +1,8 @@
 package controllers.de.htwg.upfaz.backgammon.gui;
 
-import controllers.de.htwg.upfaz.backgammon.controller.Game;
 import controllers.de.htwg.upfaz.backgammon.controller.GameNew;
 import controllers.de.htwg.util.observer.IObserver;
-
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -30,12 +27,6 @@ public final class BackgammonFrame extends JFrame implements MouseListener,
 		setResizable(false);
 		final Container pane = getContentPane();
 		pane.setLayout(new BorderLayout());
-
-		/*
-		 * bp = new BackgroundPanel(); pane.add(bp); dices = new
-		 * Dices(currentGame.getJumps()); pane.add(dices); ds = new
-		 * DrawStones(currentGame.getGameMap()); pane.add(ds);
-		 */
 
 		final DrawDesk test = new DrawDesk(currentGame);
 		pane.add(test);
@@ -147,7 +138,14 @@ public final class BackgammonFrame extends JFrame implements MouseListener,
 	public void update() {
 		statusPanel.setText(currentGame.getStatus());
 		repaint();
+		if (currentGame.getWinner() != -1) {
+			winnerDialog();
+			currentGame.setWinner(-1);
+			startNewGameDialog();
+		}
 	}
+
+	
 
 	@Override
 	public void mouseDragged(final MouseEvent e) {
@@ -156,19 +154,23 @@ public final class BackgammonFrame extends JFrame implements MouseListener,
 
 	@Override
 	public void mouseMoved(final MouseEvent e) {
-		// mouseHandler(e);
-	}
-
-	private void mouseHandler(final MouseEvent e) {
 		final int x = e.getX();
 		final int y = e.getY();
 		currentGame.setStatus(x + ":" + y + " -#- " + currentGame.toString());
+	}
+
+	private void mouseHandler(final MouseEvent e) {
 		update();
 	}
 
 	public void winnerDialog() {
 		JOptionPane.showMessageDialog(this, currentGame.getCurrentPlayer()
 				+ " is the winner!", "Congratulations!",
+				JOptionPane.PLAIN_MESSAGE);
+	}
+	
+	private void startNewGameDialog() {
+		JOptionPane.showMessageDialog(this, "Start new game?", "Congratulations!",
 				JOptionPane.PLAIN_MESSAGE);
 	}
 }

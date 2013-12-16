@@ -3,6 +3,7 @@ package controllers.de.htwg.upfaz.backgammon.controller;
 import controllers.de.htwg.upfaz.backgammon.entities.Field;
 import controllers.de.htwg.upfaz.backgammon.entities.IField;
 import controllers.de.htwg.upfaz.backgammon.entities.IPlayer;
+import controllers.de.htwg.upfaz.backgammon.gui.Constances;
 
 public final class GameMap {
     public static final int TOTAL_FIELDS_NR = 28;
@@ -108,4 +109,11 @@ public final class GameMap {
 		 * gameMap[19].setNumberStones(5); gameMap[20].setNumberStones(5);
 		 */
     }
+    
+    public boolean checkForWinner() {
+		return gameMap[FIELD_END_BLACK].getNumberStones() == Constances.STONES_TO_WIN
+				|| gameMap[FIELD_END_WHITE].getNumberStones() == Constances.STONES_TO_WIN;
+	}
+    
+    
 }
