@@ -31,14 +31,12 @@ public final class GameMap {
         if (targetNumber != 26 || targetNumber != 27) {
         	gameMap[targetNumber].setStoneColor(players.getColor());
         }
-        System.out.println("Startnumber is: " + startNumber);
         int oldStones = gameMap[startNumber].getNumberStones();
         int newStones = oldStones - 1;
         gameMap[startNumber].setNumberStones(newStones);
         if (gameMap[startNumber].getNumberStones() == 0) {
             gameMap[startNumber].setStoneColor(-1);
-        }
-       
+        }   
     }
 
 

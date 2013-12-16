@@ -142,7 +142,7 @@ public final class Game extends Observable implements IObservable, Runnable,
 		return toReturn;
 	}
 	
-	
+	/*   IMPLEMENTED IN GAMENEW
 	private void checkEndPhase() {
 		int stonesInEndPhase = 0;
 		if (players.getColor() == Players.PLAYER_COLOR_WHITE) {
@@ -170,7 +170,7 @@ public final class Game extends Observable implements IObservable, Runnable,
 			setStatus("End Phase!");
 		}
 	}
-
+	*/
 	// this function works with gui - that's why the tui
 	// doesn't work now
 	// called in startRound() and works with BackgammonFrame bf
@@ -178,10 +178,6 @@ public final class Game extends Observable implements IObservable, Runnable,
 	// There is similar function for the tui,
 	// but I don't know how to make them work parallel
 	private boolean notGetStartAndTargetNumbers() throws InterruptedException {
-		currentMehtodName = "getStartAndTargetNumbers";
-
-		System.out.println("In " + currentMehtodName);
-		
 		if (gameMap.isWhiteEaten()) { // white eaten
 
 			// TO ADD: check if is possible to play turn
@@ -192,6 +188,7 @@ public final class Game extends Observable implements IObservable, Runnable,
 				Thread.sleep(Constances.TIME_TO_SLEEP_IN_MS);
 			}
 			secondClick = result;
+			
 		} else if (gameMap.isBlackEaten()) { // black eaten
 
 			firstClick = GameMap.FIELD_EATEN_BLACK;
@@ -238,8 +235,6 @@ public final class Game extends Observable implements IObservable, Runnable,
 				return true;
 			}
 		}
-
-		setStatus(String.format(STRING1, firstClick, secondClick));
 		return false;
 	}
 
@@ -289,7 +284,7 @@ public final class Game extends Observable implements IObservable, Runnable,
 					try {
 						if (gameMap.getField(firstClick).getNumberStones() > 0) {
 							gameMap.moveStone(firstClick, secondClick);
-							renewJumps(firstClick, secondClick);
+							
 						}
 					} catch (Exception ignored) {
 						return;

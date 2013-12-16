@@ -15,6 +15,7 @@ public class GameNew extends Observable implements IObservable, IGame {
 	private int firstClick = -1;
 	private int secondClick = -1;
 	private int winner = -1;
+	private boolean endPhase = false;
 
 	public GameNew() {
 		players = new Players(this);
@@ -71,16 +72,15 @@ public class GameNew extends Observable implements IObservable, IGame {
 			firstClick = -1;
 			secondClick = -1;
 		}
-		
+
 		// check for winner
 		if (gameMap.checkForWinner()) {
-			setStatus(String.format(Constances.PLAYER_S_IS_THE_WINNER, 
+			setStatus(String.format(Constances.PLAYER_S_IS_THE_WINNER,
 					players.getCurrentPlayer()));
 			setWinner(players.getColor() + 1);
 			return true;
 		}
 
-		
 		// better call this too often than not enough times
 		notifyObservers();
 		return returnVal;
@@ -102,13 +102,21 @@ public class GameNew extends Observable implements IObservable, IGame {
 	private boolean checkIfmovePossible() {
 		boolean toReturn = true;
 		// do checks if this move is possible
-		if (gameMap.getField(firstClick).getStoneColor() != players
-				.getColor()) {
-			System.out.println("You can't move this piece or there are no pieces");
+		if (gameMap.getField(firstClick).getStoneColor() != players.getColor()) {
+			System.out
+					.println("You can't move this piece or there are no pieces");
 			return false;
 		}
-		
-		
+
+		// check direction
+		if (secondClick < 24
+				&& (players.getColor() == Players.PLAYER_COLOR_WHITE
+						&& secondClick <= firstClick || players.getColor() == Players.PLAYER_COLOR_BLACK
+						&& secondClick >= firstClick)) {
+			System.out.println("You're going in the wrong direction!");
+			return false;
+		}
+
 		return toReturn;
 	}
 
@@ -122,25 +130,71 @@ public class GameNew extends Observable implements IObservable, IGame {
 	}
 
 	private void makeMove() {
+		checkEndPhase();
 		// perform the move
 
-		gameMap.moveStone(firstClick, secondClick);
+		if (gameMap.getField(secondClick).getNumberStones() == 1
+				&& gameMap.getField(secondClick).getStoneColor() != players
+						.getCurrentPlayer().getColor()) {
+
+			gameMap.eatStone(firstClick, secondClick);
+
+		}
+		/*
+		 * CHECK END PHASE else if (endPhase && (secondClick > 25)) {
+		 * 
+		 * gameMap.takeOutStone(firstClick, secondClick);
+		 * 
+		 * }
+		 */
+		else {
+
+			gameMap.moveStone(firstClick, secondClick);
+
+		}
+
 		renewJumps(firstClick, secondClick);
 		firstClick = -1;
 		notifyObservers();
-		
-		
-		if(!dice.hasTurnsLeft()){
+
+		if (!dice.hasTurnsLeft()) {
 			players.changeCurrentPlayer();
 			dice = new Dice();
 		}
 	}
-	
+
+	private void checkEndPhase() {
+		int stonesInEndPhase = 0;
+		if (players.getColor() == Players.PLAYER_COLOR_WHITE) {
+			for (int i = 18; i <= 23; i++) { // Fields 18-23 for white player
+				// are endphase fields
+				if (gameMap.getField(i).getStoneColor() == players.getColor()) {
+					stonesInEndPhase += gameMap.getField(i).getNumberStones();
+				}
+			}
+			stonesInEndPhase += gameMap.getField(GameMap.FIELD_END_WHITE)
+					.getNumberStones();
+		} else {
+			for (int i = 5; i >= 0; i--) { // Fields 0-5 for black player are
+				// endphase fields
+				if (gameMap.getField(i).getStoneColor() == players.getColor()) {
+					stonesInEndPhase += gameMap.getField(i).getNumberStones();
+				}
+			}
+			stonesInEndPhase += gameMap.getField(GameMap.FIELD_END_BLACK)
+					.getNumberStones();
+		}
+
+		endPhase = stonesInEndPhase == Constances.STONES_TO_WIN;
+		if (endPhase) {
+			setStatus("End Phase!");
+		}
+	}
+
 	@Override
 	public String toString() {
-		return String
-				.format("start = %d, target = %d; Current player: %s", 
-						firstClick, secondClick, getCurrentPlayer());
+		return String.format("start = %d, target = %d; Current player: %s",
+				firstClick, secondClick, getCurrentPlayer());
 	}
 
 	public int getWinner() {
@@ -150,7 +204,5 @@ public class GameNew extends Observable implements IObservable, IGame {
 	public void setWinner(int winner) {
 		this.winner = winner;
 	}
-	
-	
-	
+
 }
