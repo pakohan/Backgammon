@@ -99,11 +99,11 @@ public final class Dice {
         return returnVal;
     }
 
-    public boolean checkNormalEndTarget(final int newTarget) {
+    public boolean checkDistance(final int distance) {
         boolean returnVal = false;
 
         for (final int val : values) {
-            returnVal = newTarget == val;
+            returnVal = distance == val;
             if (returnVal) {
                 break;
             }

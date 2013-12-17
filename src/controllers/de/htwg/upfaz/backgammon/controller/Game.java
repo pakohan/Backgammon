@@ -89,6 +89,7 @@ public final class Game extends Observable implements IObservable, Runnable,
 				|| gameMap.getField(GameMap.FIELD_END_WHITE).getNumberStones() == STONES_TO_WIN;
 	}
  	*/
+	/*  IMPLEMENTED IN GAMENEW
 	private boolean isNotCheckDirection() {
 		if (players.getColor() == Players.PLAYER_COLOR_WHITE
 				&& secondClick <= firstClick
@@ -99,6 +100,7 @@ public final class Game extends Observable implements IObservable, Runnable,
 		}
 		return false;
 	}
+	*/
 	/*  IMPLEMENTED IN GAMENEW
 	private void renewJumps(final int start, final int target) {
 		currentMehtodName = "move";
@@ -117,8 +119,6 @@ public final class Game extends Observable implements IObservable, Runnable,
 
 	//24.11 - removed the validation, has to be added later
 	private boolean checkAllStartnumbersValidness() {
-		currentMehtodName = "checkAllStartnumbersValidness";
-		System.out.println("In " + currentMehtodName);
 		boolean toReturn = true;
 		for (int i = 0; i < 4; i++) {
 			try {
@@ -208,33 +208,9 @@ public final class Game extends Observable implements IObservable, Runnable,
 			result = -1;
 			getEndNumber();
 
-			// check direction
-			if (secondClick < 24 && isNotCheckDirection()) {
-				return true;
-			}
-		} else { // normal turn
-
-			// get startNumber
-			result = -1;
-			getStartNumber();
-
-			//24.11 - removed the validation, has to be added later
-			/*
-			if (checkAllStartnumbersValidness()) {
-				setStatus(YOU_CAN_NOT_PLAY_WITH_THIS_STONE);
-				return true;
-			}
-			*/
-
-			// get targetNumber
-			result = -1;
-			getEndNumber();
-
-			// check direction
-			if (secondClick < 24 && isNotCheckDirection()) {
-				return true;
-			}
-		}
+			
+		} 
+		// else normal turn
 		return false;
 	}
 
@@ -296,10 +272,6 @@ public final class Game extends Observable implements IObservable, Runnable,
 		// Actual "turn" - one player has 0 to 4 turns per round
 		while (dice.hasTurnsLeft()) {
 			
-
-			checkEndPhase();
-
-			
 			for (int i = 0; i < 24; i++) {
 				if (gameMap.getField(i).getStoneColor() == players.getColor()) {
 					startNumber = i;
@@ -358,19 +330,18 @@ public final class Game extends Observable implements IObservable, Runnable,
 			}
 
 			if (result >= 0 && result < GameMap.FIELD_EATEN_BLACK) {
-
-				if (gameMap.getField(result).isNotJumpable(players.getColor())) {
-					Log.verbose(STRING2);
-					result = -1;
-					getEndNumber();// or get startNumber()?
-				}
-
-				if (dice.checkNormalEndTarget(Math.abs(result - firstClick))) {
-					this.secondClick = result;
-				} else {
-					result = -1;
-					getEndNumber();// or get startNumber()?
-				}
+				// implemented in gameNew
+//				if (gameMap.getField(result).isNotJumpable(players.getColor())) {
+//					Log.verbose(STRING2);
+//					result = -1;
+//					getEndNumber();// or get startNumber()?
+//				}
+//				if (dice.checkDistance(Math.abs(result - firstClick))) {
+//					this.secondClick = result;
+//				} else {
+//					result = -1;
+//					getEndNumber();// or get startNumber()?
+//				}
 			} else if (result == GameMap.FIELD_END_BLACK) {
 				boolean returnVal = false;
 
@@ -386,7 +357,7 @@ public final class Game extends Observable implements IObservable, Runnable,
 					getEndNumber();// or get startNumber()?
 				}
 			} else if (result == GameMap.FIELD_END_WHITE) {
-				if (dice.checkNormalEndTarget(Math.abs(GameMap.FIELD_END_WHITE
+				if (dice.checkDistance(Math.abs(GameMap.FIELD_END_WHITE
 						- firstClick - 3))) {
 					secondClick = GameMap.FIELD_END_WHITE;
 				} else {

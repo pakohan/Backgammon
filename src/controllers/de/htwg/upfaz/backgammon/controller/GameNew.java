@@ -76,7 +76,7 @@ public class GameNew extends Observable implements IObservable, IGame {
 		// check for winner
 		if (gameMap.checkForWinner()) {
 			setStatus(String.format(Constances.PLAYER_S_IS_THE_WINNER,
-					players.getCurrentPlayer()));
+					getCurrentPlayer()));
 			setWinner(players.getColor() + 1);
 			return true;
 		}
@@ -104,7 +104,7 @@ public class GameNew extends Observable implements IObservable, IGame {
 		// do checks if this move is possible
 		if (gameMap.getField(firstClick).getStoneColor() != players.getColor()) {
 			System.out
-					.println("You can't move this piece or there are no pieces");
+					.println("There are no your pieces");
 			return false;
 		}
 
@@ -116,7 +116,17 @@ public class GameNew extends Observable implements IObservable, IGame {
 			System.out.println("You're going in the wrong direction!");
 			return false;
 		}
-
+		
+		if (!dice.checkDistance(Math.abs(secondClick - firstClick))) {
+			System.out.println("Can you count?");
+			return false;
+		}
+		
+		if (gameMap.getField(secondClick).isNotJumpable(players.getColor())) {
+			System.out.println("There are some stones from another player");
+			return false;
+		}
+		
 		return toReturn;
 	}
 
@@ -134,14 +144,14 @@ public class GameNew extends Observable implements IObservable, IGame {
 		// perform the move
 
 		if (gameMap.getField(secondClick).getNumberStones() == 1
-				&& gameMap.getField(secondClick).getStoneColor() != players
-						.getCurrentPlayer().getColor()) {
+				&& gameMap.getField(secondClick).getStoneColor() != players.getColor()) {
 
 			gameMap.eatStone(firstClick, secondClick);
 
 		}
 		/*
-		 * CHECK END PHASE else if (endPhase && (secondClick > 25)) {
+		 * CHECK END PHASE. Probably no need in that 
+		 * else if (endPhase && (secondClick > 25)) {
 		 * 
 		 * gameMap.takeOutStone(firstClick, secondClick);
 		 * 
