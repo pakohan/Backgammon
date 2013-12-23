@@ -3,13 +3,12 @@ package controllers.de.htwg.upfaz.backgammon.gui;
 //import controllers.de.htwg.upfaz.backgammon.controller.Game;
 import controllers.de.htwg.upfaz.backgammon.controller.GameNew;
 import controllers.de.htwg.upfaz.backgammon.entities.IField;
-import controllers.de.htwg.util.observer.IObserver;
 
+import java.util.Observable;
+import java.util.Observer;
 
 public final class Tui
-        implements IObserver {
-
-    //private final Game currentGame;
+        implements Observer {
 
     private final GameNew currentGame;
 
@@ -49,16 +48,16 @@ public final class Tui
         System.out.println("||---------------------------------------------------||---|");
         System.out.println("||012-013-014-015-016-017|OUT|018-019-020-021-022-023||-w-|");
     }
+    @Override
+    public void update(final Observable o, final Object arg) {
+        printField(currentGame.getGameMap().getFields());
+        System.out.println(currentGame.toString());
+    }
 
     private static void stoneSyso(final IField[] gm, final int i) {
         System.out.printf("%s-", gm[i].toString());
     }
 
-    @Override
-    public void update() {
-        //printField(currentGame.getGameMap().getFields());
-        //System.out.println(currentGame.getStatus());
-    }
     @Override
     public String toString() {
         return String.format("Tui{currentGame=%s}", currentGame);

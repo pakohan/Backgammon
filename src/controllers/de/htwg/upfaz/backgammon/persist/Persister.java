@@ -1,4 +1,6 @@
-package controllers.de.htwg.upfaz.backgammon.controller;
+package controllers.de.htwg.upfaz.backgammon.persist;
+
+import controllers.de.htwg.upfaz.backgammon.controller.GameMap;
 
 import java.util.UUID;
 
