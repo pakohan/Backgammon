@@ -1,6 +1,6 @@
 package controllers.de.htwg.upfaz.backgammon.gui;
 
-import controllers.de.htwg.upfaz.backgammon.controller.Game;
+//import controllers.de.htwg.upfaz.backgammon.controller.Game;
 import controllers.de.htwg.upfaz.backgammon.controller.GameNew;
 import controllers.de.htwg.upfaz.backgammon.entities.IField;
 import controllers.de.htwg.util.observer.IObserver;
@@ -12,7 +12,7 @@ public final class Tui
     //private final Game currentGame;
 
     private final GameNew currentGame;
-    
+
     public Tui(final GameNew currentGame2) {
         currentGame = currentGame2;
     }

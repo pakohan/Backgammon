@@ -6,17 +6,20 @@ import controllers.de.htwg.upfaz.backgammon.entities.IPlayer;
 import controllers.de.htwg.upfaz.backgammon.gui.Constances;
 
 public final class GameMap {
+
     public static final int TOTAL_FIELDS_NR = 28;
     public static final int FIELD_EATEN_WHITE = 25;
     public static final int FIELD_EATEN_BLACK = 24;
     public static final int FIELD_END_WHITE = 27;
     public static final int FIELD_END_BLACK = 26;
+    private final Dice dice;
 
     private Field[] gameMap;
     private IPlayer players;
 
-    public GameMap(final IGame game /*will be used later*/, final IPlayer players) {
+    public GameMap(final IGame game, final IPlayer players, final Dice dice) {
         this.players = players;
+        this.dice = dice;
         gameMap = new Field[TOTAL_FIELDS_NR];
 
         for (int i = 0; i < gameMap.length; i++) {
@@ -29,16 +32,15 @@ public final class GameMap {
     public void moveStone(final int startNumber, final int targetNumber) {
         gameMap[targetNumber].setNumberStones(gameMap[targetNumber].getNumberStones() + 1);
         if (targetNumber != 26 || targetNumber != 27) {
-        	gameMap[targetNumber].setStoneColor(players.getColor());
+            gameMap[targetNumber].setStoneColor(players.getColor());
         }
         int oldStones = gameMap[startNumber].getNumberStones();
         int newStones = oldStones - 1;
         gameMap[startNumber].setNumberStones(newStones);
         if (gameMap[startNumber].getNumberStones() == 0) {
             gameMap[startNumber].setStoneColor(-1);
-        }   
+        }
     }
-
 
     public void eatStone(final int startNumber, final int targetNumber) {
         gameMap[targetNumber].setNumberStones(1);
@@ -107,11 +109,8 @@ public final class GameMap {
 		 * gameMap[19].setNumberStones(5); gameMap[20].setNumberStones(5);
 		 */
     }
-    
+
     public boolean checkForWinner() {
-		return gameMap[FIELD_END_BLACK].getNumberStones() == Constances.STONES_TO_WIN
-				|| gameMap[FIELD_END_WHITE].getNumberStones() == Constances.STONES_TO_WIN;
-	}
-    
-    
+        return gameMap[FIELD_END_BLACK].getNumberStones() == Constances.STONES_TO_WIN || gameMap[FIELD_END_WHITE].getNumberStones() == Constances.STONES_TO_WIN;
+    }
 }

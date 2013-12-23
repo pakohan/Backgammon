@@ -1,3 +1,4 @@
+/*
 package controllers.de.htwg.upfaz.backgammon.controller;
 
 import controllers.de.htwg.upfaz.backgammon.entities.IPlayer;
@@ -66,9 +67,9 @@ public final class Game extends Observable implements IObservable, Runnable,
 		 * boolean returnVal = false; try { this.state = state.click(result);
 		 * notifyObservers(); returnVal = true; } catch (WrongClickException e)
 		 * { Log.v(e); }
-		 * 
+		 *
 		 * return returnVal;
-		 */
+		 *
 		this.result = result;
 	}
 
@@ -110,7 +111,7 @@ public final class Game extends Observable implements IObservable, Runnable,
 			dice.move(Math.abs(start - target));
 		}
 	}
-	*/
+	*
 
 	@Override
 	public void setDice(final Dice dice) {
@@ -141,7 +142,7 @@ public final class Game extends Observable implements IObservable, Runnable,
 
 		return toReturn;
 	}
-	
+
 	/*   IMPLEMENTED IN GAMENEW
 	private void checkEndPhase() {
 		int stonesInEndPhase = 0;
@@ -170,7 +171,7 @@ public final class Game extends Observable implements IObservable, Runnable,
 			setStatus("End Phase!");
 		}
 	}
-	*/
+	*
 	// this function works with gui - that's why the tui
 	// doesn't work now
 	// called in startRound() and works with BackgammonFrame bf
@@ -188,7 +189,7 @@ public final class Game extends Observable implements IObservable, Runnable,
 				Thread.sleep(Constances.TIME_TO_SLEEP_IN_MS);
 			}
 			secondClick = result;
-			
+
 		} else if (gameMap.isBlackEaten()) { // black eaten
 
 			firstClick = GameMap.FIELD_EATEN_BLACK;
@@ -208,8 +209,8 @@ public final class Game extends Observable implements IObservable, Runnable,
 			result = -1;
 			getEndNumber();
 
-			
-		} 
+
+		}
 		// else normal turn
 		return false;
 	}
@@ -220,8 +221,8 @@ public final class Game extends Observable implements IObservable, Runnable,
 		checkEndPhase();
 
 		dice = new Dice();
-		
-		*/
+
+		*
 		// automatic takeout for taking out stones automatically if its possible
 		// useful in endphase or when stone is eaten and has to be returned back
 		// to desk
@@ -260,7 +261,7 @@ public final class Game extends Observable implements IObservable, Runnable,
 					try {
 						if (gameMap.getField(firstClick).getNumberStones() > 0) {
 							gameMap.moveStone(firstClick, secondClick);
-							
+
 						}
 					} catch (Exception ignored) {
 						return;
@@ -271,7 +272,7 @@ public final class Game extends Observable implements IObservable, Runnable,
 
 		// Actual "turn" - one player has 0 to 4 turns per round
 		while (dice.hasTurnsLeft()) {
-			
+
 			for (int i = 0; i < 24; i++) {
 				if (gameMap.getField(i).getStoneColor() == players.getColor()) {
 					startNumber = i;
@@ -281,7 +282,7 @@ public final class Game extends Observable implements IObservable, Runnable,
 					}
 				}
 			}
-			
+
 
 			if (endPhase) {
 				firstClick = -1;
@@ -294,18 +295,18 @@ public final class Game extends Observable implements IObservable, Runnable,
 			if (notGetStartAndTargetNumbers()) {
 				firstClick = -1;
 				continue;
-			}			
+			}
 		}
 
 		notifyObservers();
 	}
 
 	private void getStartNumber() {}
-	/* IMPLEMENTED IN GAMENEW	
+	/* IMPLEMENTED IN GAMENEW
 	private void getStartNumber() {
 
 		int localStartNumber = result;
-		
+
 		if (gameMap.getField(localStartNumber).getStoneColor() == players
 				.getColor()) {
 			firstClick = localStartNumber;
@@ -315,7 +316,7 @@ public final class Game extends Observable implements IObservable, Runnable,
 			getStartNumber();
 		}
 	}
-	*/
+	*
 
 	private void getEndNumber() {
 		try {
@@ -371,5 +372,6 @@ public final class Game extends Observable implements IObservable, Runnable,
 		}
 	}
 
-	
+
 }
+*/

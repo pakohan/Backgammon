@@ -1,9 +1,12 @@
 package controllers.de.htwg.upfaz.backgammon.controller;
 
+import com.google.inject.Inject;
 import controllers.de.htwg.upfaz.backgammon.entities.IPlayer;
+import controllers.de.htwg.upfaz.backgammon.gui.Constances;
 import controllers.de.htwg.util.observer.IObservable;
 import controllers.de.htwg.util.observer.Observable;
-import controllers.de.htwg.upfaz.backgammon.gui.Constances;
+
+import java.util.UUID;
 
 public class GameNew extends Observable implements IObservable, IGame {
 
@@ -17,16 +20,28 @@ public class GameNew extends Observable implements IObservable, IGame {
 	private int winner = -1;
 	private boolean endPhase = false;
 
-	public GameNew() {
-		players = new Players(this);
-		gameMap = new GameMap(this, players);
+    @Inject
+    private Persister database;
 
-		players.changeCurrentPlayer();
-		dice = new Dice();
-		notifyObservers();
-	}
+    public GameNew() {
+        players = new Players(this);
+        dice = new Dice();
+        gameMap = new GameMap(this, players, dice);
 
-	@Override
+        players.changeCurrentPlayer();
+
+        System.out.println("Created Game with UUID: " + database.createGame(gameMap));
+        notifyObservers();
+    }
+
+    public GameNew(UUID savedGame) {
+        this.gameMap = database.loadGame(savedGame);
+
+        System.out.println("Created Game with UUID: " + database.createGame(gameMap));
+        notifyObservers();
+    }
+
+    @Override
 	public void setStatus(final String s) {
 		status = s;
 		notifyObservers();
@@ -94,6 +109,7 @@ public class GameNew extends Observable implements IObservable, IGame {
 		// if so, perform the move
 		if (returnVal) {
 			makeMove();
+            database.saveGame(gameMap);
 		}
 
 		return returnVal;
@@ -116,17 +132,17 @@ public class GameNew extends Observable implements IObservable, IGame {
 			System.out.println("You're going in the wrong direction!");
 			return false;
 		}
-		
+
 		if (!dice.checkDistance(Math.abs(secondClick - firstClick))) {
 			System.out.println("Can you count?");
 			return false;
 		}
-		
+
 		if (gameMap.getField(secondClick).isNotJumpable(players.getColor())) {
 			System.out.println("There are some stones from another player");
 			return false;
 		}
-		
+
 		return toReturn;
 	}
 
@@ -150,11 +166,11 @@ public class GameNew extends Observable implements IObservable, IGame {
 
 		}
 		/*
-		 * CHECK END PHASE. Probably no need in that 
+		 * CHECK END PHASE. Probably no need in that
 		 * else if (endPhase && (secondClick > 25)) {
-		 * 
+		 *
 		 * gameMap.takeOutStone(firstClick, secondClick);
-		 * 
+		 *
 		 * }
 		 */
 		else {
@@ -169,7 +185,7 @@ public class GameNew extends Observable implements IObservable, IGame {
 
 		if (!dice.hasTurnsLeft()) {
 			players.changeCurrentPlayer();
-			dice = new Dice();
+			dice.rollTheDice();
 		}
 	}
 

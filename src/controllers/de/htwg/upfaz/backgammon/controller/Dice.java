@@ -6,29 +6,20 @@ public final class Dice {
 
     private static final Random rand = new Random(System.currentTimeMillis());
 
-    private int[] values;
     private int numberTurnsLeft = 2;
     private int numberTurns = 2;
 
-	private int[] valuesToDraw;
+    private int[] values;
+    private int[] valuesToDraw;
 
     public Dice() {
+        values = new int[IGame.MAX_JUMPS];
+        valuesToDraw = new int[IGame.MAX_JUMPS];
+
         rollTheDice();
     }
-    public Dice(final int x) {
-        values = new int[IGame.MAX_JUMPS];
-        valuesToDraw = new int[IGame.MAX_JUMPS];
-        
-        for (int i = 0; i < values.length; i++) {
-            values[i] = x;
-        }
-        
-        valuesToDraw = values.clone();
-    }
 
-    private void rollTheDice() {
-        values = new int[IGame.MAX_JUMPS];
-        valuesToDraw = new int[IGame.MAX_JUMPS];
+    public void rollTheDice() {
 
         for (int index = 0; index < 2; index++) {
             values[index] = rand.nextInt(IGame.DICE_RANDOM) + 1;
@@ -58,7 +49,7 @@ public final class Dice {
     public int getDiceToDraw(final int i) {
         return valuesToDraw[i];
     }
-    
+
     public int getDiceAt(final int i) {
         return values[i];
     }
