@@ -11,7 +11,7 @@ public final class Players
     private final IPlayer[] players;
     private int currentPlayer;
 
-    public Players(final IGame game /*will be used later*/) {
+    public Players() {
         players = new IPlayer[2];
         players[0] = new Player(PLAYER_COLOR_WHITE);
         players[1] = new Player(PLAYER_COLOR_BLACK);

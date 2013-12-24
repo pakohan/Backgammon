@@ -9,6 +9,7 @@ public final class Dice {
 
     private static final Random rand = new Random(System.currentTimeMillis());
 
+
     private int numberTurnsLeft = 2;
     private int numberTurns = 2;
 
@@ -36,16 +37,6 @@ public final class Dice {
             numberTurnsLeft = 4;
         }
         valuesToDraw = values.clone();
-    }
-
-    @JsonIgnore
-    public int getNumberTurns() {
-        return numberTurns;
-    }
-
-    @JsonIgnore
-    public int getNumberTurnsLeft() {
-        return numberTurnsLeft;
     }
 
     @JsonIgnore
@@ -133,5 +124,21 @@ public final class Dice {
     @JsonProperty("valuesToDraw")
     public void setValuesToDraw(final int[] valuesToDraw) {
         this.valuesToDraw = valuesToDraw;
+    }
+
+    public int getNumberTurns() {
+        return numberTurns;
+    }
+
+    public int getNumberTurnsLeft() {
+        return numberTurnsLeft;
+    }
+
+    public void setNumberTurnsLeft(int numberTurnsLeft) {
+        this.numberTurnsLeft = numberTurnsLeft;
+    }
+
+    public void setNumberTurns(int numberTurns) {
+        this.numberTurns = numberTurns;
     }
 }

@@ -25,10 +25,14 @@ public final class GameMap
     private String revision;
     private Field[] gameMap;
     private IPlayer players;
+    private int firstClick = -1;
 
-    public GameMap(final IGame game, final IPlayer players, final Dice dice) {
+    private int secondClick = -1;
+    private int winner = -1;
+    private boolean endPhase = false;
+
+    public GameMap(final IPlayer players, final Dice dice) {
         this.uuid = UUID.randomUUID();
-        System.out.println("CREATED MAP WITH UUID: " + uuid);
         this.players = players;
         this.dice = dice;
         gameMap = new Field[TOTAL_FIELDS_NR];
@@ -38,6 +42,11 @@ public final class GameMap
         }
 
         initStones();
+    }
+
+    public GameMap() {
+        this.players = new Players();
+        this.dice = new Dice();
     }
 
     @JsonIgnore
@@ -175,18 +184,6 @@ public final class GameMap
         return gameMap[FIELD_END_BLACK].getNumberStones() == Constances.STONES_TO_WIN || gameMap[FIELD_END_WHITE].getNumberStones() == Constances.STONES_TO_WIN;
     }
 
-    @JsonIgnore
-    @Override
-    public String toString() {
-        return "GameMap{" +
-                "dice=" + dice +
-                ", uuid=" + uuid +
-                ", revision='" + revision + '\'' +
-                ", gameMap=" + Arrays.toString(gameMap) +
-                ", players=" + players +
-                '}';
-    }
-
     @JsonProperty("_rev")
     public String getRevision() {
         return revision;
@@ -216,4 +213,49 @@ public final class GameMap
     public void setDice(final Dice dice) {
         this.dice = dice;
     }
+
+    public int getFirstClick() {
+        return firstClick;
+    }
+
+    public void setFirstClick(final int firstClick) {
+        this.firstClick = firstClick;
+    }
+    public int getSecondClick() {
+        return secondClick;
+    }
+    public void setSecondClick(final int secondClick) {
+        this.secondClick = secondClick;
+    }
+    public int getWinner() {
+        return winner;
+    }
+    public void setWinner(final int winner) {
+        this.winner = winner;
+    }
+    public boolean isEndPhase() {
+        return endPhase;
+    }
+    public void setEndPhase(final boolean endPhase) {
+        this.endPhase = endPhase;
+    }
+    @JsonIgnore
+    public IPlayer getPlayers() {
+        return players;
+    }
+
+    @Override
+    @JsonProperty("status")
+    public String toString() {
+        if (checkForWinner()) {
+            return String.format(Constances.PLAYER_S_IS_THE_WINNER, getCurrentPlayer());
+        } else if (isEndPhase()) {
+            return "End Phase!";
+        } else {
+            return String.format("start = %d, target = %d; Current player: %s", getFirstClick(), getSecondClick(), getCurrentPlayer());
+        }
+    }
+
+    @JsonProperty("status")
+    public void setString(final String s) {}
 }

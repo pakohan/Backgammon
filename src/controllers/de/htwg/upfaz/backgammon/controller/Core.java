@@ -12,27 +12,17 @@ public class Core
         extends Observable
         implements IGame {
 
-    private Players players;
+    private IPlayer players;
     private GameMap gameMap;
     private Dice dice;
 
-    private int firstClick = -1;
-    private int secondClick = -1;
-    private int winner = -1;
-    private boolean endPhase = false;
-
+    @Inject
     private Persister database;
 
-    @Inject
-    public Core(Persister persister) {
-        this.database = persister;
-        createGame();
-    }
-
     public UUID createGame() {
-        players = new Players(this);
+        players = new Players();
         dice = new Dice();
-        gameMap = new GameMap(this, players, dice);
+        gameMap = new GameMap(players, dice);
 
         players.changeCurrentPlayer();
 
@@ -44,6 +34,8 @@ public class Core
 
     public void loadGame(final UUID uuid) {
         this.gameMap = database.loadGame(uuid, -1);
+        this.players = gameMap.getPlayers();
+        this.dice = gameMap.getDice();
         setChanged();
         notifyObservers();
     }
@@ -63,16 +55,16 @@ public class Core
     public boolean click(final int field) {
         boolean returnVal = true;
 
-        if (firstClick == -1) {
+        if (gameMap.getFirstClick() == -1) {
             System.out.println("Clicked first field: " + field);
-            firstClick = field;
+            gameMap.setFirstClick(field);
         } else {
-            secondClick = field;
+            gameMap.setSecondClick(field);
             // try move also performs the move
-            System.out.println("Making move from " + firstClick + " to " + secondClick);
+            System.out.println("Making move from " + gameMap.getFirstClick() + " to " + gameMap.getSecondClick());
             returnVal = tryMove();
-            firstClick = -1;
-            secondClick = -1;
+            gameMap.setFirstClick(-1);
+            gameMap.setSecondClick(-1);
         }
 
         // check for winner
@@ -80,6 +72,8 @@ public class Core
             setWinner(players.getColor() + 1);
             return true;
         }
+
+        database.saveGame(gameMap);
 
         // better call this too often than not enough times
         setChanged();
@@ -95,7 +89,6 @@ public class Core
         // if so, perform the move
         if (returnVal) {
             makeMove();
-            database.saveGame(gameMap);
         }
 
         return returnVal;
@@ -104,23 +97,23 @@ public class Core
     private boolean checkIfmovePossible() {
         final boolean toReturn = true;
         // do checks if this move is possible
-        if (gameMap.getField(firstClick).getStoneColor() != players.getColor()) {
+        if (gameMap.getField(gameMap.getFirstClick()).getStoneColor() != players.getColor()) {
             System.out.println("There are no your pieces");
             return false;
         }
 
         // check direction
-        if (secondClick < 24 && (players.getColor() == Players.PLAYER_COLOR_WHITE && secondClick <= firstClick || players.getColor() == Players.PLAYER_COLOR_BLACK && secondClick >= firstClick)) {
+        if (gameMap.getSecondClick() < 24 && (players.getColor() == Players.PLAYER_COLOR_WHITE && gameMap.getSecondClick() <= gameMap.getFirstClick() || players.getColor() == Players.PLAYER_COLOR_BLACK && gameMap.getSecondClick() >= gameMap.getFirstClick())) {
             System.out.println("You're going in the wrong direction!");
             return false;
         }
 
-        if (!dice.checkDistance(Math.abs(secondClick - firstClick))) {
+        if (!dice.checkDistance(Math.abs(gameMap.getSecondClick() - gameMap.getFirstClick()))) {
             System.out.println("Can you count?");
             return false;
         }
 
-        if (gameMap.getField(secondClick).isNotJumpable(players.getColor())) {
+        if (gameMap.getField(gameMap.getSecondClick()).isNotJumpable(players.getColor())) {
             System.out.println("There are some stones from another player");
             return false;
         }
@@ -141,25 +134,14 @@ public class Core
         checkEndPhase();
         // perform the move
 
-        if (gameMap.getField(secondClick).getNumberStones() == 1 && gameMap.getField(secondClick).getStoneColor() != players.getColor()) {
-
-            gameMap.eatStone(firstClick, secondClick);
-        }
-        /*
-         * CHECK END PHASE. Probably no need in that
-		 * else if (endPhase && (secondClick > 25)) {
-		 *
-		 * gameMap.takeOutStone(firstClick, secondClick);
-		 *
-		 * }
-		 */
-        else {
-
-            gameMap.moveStone(firstClick, secondClick);
+        if (gameMap.getField(gameMap.getSecondClick()).getNumberStones() == 1 && gameMap.getField(gameMap.getSecondClick()).getStoneColor() != players.getColor()) {
+            gameMap.eatStone(gameMap.getFirstClick(), gameMap.getSecondClick());
+        } else {
+            gameMap.moveStone(gameMap.getFirstClick(), gameMap.getSecondClick());
         }
 
-        renewJumps(firstClick, secondClick);
-        firstClick = -1;
+        renewJumps(gameMap.getFirstClick(), gameMap.getSecondClick());
+        gameMap.setFirstClick(-1);
 
         if (!dice.hasTurnsLeft()) {
             players.changeCurrentPlayer();
@@ -187,25 +169,14 @@ public class Core
             stonesInEndPhase += gameMap.getField(GameMap.FIELD_END_BLACK).getNumberStones();
         }
 
-        endPhase = stonesInEndPhase == Constances.STONES_TO_WIN;
-    }
-
-    @Override
-    public String toString() {
-        if (gameMap.checkForWinner()) {
-            return String.format(Constances.PLAYER_S_IS_THE_WINNER, getCurrentPlayer());
-        } else if (endPhase) {
-            return "End Phase!";
-        } else {
-            return String.format("start = %d, target = %d; Current player: %s", firstClick, secondClick, getCurrentPlayer());
-        }
+        gameMap.setEndPhase(stonesInEndPhase == Constances.STONES_TO_WIN);
     }
 
     public int getWinner() {
-        return winner;
+        return gameMap.getWinner();
     }
 
     public void setWinner(final int winner) {
-        this.winner = winner;
+        gameMap.setWinner(winner);
     }
 }

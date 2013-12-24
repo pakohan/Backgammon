@@ -19,6 +19,8 @@ public final class Field
         stoneColor = -1;
     }
 
+    public Field() {    }
+
     @JsonProperty("nr")
     @Override
     public int getFieldNr() {

@@ -26,4 +26,12 @@ public final class Player
     public void setCurrentPlayer(final String s) {
         throw new IllegalArgumentException("Do not call Player.setCurrentPlayer");
     }
+    @Override
+    public void changeCurrentPlayer() {
+        throw new IllegalArgumentException("Do not call Player.changeCurrentPlayer");
+    }
+    @Override
+    public IPlayer getCurrentPlayer() {
+        return this;
+    }
 }
