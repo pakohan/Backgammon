@@ -1,11 +1,11 @@
 package controllers.de.htwg.upfaz.backgammon.controller;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import controllers.de.htwg.upfaz.backgammon.entities.Field;
 import controllers.de.htwg.upfaz.backgammon.entities.IField;
 import controllers.de.htwg.upfaz.backgammon.entities.IPlayer;
 import controllers.de.htwg.upfaz.backgammon.gui.Constances;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -19,15 +19,16 @@ public final class GameMap
     public static final int FIELD_EATEN_BLACK = 24;
     public static final int FIELD_END_WHITE = 27;
     public static final int FIELD_END_BLACK = 26;
-    private final Dice dice;
+
+    private Dice dice;
     private UUID uuid;
     private String revision;
-
     private Field[] gameMap;
     private IPlayer players;
 
     public GameMap(final IGame game, final IPlayer players, final Dice dice) {
         this.uuid = UUID.randomUUID();
+        System.out.println("CREATED MAP WITH UUID: " + uuid);
         this.players = players;
         this.dice = dice;
         gameMap = new Field[TOTAL_FIELDS_NR];
@@ -70,9 +71,24 @@ public final class GameMap
         return gameMap[targetNumber];
     }
 
-    @JsonIgnore
-    public IField[] getFields() {
+    @JsonProperty("field")
+    public Field[] getFields() {
         return gameMap;
+    }
+
+    @JsonProperty("field")
+    public void setFields(final Field[] fields) {
+        this.gameMap = fields;
+    }
+
+    @JsonProperty("currentPlayer")
+    public String getCurrentPlayer() {
+        return players.toString();
+    }
+
+    @JsonProperty("currentPlayer")
+    public void setCurrentPlayer(final String s) {
+        players.setCurrentPlayer(s);
     }
 
     @JsonIgnore
@@ -100,58 +116,14 @@ public final class GameMap
         this.uuid = uuid;
     }
 
-    @JsonProperty("_rev")
-    public String getRevision() {
-        return revision;
-    }
-
-    @JsonProperty("_rev")
-    public void setRevision(final String revision) {
-        this.revision = revision;
-    }
-
-    /**
-     * Gets the revision.
-     * <p>
-     * Note: This duplicated method is necessary for Forms.bindFromRequest() of
-     * Play!.
-     * </p>
-     *
-     * @return The revision.
-     */
     @JsonIgnore
     public String get_rev() {
         return revision;
     }
 
-    /**
-     * Sets the revision.
-     * <p>
-     * Note: This duplicated method is necessary for Forms.bindFromRequest() of
-     * Play!.
-     * </p>
-     *
-     * @param rev The revision.
-     */
     @JsonIgnore
     public void set_rev(final String rev) {
         this.revision = rev;
-    }
-
-    @JsonProperty("_id")
-    public String getId() {
-        return uuid.toString();
-    }
-
-    @JsonProperty("_id")
-    public void setId(final String id) {
-        this.uuid = UUID.fromString(id);
-    }
-
-    @JsonIgnore
-    public int getRev() {
-        final String[] strings = revision.split("-");
-        return Integer.parseInt(strings[0]);
     }
 
     @JsonIgnore
@@ -213,5 +185,35 @@ public final class GameMap
                 ", gameMap=" + Arrays.toString(gameMap) +
                 ", players=" + players +
                 '}';
+    }
+
+    @JsonProperty("_rev")
+    public String getRevision() {
+        return revision;
+    }
+
+    @JsonProperty("_rev")
+    public void setRevision(final String revision) {
+        this.revision = revision;
+    }
+
+    @JsonProperty("_id")
+    public String getId() {
+        return uuid.toString();
+    }
+
+    @JsonProperty("_id")
+    public void setId(final String id) {
+        this.uuid = UUID.fromString(id);
+    }
+
+    @JsonProperty("dice")
+    public Dice getDice() {
+        return dice;
+    }
+
+    @JsonProperty("dice")
+    public void setDice(final Dice dice) {
+        this.dice = dice;
     }
 }

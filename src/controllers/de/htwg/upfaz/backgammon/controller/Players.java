@@ -3,7 +3,8 @@ package controllers.de.htwg.upfaz.backgammon.controller;
 import controllers.de.htwg.upfaz.backgammon.entities.IPlayer;
 import controllers.de.htwg.upfaz.backgammon.entities.Player;
 
-public final class Players implements IPlayer {
+public final class Players
+        implements IPlayer {
 
     public static final int PLAYER_COLOR_WHITE = 0;
     public static final int PLAYER_COLOR_BLACK = 1;
@@ -32,5 +33,18 @@ public final class Players implements IPlayer {
     @Override
     public int getColor() {
         return players[currentPlayer].getColor();
+    }
+
+    @Override
+    public String toString() {
+        return players[currentPlayer].toString();
+    }
+    @Override
+    public void setCurrentPlayer(final String s) {
+        if (players[0].toString().equals(s)) {
+            currentPlayer = 0;
+        } else if (players[1].toString().equals(s)) {
+            currentPlayer = 1;
+        }
     }
 }

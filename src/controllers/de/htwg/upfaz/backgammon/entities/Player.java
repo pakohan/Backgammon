@@ -17,9 +17,13 @@ public final class Player
     @Override
     public String toString() {
         if (color == 0) {
-            return "White";
+            return "white";
         } else {
-            return "Black";
+            return "black";
         }
+    }
+    @Override
+    public void setCurrentPlayer(final String s) {
+        throw new IllegalArgumentException("Do not call Player.setCurrentPlayer");
     }
 }

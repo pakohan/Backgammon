@@ -1,11 +1,10 @@
 package controllers.de.htwg.upfaz.backgammon.entities;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 public final class Field
         implements IField {
-
-    //
-    // Fields
-    //
 
     private int fieldNr;
     private int numberStones;
@@ -13,9 +12,6 @@ public final class Field
 
     private static final int TEN_STONES = 10;
 
-    //
-    // Constructors
-    //
     public Field(final int fn) {
 
         fieldNr = fn;
@@ -23,16 +19,19 @@ public final class Field
         stoneColor = -1;
     }
 
+    @JsonProperty("nr")
     @Override
     public int getFieldNr() {
         return fieldNr;
     }
 
+    @JsonProperty("nr")
     @Override
     public void setFieldNr(final int newFieldNr) {
         fieldNr = newFieldNr;
     }
 
+    @JsonProperty("amount")
     @Override
     public void setNumberStones(final int newVar) {
         numberStones = newVar;
@@ -41,40 +40,31 @@ public final class Field
         }
     }
 
+    @JsonProperty("amount")
     @Override
     public int getNumberStones() {
         return numberStones;
     }
 
+    @JsonProperty("color")
     @Override
     public int getStoneColor() {
         return stoneColor;
     }
 
+    @JsonProperty("color")
     @Override
     public void setStoneColor(final int newColor) {
         stoneColor = newColor;
     }
 
+    @JsonIgnore
     @Override
     public boolean isNotJumpable(final int color) {
         return numberStones > 1 && color != stoneColor;
     }
 
-    // --Commented out by Inspection START (02.11.13 18:14):
-    //    @Override
-    //    public boolean isNotJumpable(int color) {
-    //        return getNumberStones() > 1 && color != getStoneColor();
-    //    }
-    // --Commented out by Inspection STOP (02.11.13 18:14)
-
-    // --Commented out by Inspection START (02.11.13 18:14):
-    //    @Override
-    //    public boolean isEmpty() {
-    //        return numberStones == 0;
-    //    }
-    // --Commented out by Inspection STOP (02.11.13 18:14)
-
+    @JsonIgnore
     @Override
     public String toString() {
 

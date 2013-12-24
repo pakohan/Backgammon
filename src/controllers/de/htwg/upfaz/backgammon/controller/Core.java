@@ -192,7 +192,6 @@ public class Core
 
     @Override
     public String toString() {
-        System.out.println(gameMap);
         if (gameMap.checkForWinner()) {
             return String.format(Constances.PLAYER_S_IS_THE_WINNER, getCurrentPlayer());
         } else if (endPhase) {

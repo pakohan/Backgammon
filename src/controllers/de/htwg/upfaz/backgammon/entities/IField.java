@@ -16,9 +16,5 @@ public interface IField {
 
     boolean isNotJumpable(int color);
 
-    // --Commented out by Inspection (02.11.13 18:11):public abstract boolean isNotJumpable(int color);
-
-    // --Commented out by Inspection (02.11.13 18:11):public abstract boolean isEmpty();
-
     String toString();
 }

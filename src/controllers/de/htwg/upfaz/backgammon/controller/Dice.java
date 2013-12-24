@@ -1,5 +1,8 @@
 package controllers.de.htwg.upfaz.backgammon.controller;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 import java.util.Random;
 
 public final class Dice {
@@ -19,6 +22,7 @@ public final class Dice {
         rollTheDice();
     }
 
+    @JsonIgnore
     public void rollTheDice() {
 
         for (int index = 0; index < 2; index++) {
@@ -34,26 +38,32 @@ public final class Dice {
         valuesToDraw = values.clone();
     }
 
+    @JsonIgnore
     public int getNumberTurns() {
         return numberTurns;
     }
 
+    @JsonIgnore
     public int getNumberTurnsLeft() {
         return numberTurnsLeft;
     }
 
+    @JsonIgnore
     public boolean hasTurnsLeft() {
         return numberTurnsLeft > 0;
     }
 
+    @JsonIgnore
     public int getDiceToDraw(final int i) {
         return valuesToDraw[i];
     }
 
+    @JsonIgnore
     public int getDiceAt(final int i) {
         return values[i];
     }
 
+    @JsonIgnore
     public boolean move(final int distance) {
         boolean returnVal = false;
         if (numberTurnsLeft == 0) {
@@ -72,6 +82,7 @@ public final class Dice {
         return returnVal;
     }
 
+    @JsonIgnore
     public boolean renewJumpsEndPhase(final int start) {
         boolean returnVal = false;
         if (numberTurnsLeft == 0) {
@@ -90,6 +101,7 @@ public final class Dice {
         return returnVal;
     }
 
+    @JsonIgnore
     public boolean checkDistance(final int distance) {
         boolean returnVal = false;
 
@@ -101,5 +113,25 @@ public final class Dice {
         }
 
         return returnVal;
+    }
+
+    @JsonProperty("values")
+    public int[] getValues() {
+        return values;
+    }
+
+    @JsonProperty("values")
+    public void setValues(final int[] values) {
+        this.values = values;
+    }
+
+    @JsonProperty("valuesToDraw")
+    public int[] getValuesToDraw() {
+        return valuesToDraw;
+    }
+
+    @JsonProperty("valuesToDraw")
+    public void setValuesToDraw(final int[] valuesToDraw) {
+        this.valuesToDraw = valuesToDraw;
     }
 }
