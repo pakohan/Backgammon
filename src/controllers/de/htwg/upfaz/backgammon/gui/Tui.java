@@ -1,7 +1,8 @@
 package controllers.de.htwg.upfaz.backgammon.gui;
 
 //import controllers.de.htwg.upfaz.backgammon.controller.Game;
-import controllers.de.htwg.upfaz.backgammon.controller.GameNew;
+
+import controllers.de.htwg.upfaz.backgammon.controller.Core;
 import controllers.de.htwg.upfaz.backgammon.entities.IField;
 
 import java.util.Observable;
@@ -10,9 +11,9 @@ import java.util.Observer;
 public final class Tui
         implements Observer {
 
-    private final GameNew currentGame;
+    private final Core currentGame;
 
-    public Tui(final GameNew currentGame2) {
+    public Tui(final Core currentGame2) {
         currentGame = currentGame2;
     }
 

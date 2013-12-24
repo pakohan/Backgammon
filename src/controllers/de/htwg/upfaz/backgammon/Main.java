@@ -1,18 +1,12 @@
 package controllers.de.htwg.upfaz.backgammon;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import controllers.de.htwg.upfaz.backgammon.controller.GameNew;
-import controllers.de.htwg.upfaz.backgammon.gui.BackgammonFrame;
-import controllers.de.htwg.upfaz.backgammon.gui.Tui;
-
 public final class Main {
+
     private Main() {}
 
-    private final static Injector INJECTOR = Guice.createInjector(new BackGammonModule());
-
     public static void main(final String[] args) {
-        final GameNew currentGame = INJECTOR.getInstance(GameNew.class);
+        /*Injector INJECTOR = Guice.createInjector(new BackGammonCouchDBModule());
+        final Core currentGame = INJECTOR.getInstance(Core.class);
         currentGame.createGame();
 
         final BackgammonFrame bf = new BackgammonFrame(currentGame);
@@ -20,6 +14,6 @@ public final class Main {
 
         currentGame.addObserver(tui);
         currentGame.addObserver(bf);
-        currentGame.notifyObservers();
+        currentGame.notifyObservers();*/
     }
 }

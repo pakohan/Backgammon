@@ -1,28 +1,26 @@
 package controllers.de.htwg.upfaz.backgammon.gui;
 
-import controllers.de.htwg.upfaz.backgammon.controller.GameNew;
+import controllers.de.htwg.upfaz.backgammon.controller.Core;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 import java.util.Observable;
 import java.util.Observer;
 
 public final class BackgammonFrame
         extends JFrame
-        implements MouseListener, MouseMotionListener, Observer {
+        implements MouseListener, MouseMotionListener, Observer, WindowListener {
 
     private static final long serialVersionUID = 1L;
 
     //private final Game currentGame;
-    private final GameNew currentGame;
+    private final Core currentGame;
     private final StatusPanel statusPanel;
     private int x;
     private int y;
 
-    public BackgammonFrame(final GameNew gm) {
+    public BackgammonFrame(final Core gm) {
         currentGame = gm;
 
         setTitle("Upfaz backgammon");
@@ -63,6 +61,28 @@ public final class BackgammonFrame
             currentGame.setWinner(-1);
             startNewGameDialog();
         }
+    }
+    @Override
+    public void windowOpened(final WindowEvent e) {
+    }
+    @Override
+    public void windowClosing(final WindowEvent e) {
+    }
+    @Override
+    public void windowClosed(final WindowEvent e) {
+        //Main.INJECTOR.getInstance(Persister.class).closeDB();
+    }
+    @Override
+    public void windowIconified(final WindowEvent e) {
+    }
+    @Override
+    public void windowDeiconified(final WindowEvent e) {
+    }
+    @Override
+    public void windowActivated(final WindowEvent e) {
+    }
+    @Override
+    public void windowDeactivated(final WindowEvent e) {
     }
 
     private static int getLeft(final int x) {

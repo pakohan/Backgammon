@@ -8,7 +8,7 @@ import controllers.de.htwg.upfaz.backgammon.persist.Persister;
 import java.util.Observable;
 import java.util.UUID;
 
-public class GameNew
+public class Core
         extends Observable
         implements IGame {
 
@@ -21,8 +21,13 @@ public class GameNew
     private int winner = -1;
     private boolean endPhase = false;
 
-    @Inject
     private Persister database;
+
+    @Inject
+    public Core(Persister persister) {
+        this.database = persister;
+        createGame();
+    }
 
     public UUID createGame() {
         players = new Players(this);
@@ -38,7 +43,7 @@ public class GameNew
     }
 
     public void loadGame(final UUID uuid) {
-        this.gameMap = database.loadGame(uuid);
+        this.gameMap = database.loadGame(uuid, -1);
         setChanged();
         notifyObservers();
     }
@@ -187,6 +192,7 @@ public class GameNew
 
     @Override
     public String toString() {
+        System.out.println(gameMap);
         if (gameMap.checkForWinner()) {
             return String.format(Constances.PLAYER_S_IS_THE_WINNER, getCurrentPlayer());
         } else if (endPhase) {

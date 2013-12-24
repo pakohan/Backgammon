@@ -1,10 +1,10 @@
 package controllers.de.htwg.upfaz.backgammon.gui;
 
 //import controllers.de.htwg.upfaz.backgammon.controller.Game;
-import controllers.de.htwg.upfaz.backgammon.controller.GameNew;
+
+import controllers.de.htwg.upfaz.backgammon.controller.Core;
 
 import javax.swing.*;
-
 import java.awt.*;
 
 public final class DrawDesk
@@ -30,9 +30,9 @@ public final class DrawDesk
     private final Image stonew;
     private final Image background;
     //private final Game currentGame;
-    private final GameNew currentGame;
+    private final Core currentGame;
 
-    public DrawDesk(final GameNew currentGame2) {
+    public DrawDesk(final Core currentGame2) {
 
         currentGame = currentGame2;
 
@@ -41,7 +41,7 @@ public final class DrawDesk
         dice = new Image[6];
 
         for (int i = 0; i < dice.length; i++) {
-            dice[i] = getImage("dice" + (i+1));
+            dice[i] = getImage("dice" + (i + 1));
         }
         stoneb = getImage("grau");
         stonew = getImage("weiss");

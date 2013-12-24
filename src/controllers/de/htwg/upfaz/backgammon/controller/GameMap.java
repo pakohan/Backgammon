@@ -1,9 +1,14 @@
 package controllers.de.htwg.upfaz.backgammon.controller;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import controllers.de.htwg.upfaz.backgammon.entities.Field;
 import controllers.de.htwg.upfaz.backgammon.entities.IField;
 import controllers.de.htwg.upfaz.backgammon.entities.IPlayer;
 import controllers.de.htwg.upfaz.backgammon.gui.Constances;
+
+import java.util.Arrays;
+import java.util.UUID;
 
 public final class GameMap {
 
@@ -13,11 +18,14 @@ public final class GameMap {
     public static final int FIELD_END_WHITE = 27;
     public static final int FIELD_END_BLACK = 26;
     private final Dice dice;
+    private UUID uuid;
+    private String revision;
 
     private Field[] gameMap;
     private IPlayer players;
 
     public GameMap(final IGame game, final IPlayer players, final Dice dice) {
+        this.uuid = UUID.randomUUID();
         this.players = players;
         this.dice = dice;
         gameMap = new Field[TOTAL_FIELDS_NR];
@@ -29,19 +37,19 @@ public final class GameMap {
         initStones();
     }
 
+    @JsonIgnore
     public void moveStone(final int startNumber, final int targetNumber) {
         gameMap[targetNumber].setNumberStones(gameMap[targetNumber].getNumberStones() + 1);
-        if (targetNumber != 26 || targetNumber != 27) {
-            gameMap[targetNumber].setStoneColor(players.getColor());
-        }
-        int oldStones = gameMap[startNumber].getNumberStones();
-        int newStones = oldStones - 1;
+        gameMap[targetNumber].setStoneColor(players.getColor());
+        final int oldStones = gameMap[startNumber].getNumberStones();
+        final int newStones = oldStones - 1;
         gameMap[startNumber].setNumberStones(newStones);
         if (gameMap[startNumber].getNumberStones() == 0) {
             gameMap[startNumber].setStoneColor(-1);
         }
     }
 
+    @JsonIgnore
     public void eatStone(final int startNumber, final int targetNumber) {
         gameMap[targetNumber].setNumberStones(1);
         gameMap[targetNumber].setStoneColor(players.getColor());
@@ -54,19 +62,97 @@ public final class GameMap {
         }
         gameMap[startNumber].setNumberStones(gameMap[startNumber].getNumberStones() - 1);
     }
+
+    @JsonIgnore
     public IField getField(final int targetNumber) {
         return gameMap[targetNumber];
     }
+
+    @JsonIgnore
     public IField[] getFields() {
         return gameMap;
     }
+
+    @JsonIgnore
     public boolean isWhiteEaten() {
         return players.getColor() == Players.PLAYER_COLOR_WHITE && getField(FIELD_EATEN_WHITE).getNumberStones() > 0;
     }
+
+    @JsonIgnore
     public boolean isBlackEaten() {
         return players.getColor() == Players.PLAYER_COLOR_BLACK && getField(FIELD_EATEN_BLACK).getNumberStones() > 0;
     }
 
+    @JsonIgnore
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    @JsonIgnore
+    public boolean isNew() {
+        return revision == null || revision.equals("");
+    }
+
+    @JsonIgnore
+    public void setUuid(final UUID uuid) {
+        this.uuid = uuid;
+    }
+
+    @JsonProperty("_rev")
+    public String getRevision() {
+        return revision;
+    }
+
+    @JsonProperty("_rev")
+    public void setRevision(final String revision) {
+        this.revision = revision;
+    }
+
+    /**
+     * Gets the revision.
+     * <p>
+     * Note: This duplicated method is necessary for Forms.bindFromRequest() of
+     * Play!.
+     * </p>
+     *
+     * @return The revision.
+     */
+    @JsonIgnore
+    public String get_rev() {
+        return revision;
+    }
+
+    /**
+     * Sets the revision.
+     * <p>
+     * Note: This duplicated method is necessary for Forms.bindFromRequest() of
+     * Play!.
+     * </p>
+     *
+     * @param rev The revision.
+     */
+    @JsonIgnore
+    public void set_rev(final String rev) {
+        this.revision = rev;
+    }
+
+    @JsonProperty("_id")
+    public String getId() {
+        return uuid.toString();
+    }
+
+    @JsonProperty("_id")
+    public void setId(final String id) {
+        this.uuid = UUID.fromString(id);
+    }
+
+    @JsonIgnore
+    public int getRev() {
+        final String[] strings = revision.split("-");
+        return Integer.parseInt(strings[0]);
+    }
+
+    @JsonIgnore
     private void initStones() {
 
         gameMap[0].setStoneColor(0);
@@ -110,7 +196,20 @@ public final class GameMap {
 		 */
     }
 
+    @JsonIgnore
     public boolean checkForWinner() {
         return gameMap[FIELD_END_BLACK].getNumberStones() == Constances.STONES_TO_WIN || gameMap[FIELD_END_WHITE].getNumberStones() == Constances.STONES_TO_WIN;
+    }
+
+    @JsonIgnore
+    @Override
+    public String toString() {
+        return "GameMap{" +
+                "dice=" + dice +
+                ", uuid=" + uuid +
+                ", revision='" + revision + '\'' +
+                ", gameMap=" + Arrays.toString(gameMap) +
+                ", players=" + players +
+                '}';
     }
 }

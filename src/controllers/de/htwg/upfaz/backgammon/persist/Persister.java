@@ -11,5 +11,7 @@ public interface Persister {
 
     void saveGame(GameMap map);
 
-    GameMap loadGame(UUID id);
+    void closeDB();
+
+    GameMap loadGame(UUID id, int rev);
 }
