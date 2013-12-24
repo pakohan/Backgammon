@@ -7,10 +7,12 @@ import controllers.de.htwg.upfaz.backgammon.entities.IField;
 import controllers.de.htwg.upfaz.backgammon.entities.IPlayer;
 import controllers.de.htwg.upfaz.backgammon.gui.Constances;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.UUID;
 
-public final class GameMap {
+public final class GameMap
+        implements Serializable {
 
     public static final int TOTAL_FIELDS_NR = 28;
     public static final int FIELD_EATEN_WHITE = 25;
