@@ -3,14 +3,26 @@ package controllers.de.htwg.upfaz.backgammon.entities;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-public final class Field
-        implements IField {
+import javax.persistence.*;
+import java.io.Serializable;
 
-    private int fieldNr;
-    private int numberStones;
-    private int stoneColor;
+@Entity
+@Table(name = "FIELD")
+public final class Field
+        implements IField,Serializable {
 
     private static final int TEN_STONES = 10;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+
+    @Column(name = "NR")
+    private int fieldNr;
+    @Column(name = "NUMBER_STONES")
+    private int numberStones;
+    @Column(name = "STONE_COLOR")
+    private int stoneColor;
 
     public Field(final int fn) {
 
@@ -85,5 +97,15 @@ public final class Field
         }
 
         return b.toString();
+    }
+
+    @JsonIgnore
+    public long getId() {
+        return id;
+    }
+
+    @JsonIgnore
+    public void setId(long id) {
+        this.id = id;
     }
 }

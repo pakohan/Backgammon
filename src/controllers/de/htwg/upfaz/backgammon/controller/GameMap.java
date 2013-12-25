@@ -7,10 +7,12 @@ import controllers.de.htwg.upfaz.backgammon.gui.Constances;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.UUID;
 
+@Entity
+@Table(name ="MAP")
 public final class GameMap
         implements Serializable {
 
@@ -20,19 +22,29 @@ public final class GameMap
     public static final int FIELD_END_WHITE = 27;
     public static final int FIELD_END_BLACK = 26;
 
+    @Id
+    private String uuid;
+    @OneToOne(cascade = CascadeType.ALL)
     private Dice dice;
-    private UUID uuid;
+    @Column(name = "REVISION")
     private String revision;
-    private Field[] gameMap;
-    private IPlayer players;
-    private int firstClick = -1;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @OrderColumn
+    private Field[] gameMap;
+    @Transient
+    private IPlayer players;
+    @Column(name = "FIRST_CLICK")
+    private int firstClick = -1;
+    @Column(name = "SECOND_CLICK")
     private int secondClick = -1;
+    @Column(name = "WINNER")
     private int winner = -1;
+    @Column(name = "END_PHASE")
     private boolean endPhase = false;
 
     public GameMap(final IPlayer players, final Dice dice) {
-        this.uuid = UUID.randomUUID();
+        this.uuid = UUID.randomUUID().toString();
         this.players = players;
         this.dice = dice;
         gameMap = new Field[TOTAL_FIELDS_NR];
@@ -112,7 +124,7 @@ public final class GameMap
 
     @JsonIgnore
     public UUID getUuid() {
-        return uuid;
+        return UUID.fromString(uuid);
     }
 
     @JsonIgnore
@@ -122,7 +134,7 @@ public final class GameMap
 
     @JsonIgnore
     public void setUuid(final UUID uuid) {
-        this.uuid = uuid;
+        this.uuid = uuid.toString();
     }
 
     @JsonIgnore
@@ -201,7 +213,7 @@ public final class GameMap
 
     @JsonProperty("_id")
     public void setId(final String id) {
-        this.uuid = UUID.fromString(id);
+        this.uuid = id;
     }
 
     @JsonProperty("dice")
