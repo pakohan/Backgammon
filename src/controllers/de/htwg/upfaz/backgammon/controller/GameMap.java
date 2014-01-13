@@ -4,8 +4,8 @@ import controllers.de.htwg.upfaz.backgammon.entities.Field;
 import controllers.de.htwg.upfaz.backgammon.entities.IField;
 import controllers.de.htwg.upfaz.backgammon.entities.IPlayer;
 import controllers.de.htwg.upfaz.backgammon.gui.Constances;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.io.Serializable;
