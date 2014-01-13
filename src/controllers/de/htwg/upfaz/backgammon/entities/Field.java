@@ -34,19 +34,16 @@ public final class Field
     public Field() {    }
 
     @JsonProperty("nr")
-    @Override
     public int getFieldNr() {
         return fieldNr;
     }
 
     @JsonProperty("nr")
-    @Override
     public void setFieldNr(final int newFieldNr) {
         fieldNr = newFieldNr;
     }
 
     @JsonProperty("amount")
-    @Override
     public void setNumberStones(final int newVar) {
         numberStones = newVar;
         if (newVar == 0) {
@@ -55,25 +52,21 @@ public final class Field
     }
 
     @JsonProperty("amount")
-    @Override
     public int getNumberStones() {
         return numberStones;
     }
 
     @JsonProperty("color")
-    @Override
     public int getStoneColor() {
         return stoneColor;
     }
 
     @JsonProperty("color")
-    @Override
     public void setStoneColor(final int newColor) {
         stoneColor = newColor;
     }
 
     @JsonIgnore
-    @Override
     public boolean isNotJumpable(final int color) {
         return numberStones > 1 && color != stoneColor;
     }

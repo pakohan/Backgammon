@@ -43,7 +43,6 @@ public final class BackgammonFrame
         repaint();
     }
 
-    @Override
     public void mouseClicked(final MouseEvent e) {
         final int x = e.getX();
         final int y = e.getY();
@@ -52,7 +51,6 @@ public final class BackgammonFrame
 
         currentGame.click(getClickedField(x, y));
     }
-    @Override
     public void update(final Observable o, final Object arg) {
         statusPanel.setText(x + ":" + y + " -#- " + currentGame.toString());
         repaint();
@@ -62,26 +60,19 @@ public final class BackgammonFrame
             startNewGameDialog();
         }
     }
-    @Override
     public void windowOpened(final WindowEvent e) {
     }
-    @Override
     public void windowClosing(final WindowEvent e) {
     }
-    @Override
     public void windowClosed(final WindowEvent e) {
         //Main.INJECTOR.getInstance(Persister.class).closeDB();
     }
-    @Override
     public void windowIconified(final WindowEvent e) {
     }
-    @Override
     public void windowDeiconified(final WindowEvent e) {
     }
-    @Override
     public void windowActivated(final WindowEvent e) {
     }
-    @Override
     public void windowDeactivated(final WindowEvent e) {
     }
 
@@ -147,28 +138,22 @@ public final class BackgammonFrame
         }
     }
 
-    @Override
     public void mouseEntered(final MouseEvent e) {
     }
 
-    @Override
     public void mouseExited(final MouseEvent e) {
     }
 
-    @Override
     public void mousePressed(final MouseEvent e) {
     }
 
-    @Override
     public void mouseReleased(final MouseEvent e) {
     }
 
-    @Override
     public void mouseDragged(final MouseEvent e) {
         // mouseHandler(e);
     }
 
-    @Override
     public void mouseMoved(final MouseEvent e) {
         this.x = e.getX();
         this.y = e.getY();

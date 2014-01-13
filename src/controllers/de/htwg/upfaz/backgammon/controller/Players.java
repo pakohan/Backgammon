@@ -30,7 +30,6 @@ public final class Players
         }
     }
 
-    @Override
     public int getColor() {
         return players[currentPlayer].getColor();
     }
@@ -39,7 +38,6 @@ public final class Players
     public String toString() {
         return players[currentPlayer].toString();
     }
-    @Override
     public void setCurrentPlayer(final String s) {
         if (players[0].toString().equals(s)) {
             currentPlayer = 0;

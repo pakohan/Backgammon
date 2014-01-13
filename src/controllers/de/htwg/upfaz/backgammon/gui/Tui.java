@@ -49,7 +49,6 @@ public final class Tui
         System.out.println("||---------------------------------------------------||---|");
         System.out.println("||012-013-014-015-016-017|OUT|018-019-020-021-022-023||-w-|");
     }
-    @Override
     public void update(final Observable o, final Object arg) {
         printField(currentGame.getGameMap().getFields());
         System.out.println(currentGame.toString());
