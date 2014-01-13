@@ -268,6 +268,5 @@ public final class GameMap
         }
     }
 
-    @JsonProperty("status")
-    public void setString(final String s) {}
+    
 }
