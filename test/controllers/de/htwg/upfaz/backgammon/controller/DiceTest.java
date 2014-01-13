@@ -9,12 +9,12 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class DiceTest {
-	
+
 	private Dice dice;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		
+
 	}
 
 	@AfterClass
@@ -38,87 +38,115 @@ public class DiceTest {
 
 	@Test
 	public void testRollTheDice() {
-		
+		dice.rollTheDice();
+		assertNotNull(dice.getValues()[0]);
 	}
 
 	@Test
 	public void testHasTurnsLeft() {
-		fail("Not yet implemented");
+		Dice p = new Dice();
+		assertTrue(p.hasTurnsLeft());
 	}
 
 	@Test
 	public void testGetDiceToDraw() {
-		fail("Not yet implemented");
+		Dice p = new Dice();
+		assertNotNull(p.getDiceToDraw(0));
 	}
 
 	@Test
 	public void testGetDiceAt() {
-		fail("Not yet implemented");
+		Dice p = new Dice();
+		assertNotNull(p.getDiceAt(0));
 	}
 
 	@Test
 	public void testMove() {
-		fail("Not yet implemented");
+		Dice p = new Dice();
+		assertTrue(p.move(p.getDiceAt(0)));
 	}
 
 	@Test
 	public void testRenewJumpsEndPhase() {
-		fail("Not yet implemented");
+		Dice p = new Dice();
+		assertTrue(p.renewJumpsEndPhase(p.getDiceAt(0) - 1));
 	}
 
 	@Test
 	public void testCheckDistance() {
-		fail("Not yet implemented");
+		Dice p = new Dice();
+		assertTrue(p.checkDistance(p.getDiceAt(0)));
 	}
 
 	@Test
 	public void testGetValues() {
-		fail("Not yet implemented");
+		Dice p = new Dice();
+		assertNotNull(p.getValues());
 	}
 
 	@Test
 	public void testSetValues() {
-		fail("Not yet implemented");
+		Byte[] toTest = new Byte[4];
+		Dice p = new Dice();
+		p.setValues(toTest);
+		assertArrayEquals(p.getValues(), toTest);
 	}
 
 	@Test
 	public void testGetValuesToDraw() {
-		fail("Not yet implemented");
+		Dice p = new Dice();
+		assertNotNull(p.getValuesToDraw());
 	}
 
 	@Test
 	public void testSetValuesToDraw() {
-		fail("Not yet implemented");
+		Byte[] toTest = new Byte[4];
+		Dice p = new Dice();
+		p.setValuesToDraw(toTest);
+		assertArrayEquals(p.getValuesToDraw(), toTest);
 	}
 
 	@Test
 	public void testGetNumberTurns() {
-		fail("Not yet implemented");
+		Dice p = new Dice();
+		assertNotNull(p.getNumberTurns());
 	}
 
 	@Test
 	public void testGetNumberTurnsLeft() {
-		fail("Not yet implemented");
+		Dice p = new Dice();
+		assertNotNull(p.getNumberTurnsLeft());
 	}
 
 	@Test
 	public void testSetNumberTurnsLeft() {
-		fail("Not yet implemented");
+		Dice p = new Dice();
+		int toTest = 5;
+		p.setNumberTurnsLeft(toTest);
+		assertEquals(p.getNumberTurnsLeft(), toTest);
 	}
 
 	@Test
 	public void testSetNumberTurns() {
-		fail("Not yet implemented");
+		Dice p = new Dice();
+		int toTest = 5;
+		p.setNumberTurns(toTest);
+		assertEquals(p.getNumberTurns(), toTest);
+
 	}
 
 	@Test
 	public void testGetId() {
-		fail("Not yet implemented");
+		Dice p = new Dice();
+		assertNotNull(p.getId());
 	}
 
 	@Test
 	public void testSetId() {
-		fail("Not yet implemented");
+		Dice p = new Dice();
+		long x = 555;
+		p.setId(x);
+		assertEquals(p.getId(), x);
 	}
 
 }

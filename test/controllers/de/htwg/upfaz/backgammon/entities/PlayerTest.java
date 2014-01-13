@@ -1,5 +1,9 @@
 package controllers.de.htwg.upfaz.backgammon.entities;
 
+import org.junit.After;
+import org.junit.Before;
+
+import controllers.de.htwg.upfaz.backgammon.controller.Dice;
 import junit.framework.TestCase;
 
 /**
@@ -9,24 +13,21 @@ public class PlayerTest
         extends TestCase {
 
     private IPlayer player;
-    //IField f = new Field(5);
-
-    @Override
-    public void setUp() {
+  
+    @Before
+	public void setUp() throws Exception {
         player = new Player(0);
-    }
+	}
+    
+	@After
+	public void tearDown() throws Exception {
+		player = null;
+	}
 
-    //	public void testgetPips() {
-    //		player.setPips(100);
-    //		assertEquals(100, player.getPips());
-    //		player.setPips(0);
-    //		assertEquals(0, player.getPips());
-    //	}
-
+ 
+    
     public void testgetColor() {
-        // player.setColor(0);
-        assertEquals(0, player.getColor());
-        // player.setColor(1);
-        assertEquals(1, player.getColor());
+    	Player x = new Player(1);
+        assertEquals(1, x.getColor());
     }
 }

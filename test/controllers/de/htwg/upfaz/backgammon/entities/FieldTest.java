@@ -1,5 +1,8 @@
 package controllers.de.htwg.upfaz.backgammon.entities;
 
+import org.junit.After;
+import org.junit.Before;
+
 import junit.framework.TestCase;
 
 public class FieldTest
@@ -7,10 +10,15 @@ public class FieldTest
 
     private IField field;
 
-    @Override
-    public void setUp() {
+    @Before
+    public void setUp() throws Exception {
         field = new Field(0);
     }
+    
+    @After
+	public void tearDown() throws Exception {
+		field = null;
+	}
 
     public void testgetFieldNr() {
         field.setFieldNr(1);
