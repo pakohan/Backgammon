@@ -60,22 +60,38 @@ public class GameMapTest {
 
 	}
 
-	@Test
-	public void testEatStone() {
-		int start = 5;
-		int tar = 10;
-	//	int stonesTarBefore = gm.getField(tar).getNumberStones();
-		int stonesStartBefore = gm.getField(start).getNumberStones();
+    @Test
+    public void testEatStone() {
+        int start = 5;
+        int tar = 10;
+        //	int stonesTarBefore = gm.getField(tar).getNumberStones();
+        int stonesStartBefore = gm.getField(start).getNumberStones();
 
-		gm.eatStone(start, tar);
+        gm.eatStone(start, tar);
 
-		assertEquals(1, gm.getField(tar).getNumberStones());
-		assertEquals(stonesStartBefore - 1, gm.getField(start)
-				.getNumberStones());
-		assertThat(-1, not(gm.getField(start).getStoneColor()));
-	}
+        assertEquals(1, gm.getField(tar).getNumberStones());
+        assertEquals(stonesStartBefore - 1, gm.getField(start)
+                .getNumberStones());
+        assertThat(-1, not(gm.getField(start).getStoneColor()));
+    }
 
-	@Test
+    @Test
+    public void testEatStone2() {
+        int start = 5;
+        int tar = 10;
+        gm.getPlayers().setCurrentPlayer("black");
+        //	int stonesTarBefore = gm.getField(tar).getNumberStones();
+        int stonesStartBefore = gm.getField(start).getNumberStones();
+
+        gm.eatStone(start, tar);
+
+        assertEquals(1, gm.getField(tar).getNumberStones());
+        assertEquals(stonesStartBefore - 1, gm.getField(start)
+                .getNumberStones());
+        assertThat(-1, not(gm.getField(start).getStoneColor()));
+    }
+
+    @Test
 	public void testGetField() {
 		assertNotNull(gm.getField(0));
 	}
