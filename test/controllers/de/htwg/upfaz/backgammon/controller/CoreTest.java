@@ -61,6 +61,14 @@ public class CoreTest {
 	public void testClick() {
 		assertTrue(c.click(0));
 		assertFalse(c.click(0));
+		
+		assertTrue(c.click(0));
+		assertTrue(c.click(c.getDiceToDraw(0)));
+		
+		c.setWinner(0);
+		assertTrue(c.click(0));
+		
+		
 	}
 
 	@Test
