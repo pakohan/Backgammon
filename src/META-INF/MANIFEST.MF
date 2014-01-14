@@ -1,6 +1,3 @@
 Manifest-Version: 1.0
-Class-Path: hibernate-core-3.5.6-Final.jar hibernate-annotations-3.5.6
- -Final.jar jackson-core-asl-1.9.7.jar hibernate-jpa-2.0-api.jar jacks
- on-annotations-2.2.3.jar guice-3.0.jar
 Main-Class: controllers.de.htwg.upfaz.backgammon.Main
 

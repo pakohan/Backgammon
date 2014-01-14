@@ -23,7 +23,7 @@ public final class GameMap
     public static final int FIELD_END_BLACK = 26;
 
     @Id
-    private String uuid;
+    private String _id;
     @OneToOne(cascade = CascadeType.ALL)
     private Dice dice;
     @Column(name = "REVISION")
@@ -44,7 +44,7 @@ public final class GameMap
     private boolean endPhase = false;
 
     public GameMap(final IPlayer players, final Dice dice) {
-        this.uuid = UUID.randomUUID().toString();
+        this._id = UUID.randomUUID().toString();
         this.players = players;
         this.dice = dice;
         gameMap = new Field[TOTAL_FIELDS_NR];
@@ -92,12 +92,12 @@ public final class GameMap
         return gameMap[targetNumber];
     }
 
-    @JsonProperty("field")
+    @JsonProperty("fields")
     public Field[] getFields() {
         return gameMap;
     }
 
-    @JsonProperty("field")
+    @JsonProperty("fields")
     public void setFields(final Field[] fields) {
         this.gameMap = fields;
     }
@@ -105,6 +105,11 @@ public final class GameMap
     @JsonProperty("currentPlayer")
     public String getCurrentPlayer() {
         return players.toString();
+    }
+
+    @JsonProperty("currentPlayer")
+    public void setCurrentPlayer(String s) {
+        this.players.setCurrentPlayer(s);
     }
 
     @JsonIgnore
@@ -118,8 +123,8 @@ public final class GameMap
     }
 
     @JsonIgnore
-    public UUID getUuid() {
-        return UUID.fromString(uuid);
+    public UUID get_id() {
+        return UUID.fromString(_id);
     }
 
     @JsonIgnore
@@ -128,8 +133,8 @@ public final class GameMap
     }
 
     @JsonIgnore
-    public void setUuid(final UUID uuid) {
-        this.uuid = uuid.toString();
+    public void setUuid(final UUID _id) {
+        this._id = _id.toString();
     }
 
     @JsonIgnore
@@ -203,12 +208,12 @@ public final class GameMap
 
     @JsonProperty("_id")
     public String getId() {
-        return uuid.toString();
+        return _id.toString();
     }
 
     @JsonProperty("_id")
     public void setId(final String id) {
-        this.uuid = id;
+        this._id = id;
     }
 
     @JsonProperty("dice")
@@ -246,14 +251,14 @@ public final class GameMap
     public void setEndPhase(final boolean endPhase) {
         this.endPhase = endPhase;
     }
+
     @JsonIgnore
     public IPlayer getPlayers() {
         return players;
     }
 
-    @Override
     @JsonProperty("status")
-    public String toString() {
+    public String getStatus() {
         if (checkForWinner()) {
             return String.format(Constances.PLAYER_S_IS_THE_WINNER, getCurrentPlayer());
         } else if (isEndPhase()) {
@@ -261,6 +266,10 @@ public final class GameMap
         } else {
             return String.format("start = %d, target = %d; Current player: %s", getFirstClick(), getSecondClick(), getCurrentPlayer());
         }
+    }
+
+    @JsonProperty("status")
+    public void setStatus(String s) {
     }
 
 

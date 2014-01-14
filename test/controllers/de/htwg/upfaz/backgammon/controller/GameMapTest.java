@@ -1,17 +1,12 @@
 package controllers.de.htwg.upfaz.backgammon.controller;
 
-import static org.junit.Assert.*;
+import controllers.de.htwg.upfaz.backgammon.entities.Field;
+import org.junit.*;
 
 import java.util.UUID;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import static org.hamcrest.CoreMatchers.*;
-import controllers.de.htwg.upfaz.backgammon.entities.Field;
+import static org.hamcrest.CoreMatchers.not;
+import static org.junit.Assert.*;
 
 
 public class GameMapTest {
@@ -118,7 +113,7 @@ public class GameMapTest {
 
 	@Test
 	public void testGetUuid() {
-		assertNotNull(gm.getUuid());
+		assertNotNull(gm.get_id());
 	}
 
 	@Test
@@ -131,7 +126,7 @@ public class GameMapTest {
 	public void testSetUuid() {
 		UUID x = new UUID(123, 123);
 		gm.setUuid(x);
-		assertEquals(x, gm.getUuid());
+		assertEquals(x, gm.get_id());
 	}
 
 	@Test

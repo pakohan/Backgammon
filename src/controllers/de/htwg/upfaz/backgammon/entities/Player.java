@@ -28,6 +28,6 @@ public final class Player
 //        throw new IllegalArgumentException("Do not call Player.changeCurrentPlayer");
     }
     public IPlayer getCurrentPlayer() {
-        return this;
+        return null;
     }
 }
