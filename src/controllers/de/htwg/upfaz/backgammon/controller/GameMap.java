@@ -99,7 +99,8 @@ public final class GameMap
 
     @JsonProperty("fields")
     public void setFields(final Field[] fields) {
-        this.gameMap = fields;
+        this.gameMap = new Field[fields.length];
+        System.arraycopy(fields, 0, this.gameMap, 0, fields.length);
     }
 
     @JsonProperty("currentPlayer")

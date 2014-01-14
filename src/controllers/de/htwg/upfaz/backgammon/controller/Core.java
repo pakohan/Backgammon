@@ -3,6 +3,7 @@ package controllers.de.htwg.upfaz.backgammon.controller;
 import com.google.inject.Inject;
 import controllers.de.htwg.upfaz.backgammon.entities.IPlayer;
 import controllers.de.htwg.upfaz.backgammon.gui.Constances;
+import controllers.de.htwg.upfaz.backgammon.gui.Log;
 import controllers.de.htwg.upfaz.backgammon.persist.Persister;
 
 import java.util.Observable;
@@ -56,12 +57,12 @@ public class Core
         boolean returnVal = true;
 
         if (gameMap.getFirstClick() == -1) {
-            System.out.println("Clicked first field: " + field);
+            Log.verbose("Clicked first field: " + field);
             gameMap.setFirstClick(field);
         } else {
             gameMap.setSecondClick(field);
             // try move also performs the move
-            System.out.println("Making move from " + gameMap.getFirstClick() + " to " + gameMap.getSecondClick());
+            Log.verbose("Making move from " + gameMap.getFirstClick() + " to " + gameMap.getSecondClick());
             returnVal = tryMove();
             gameMap.setFirstClick(-1);
             gameMap.setSecondClick(-1);
@@ -98,23 +99,23 @@ public class Core
         final boolean toReturn = true;
         // do checks if this move is possible
         if (gameMap.getField(gameMap.getFirstClick()).getStoneColor() != players.getColor()) {
-            System.out.println("There are no your pieces");
+            Log.verbose("There are no your pieces");
             return false;
         }
 
         // check direction
         if (gameMap.getSecondClick() < 24 && (players.getColor() == Players.PLAYER_COLOR_WHITE && gameMap.getSecondClick() <= gameMap.getFirstClick() || players.getColor() == Players.PLAYER_COLOR_BLACK && gameMap.getSecondClick() >= gameMap.getFirstClick())) {
-            System.out.println("You're going in the wrong direction!");
+            Log.verbose("You're going in the wrong direction!");
             return false;
         }
 
         if (!dice.checkDistance(Math.abs(gameMap.getSecondClick() - gameMap.getFirstClick()))) {
-            System.out.println("Can you count?");
+            Log.verbose("Can you count?");
             return false;
         }
 
         if (gameMap.getField(gameMap.getSecondClick()).isNotJumpable(players.getColor())) {
-            System.out.println("There are some stones from another player");
+            Log.verbose("There are some stones from another player");
             return false;
         }
 

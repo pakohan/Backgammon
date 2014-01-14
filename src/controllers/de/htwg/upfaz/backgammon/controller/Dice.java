@@ -128,12 +128,16 @@ public final class Dice implements Serializable {
 
     @JsonProperty("values")
     public Byte[] getValues() {
-        return values;
+        Byte[] returnVal = new Byte[this.values.length];
+        System.arraycopy(this.values, 0, returnVal, 0, this.values.length);
+
+        return returnVal;
     }
 
     @JsonProperty("values")
     public void setValues(final Byte[] values) {
-        this.values = values;
+        this.values = new Byte[values.length];
+        System.arraycopy(values, 0, this.values, 0, values.length);
     }
 
     @JsonProperty("valuesToDraw")
