@@ -107,11 +107,6 @@ public final class GameMap
         return players.toString();
     }
 
-    @JsonProperty("currentPlayer")
-    public void setCurrentPlayer(final String s) {
-        players.setCurrentPlayer(s);
-    }
-
     @JsonIgnore
     public boolean isWhiteEaten() {
         return players.getColor() == Players.PLAYER_COLOR_WHITE && getField(FIELD_EATEN_WHITE).getNumberStones() > 0;

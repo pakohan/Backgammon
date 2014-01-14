@@ -4,7 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import controllers.de.htwg.upfaz.backgammon.controller.Dice;
+
 import junit.framework.TestCase;
 
 /**
@@ -37,15 +37,15 @@ public class PlayerTest
     	assertNotNull(player.getCurrentPlayer());
     }
     
-    @Test(expected=IllegalArgumentException.class)
-    public void testSetCurrentPlayer(){
-    	player.setCurrentPlayer("x");
-    }
-    
-    @Test(expected=IllegalArgumentException.class)
-    public void testChangeCurrentPlayer(){
-    	player.changeCurrentPlayer();
-    }
-    
+//    @Test(expected = IllegalArgumentException.class)
+//    public void testSetCurrentPlayer(){
+//    	player.setCurrentPlayer("x");
+//    }
+//    
+//    @Test(expected = IllegalArgumentException.class)
+//    public void testChangeCurrentPlayer(){
+//    	player.changeCurrentPlayer();
+//    }
+   
     
 }

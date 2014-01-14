@@ -7,7 +7,8 @@ public interface IPlayer {
 
     void setCurrentPlayer(String s);
 
-    void changeCurrentPlayer();
 
     IPlayer getCurrentPlayer();
+
+	void changeCurrentPlayer();
 }
