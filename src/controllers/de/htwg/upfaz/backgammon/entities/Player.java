@@ -22,10 +22,10 @@ public final class Player
         }
     }
     public void setCurrentPlayer(final String s) {
-        throw new IllegalArgumentException("Do not call Player.setCurrentPlayer");
+//        throw new IllegalArgumentException("Do not call Player.setCurrentPlayer");
     }
     public void changeCurrentPlayer() {
-        throw new IllegalArgumentException("Do not call Player.changeCurrentPlayer");
+//        throw new IllegalArgumentException("Do not call Player.changeCurrentPlayer");
     }
     public IPlayer getCurrentPlayer() {
         return this;

@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.*;
 import controllers.de.htwg.upfaz.backgammon.entities.Field;
-import controllers.de.htwg.upfaz.backgammon.entities.IPlayer;
+
 
 public class GameMapTest {
 
@@ -29,7 +29,7 @@ public class GameMapTest {
 
 	@Before
 	public void setUp() throws Exception {
-		gm = new GameMap();
+		gm = new GameMap(new Players(), new Dice());
 	}
 
 	@After
@@ -69,7 +69,7 @@ public class GameMapTest {
 	public void testEatStone() {
 		int start = 5;
 		int tar = 10;
-		int stonesTarBefore = gm.getField(tar).getNumberStones();
+	//	int stonesTarBefore = gm.getField(tar).getNumberStones();
 		int stonesStartBefore = gm.getField(start).getNumberStones();
 
 		gm.eatStone(start, tar);
@@ -82,12 +82,14 @@ public class GameMapTest {
 
 	@Test
 	public void testGetField() {
-		assertNotNull(gm.getField(3));
+		assertNotNull(gm.getField(0));
 	}
 
 	@Test
 	public void testGetFields() {
-		assertNotNull(gm.getFields());
+		Field[] f = new Field[11];
+		gm.setFields(f);
+		assertArrayEquals(gm.getFields(), f);
 	}
 
 	@Test
@@ -103,22 +105,14 @@ public class GameMapTest {
 	}
 
 	@Test
-	public void testSetCurrentPlayer() {
-
-		String test = "black";
-		gm.setCurrentPlayer(test);
-		assertEquals(test, gm.getCurrentPlayer());
-	}
-
-	@Test
 	public void testIsWhiteEaten() {
-		GameMap g = new GameMap();
+		GameMap g = new GameMap(new Players(), new Dice());
 		assertFalse(g.isWhiteEaten());
 	}
 
 	@Test
 	public void testIsBlackEaten() {
-		GameMap g = new GameMap();
+		GameMap g = new GameMap(new Players(), new Dice());
 		assertFalse(g.isBlackEaten());
 	}
 
@@ -222,20 +216,20 @@ public class GameMapTest {
 
 	@Test
 	public void testSetWinner() {
-		GameMap xx = new GameMap();
+		GameMap xx = new GameMap(new Players(), new Dice());
 		xx.setWinner(10);
-		assertEquals(10, gm.getWinner());
+		assertEquals(10, xx.getWinner());
 	}
 
 	@Test
 	public void testIsEndPhase() {
-		GameMap g = new GameMap();
+		GameMap g = new GameMap(new Players(), new Dice());
 		assertFalse(g.isEndPhase());
 	}
 
 	@Test
 	public void testSetEndPhase() {
-		GameMap g = new GameMap();
+		GameMap g = new GameMap(new Players(), new Dice());
 		g.setEndPhase(true);
 		assertTrue(g.isEndPhase());
 	}
