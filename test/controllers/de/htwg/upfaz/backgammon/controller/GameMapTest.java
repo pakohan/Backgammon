@@ -1,6 +1,7 @@
 package controllers.de.htwg.upfaz.backgammon.controller;
 
 import controllers.de.htwg.upfaz.backgammon.entities.Field;
+import controllers.de.htwg.upfaz.backgammon.gui.Constances;
 import org.junit.*;
 
 import java.util.UUID;
@@ -79,7 +80,8 @@ public class GameMapTest {
     public void testEatStone2() {
         int start = 5;
         int tar = 10;
-        gm.getPlayers().setCurrentPlayer("black");
+        gm.getPlayers().setCurrentPlayer("white");
+
         //	int stonesTarBefore = gm.getField(tar).getNumberStones();
         int stonesStartBefore = gm.getField(start).getNumberStones();
 
@@ -225,14 +227,26 @@ public class GameMapTest {
 		assertNotNull(gm.getWinner());
 	}
 
-	@Test
-	public void testSetWinner() {
-		GameMap xx = new GameMap(new Players(), new Dice());
-		xx.setWinner(10);
-		assertEquals(10, xx.getWinner());
-	}
+    @Test
+    public void testSetWinner() {
+        GameMap xx = new GameMap(new Players(), new Dice());
+        xx.setWinner(10);
+        assertEquals(10, xx.getWinner());
+    }
 
-	@Test
+    @Test
+    public void testSetCurrentPlayer() {
+        gm.setCurrentPlayer("white");
+        assertEquals(gm.getCurrentPlayer(), "white");
+    }
+
+    @Test
+    public void testSetCurrentPlayer2() {
+        gm.setCurrentPlayer("black");
+        assertEquals(gm.getCurrentPlayer(), "black");
+    }
+
+    @Test
 	public void testIsEndPhase() {
 		GameMap g = new GameMap(new Players(), new Dice());
 		assertFalse(g.isEndPhase());
@@ -254,4 +268,26 @@ public class GameMapTest {
 	public void testToString() {
 		assertNotNull(gm.toString());
 	}
+
+    @Test
+    public void testSetStatus() {
+        gm.setStatus(null);
+    }
+
+    @Test
+    public void testGetStatus() {
+        assertEquals(gm.getStatus(), "start = -1, target = -1; Current player: black");
+    }
+
+    @Test
+    public void testGetStatus2() {
+        gm.getField(GameMap.FIELD_END_BLACK).setNumberStones(Constances.STONES_TO_WIN);
+        assertEquals(gm.getStatus(), String.format(Constances.PLAYER_S_IS_THE_WINNER, gm.getCurrentPlayer()));
+    }
+
+    @Test
+    public void testGetStatus3() {
+        gm.setEndPhase(true);
+        assertEquals(gm.getStatus(), "End Phase!");
+    }
 }
