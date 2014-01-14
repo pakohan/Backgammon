@@ -13,6 +13,9 @@ public final class BackgammonFrame
         implements MouseListener, MouseMotionListener, Observer, WindowListener {
 
     private static final long serialVersionUID = 1L;
+    private static final int PIXELS = 340;
+    private static final int ELEVEN = 11;
+    private static final int TWELVE = 12;
 
     private final Core currentGame;
     private final StatusPanel statusPanel;
@@ -102,9 +105,9 @@ public final class BackgammonFrame
         int output = -1;
 
         if (y <= Constances.UPPER_CENTER_BORDER && y >= Constances.UPPER_BORDER && left >= 0) {
-            output = 11 - left;
+            output = ELEVEN - left;
         } else if (y >= Constances.DOWN_CENTER_BORDER && y <= Constances.DOWN_BORDER && left >= 0) {
-            output = 12 + left;
+            output = TWELVE + left;
         }
 
         output = getClickedEndfield(output, x, y);
@@ -117,7 +120,7 @@ public final class BackgammonFrame
         int newOutput = oldOutput;
 
         if (x > Constances.LEFT_OUT_BORDER && y < Constances.RIGHT_OUT_BORDER) {
-            if (y < 340) {
+            if (y < PIXELS) {
                 newOutput = Constances.FIELD_END_BLACK;
             } else {
                 newOutput = Constances.FIELD_END_WHITE;

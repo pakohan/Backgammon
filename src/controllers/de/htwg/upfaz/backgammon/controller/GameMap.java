@@ -30,6 +30,7 @@ public final class GameMap
     public static final int FIELD_7 = 7;
     public static final int FIELD_5 = 5;
     public static final int NUMBER_5 = 5;
+    private static final int THREE = 3;
 
     @Id
     private String _id;
@@ -167,7 +168,7 @@ public final class GameMap
         gameMap[FIELD_11].setNumberStones(NUMBER_5);
 
         gameMap[FIELD_16].setStoneColor(0);
-        gameMap[FIELD_16].setNumberStones(3);
+        gameMap[FIELD_16].setNumberStones(THREE);
 
         gameMap[FIELD_18].setStoneColor(0);
         gameMap[FIELD_18].setNumberStones(NUMBER_5);
@@ -179,7 +180,7 @@ public final class GameMap
         gameMap[FIELD_12].setNumberStones(NUMBER_5);
 
         gameMap[FIELD_7].setStoneColor(1);
-        gameMap[FIELD_7].setNumberStones(3);
+        gameMap[FIELD_7].setNumberStones(THREE);
 
         gameMap[FIELD_5].setStoneColor(1);
         gameMap[FIELD_5].setNumberStones(NUMBER_5);

@@ -161,7 +161,7 @@ public class Core
             stonesInEndPhase += gameMap.getField(GameMap.FIELD_END_WHITE).getNumberStones();
         } else {
             // Fields 0-5 for black player are
-            for (int i = 5; i >= 0; i--) {
+            for (int i = GameMap.FIELD_5; i >= 0; i--) {
                 // endphase fields
                 if (gameMap.getField(i).getStoneColor() == players.getColor()) {
                     stonesInEndPhase += gameMap.getField(i).getNumberStones();
