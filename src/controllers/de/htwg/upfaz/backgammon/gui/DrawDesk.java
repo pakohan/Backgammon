@@ -36,7 +36,7 @@ public final class DrawDesk
 
         background = getImage("background");
 
-        dice = new Image[6];
+        dice = new Image[NUM_6];
 
         for (int i = 0; i < dice.length; i++) {
             dice[i] = getImage("dice" + (i + 1));
@@ -62,7 +62,7 @@ public final class DrawDesk
     private void getCoordinates(final Graphics g, final Image imageToDraw, final int a) {
         int xCoordinate = INT_645;
 
-        if (a >= 6 && a < INT_18) {
+        if (a >= NUM_6 && a < INT_18) {
             xCoordinate -= 2 * BORDER;
         } else {
             switch (a) {
