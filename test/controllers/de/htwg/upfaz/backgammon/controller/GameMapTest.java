@@ -16,10 +16,10 @@ import controllers.de.htwg.upfaz.backgammon.entities.IPlayer;
 public class GameMapTest {
 
 	private GameMap gm;
-	
+
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		
+
 	}
 
 	@AfterClass
@@ -48,19 +48,40 @@ public class GameMapTest {
 
 	@Test
 	public void testMoveStone() {
-		gm.moveStone(5, 10);
-		
+		int start = 5;
+		int tar = 10;
+		gm.getField(start).setNumberStones(3);
+		int stonesTarBefore = gm.getField(tar).getNumberStones();
+		int stonesStartBefore = gm.getField(start).getNumberStones();
+		gm.moveStone(start, tar);
+		assertEquals(stonesTarBefore + 1, gm.getField(tar).getNumberStones());
+		assertEquals(stonesStartBefore - 1, gm.getField(start)
+				.getNumberStones());
+		assertNotEquals(-1, gm.getField(start).getStoneColor());
+		gm.getField(start).setNumberStones(1);
+		gm.moveStone(start, tar);
+		assertEquals(-1, gm.getField(start).getStoneColor());
+
 	}
 
 	@Test
 	public void testEatStone() {
-		gm.eatStone(5, 10);
-		assertEquals(gm.getField(10).getNumberStones(), 1);
+		int start = 5;
+		int tar = 10;
+		int stonesTarBefore = gm.getField(tar).getNumberStones();
+		int stonesStartBefore = gm.getField(start).getNumberStones();
+
+		gm.eatStone(start, tar);
+
+		assertEquals(1, gm.getField(tar).getNumberStones());
+		assertEquals(stonesStartBefore - 1, gm.getField(start)
+				.getNumberStones());
+		assertNotEquals(-1, gm.getField(start).getStoneColor());
 	}
 
 	@Test
 	public void testGetField() {
-		assertNotNull(gm.getField(10));
+		assertNotNull(gm.getField(3));
 	}
 
 	@Test
@@ -132,7 +153,7 @@ public class GameMapTest {
 
 	@Test
 	public void testCheckForWinner() {
-		GameMap x = new GameMap();
+		GameMap x = new GameMap(new Players(), new Dice());
 		assertFalse(x.checkForWinner());
 	}
 
