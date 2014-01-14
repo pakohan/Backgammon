@@ -24,6 +24,7 @@ public final class DrawDesk
     private static final int INT_11 = 11;
     private static final int INT_565 = 565;
     private static final int INT_23 = 23;
+    private static final int NUM_6 = 6;
     private final Image dice[];
     private final Image stoneb;
     private final Image stonew;
