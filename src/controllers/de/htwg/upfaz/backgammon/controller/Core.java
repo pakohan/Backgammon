@@ -102,7 +102,7 @@ public class Core
         }
 
         // check direction
-        if (gameMap.getSecondClick() < 24 && (players.getColor() == Players.PLAYER_COLOR_WHITE && gameMap.getSecondClick() <= gameMap.getFirstClick() || players.getColor() == Players.PLAYER_COLOR_BLACK && gameMap.getSecondClick() >= gameMap.getFirstClick())) {
+        if (gameMap.getSecondClick() < Dice.TWENTY_FOUR && (players.getColor() == Players.PLAYER_COLOR_WHITE && gameMap.getSecondClick() <= gameMap.getFirstClick() || players.getColor() == Players.PLAYER_COLOR_BLACK && gameMap.getSecondClick() >= gameMap.getFirstClick())) {
             Log.verbose("You're going in the wrong direction!");
             return false;
         }
@@ -152,7 +152,7 @@ public class Core
         int stonesInEndPhase = 0;
         if (players.getColor() == Players.PLAYER_COLOR_WHITE) {
             // Fields 18-23 for white player
-            for (int i = 18; i <= 23; i++) {
+            for (int i = GameMap.FIELD_18; i <= GameMap.FIELD_23; i++) {
                 // are endphase fields
                 if (gameMap.getField(i).getStoneColor() == players.getColor()) {
                     stonesInEndPhase += gameMap.getField(i).getNumberStones();

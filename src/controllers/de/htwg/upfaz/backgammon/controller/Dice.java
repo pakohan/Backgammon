@@ -13,6 +13,9 @@ import java.util.Random;
 public final class Dice implements Serializable {
 
     private static final Random RAND = new Random(System.currentTimeMillis());
+    private static final int FOURTH_DICE = 3;
+    public static final int TWENTY_FOUR = 24;
+    private static final int FOUR = 4;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -45,13 +48,13 @@ public final class Dice implements Serializable {
         }
 
         values[2] = 0;
-        values[3] = 0;
+        values[FOURTH_DICE] = 0;
 
         if (values[0] == values[1]) {
             values[2] = values[0].byteValue();
-            values[3] = values[0].byteValue();
-            numberTurns = 4;
-            numberTurnsLeft = 4;
+            values[FOURTH_DICE] = values[0].byteValue();
+            numberTurns = FOUR;
+            numberTurnsLeft = FOUR;
         } else {
             numberTurns = 2;
             numberTurnsLeft = 2;
@@ -101,7 +104,7 @@ public final class Dice implements Serializable {
         }
 
         for (int i = 0; i < values.length; i++) {
-            if (24 - start == values[i] || start + 1 == values[i]) {
+            if (TWENTY_FOUR - start == values[i] || start + 1 == values[i]) {
                 values[i] = 0;
                 numberTurnsLeft--;
                 returnVal = true;
