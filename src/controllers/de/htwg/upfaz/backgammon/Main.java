@@ -2,7 +2,7 @@ package controllers.de.htwg.upfaz.backgammon;
 
 public final class Main {
 
-    private Main() {}
+    //private Main() {}
 
     public static void main(final String[] args) {
         /*Injector INJECTOR = Guice.createInjector(new BackGammonCouchDBModule());
