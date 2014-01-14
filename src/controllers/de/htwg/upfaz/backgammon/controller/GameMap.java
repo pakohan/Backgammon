@@ -21,14 +21,15 @@ public final class GameMap
     public static final int FIELD_EATEN_BLACK = 24;
     public static final int FIELD_END_WHITE = 27;
     public static final int FIELD_END_BLACK = 26;
-    private static final int FIELD_11 = 11;
-    private static final int FIELD_16 = 16;
-    private static final int FIELD_18 = 18;
-    private static final int FIELD_23 = 23;
-    private static final int FIELD_12 = 12;
-    private static final int FIELD_7 = 7;
-    private static final int FIELD_5 = 5;
-    private static final int NUMBER_5 = 5;
+    public static final int FIELD_11 = 11;
+    public static final int FIELD_16 = 16;
+    public static final int FIELD_18 = 18;
+    public static final int FIELD_23 = 23;
+    public static final int FIELD_12 = 12;
+    public static final int FIELD_17 = 17;
+    public static final int FIELD_7 = 7;
+    public static final int FIELD_5 = 5;
+    public static final int NUMBER_5 = 5;
 
     @Id
     private String _id;

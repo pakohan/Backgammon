@@ -1,6 +1,7 @@
 package controllers.de.htwg.upfaz.backgammon.gui;
 
 import controllers.de.htwg.upfaz.backgammon.controller.Core;
+import controllers.de.htwg.upfaz.backgammon.controller.GameMap;
 import controllers.de.htwg.upfaz.backgammon.entities.IField;
 
 import java.util.Observable;
@@ -9,6 +10,7 @@ import java.util.Observer;
 public final class Tui
         implements Observer {
 
+    private static final int HALF_FIELDS = 6;
     private final Core currentGame;
 
     public Tui(final Core currentGame2) {
@@ -19,26 +21,26 @@ public final class Tui
         sysout("||011-010-009-008-007-006|OUT|005-004-003-002-001-000||-s-|%n");
         sysout("||---------------------------------------------------||---|%n");
         sysout(String.format("||"));
-        for (int i = 11; i > 6; i--) {
+        for (int i = GameMap.FIELD_11; i > HALF_FIELDS; i--) {
             stoneSyso(gameMap, i);
         }
-        sysout(String.format("%s|%s|", gameMap[6].toString(), gameMap[24].toString()));
-        for (int i = 5; i > 0; i--) {
+        sysout(String.format("%s|%s|", gameMap[HALF_FIELDS].toString(), gameMap[GameMap.FIELD_EATEN_BLACK].toString()));
+        for (int i = GameMap.NUMBER_5; i > 0; i--) {
             stoneSyso(gameMap, i);
         }
-        sysout(String.format("%s||%s|%n", gameMap[0].toString(), gameMap[26].toString()));
+        sysout(String.format("%s||%s|%n", gameMap[0].toString(), gameMap[GameMap.FIELD_END_BLACK].toString()));
 
         sysout("||---------------------------------------------------||---|%n");
 
         sysout(String.format("||"));
-        for (int i = 12; i < 17; i++) {
+        for (int i = GameMap.FIELD_12; i < GameMap.FIELD_17; i++) {
             stoneSyso(gameMap, i);
         }
-        sysout(String.format("%s|%s|", gameMap[17].toString(), gameMap[25].toString()));
-        for (int i = 18; i < 23; i++) {
+        sysout(String.format("%s|%s|", gameMap[GameMap.FIELD_17].toString(), gameMap[GameMap.FIELD_EATEN_WHITE].toString()));
+        for (int i = GameMap.FIELD_18; i < GameMap.FIELD_23; i++) {
             stoneSyso(gameMap, i);
         }
-        sysout(String.format("%s||%s|%n", gameMap[23].toString(), gameMap[27].toString()));
+        sysout(String.format("%s||%s|%n", gameMap[GameMap.FIELD_23].toString(), gameMap[GameMap.FIELD_END_WHITE].toString()));
 
         sysout("||---------------------------------------------------||---|%n");
         sysout("||012-013-014-015-016-017|OUT|018-019-020-021-022-023||-w-|%n");
