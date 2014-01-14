@@ -109,7 +109,7 @@ public final class DrawDesk
 
     @Override
     public void paintComponent(final Graphics g) {
-        // TODO find out if needed or if breaking sth: super.paintComponent(g);
+        // TODO find out if needed or if breaking sth
 
         g.drawImage(background, 0, 0, null);
         drawStones(g);

@@ -16,40 +16,44 @@ public final class Tui
     }
 
     public void printField(final IField[] gameMap) {
-        System.out.println("||011-010-009-008-007-006|OUT|005-004-003-002-001-000||-s-|");
-        System.out.println("||---------------------------------------------------||---|");
-        System.out.print("||");
+        sysout("||011-010-009-008-007-006|OUT|005-004-003-002-001-000||-s-|%n");
+        sysout("||---------------------------------------------------||---|%n");
+        sysout(String.format("||"));
         for (int i = 11; i > 6; i--) {
             stoneSyso(gameMap, i);
         }
-        System.out.printf("%s|%s|", gameMap[6].toString(), gameMap[24].toString());
+        sysout(String.format("%s|%s|", gameMap[6].toString(), gameMap[24].toString()));
         for (int i = 5; i > 0; i--) {
             stoneSyso(gameMap, i);
         }
-        System.out.printf("%s||%s|%n", gameMap[0].toString(), gameMap[26].toString());
+        sysout(String.format("%s||%s|%n", gameMap[0].toString(), gameMap[26].toString()));
 
-        System.out.println("||---------------------------------------------------||---|");
+        sysout("||---------------------------------------------------||---|%n");
 
-        System.out.printf("||");
+        sysout(String.format("||"));
         for (int i = 12; i < 17; i++) {
             stoneSyso(gameMap, i);
         }
-        System.out.printf("%s|%s|", gameMap[17].toString(), gameMap[25].toString());
+        sysout(String.format("%s|%s|", gameMap[17].toString(), gameMap[25].toString()));
         for (int i = 18; i < 23; i++) {
             stoneSyso(gameMap, i);
         }
-        System.out.printf("%s||%s|%n", gameMap[23].toString(), gameMap[27].toString());
+        sysout(String.format("%s||%s|%n", gameMap[23].toString(), gameMap[27].toString()));
 
-        System.out.println("||---------------------------------------------------||---|");
-        System.out.println("||012-013-014-015-016-017|OUT|018-019-020-021-022-023||-w-|");
+        sysout("||---------------------------------------------------||---|%n");
+        sysout("||012-013-014-015-016-017|OUT|018-019-020-021-022-023||-w-|%n");
     }
     public void update(final Observable o, final Object arg) {
         printField(currentGame.getGameMap().getFields());
-        System.out.println(currentGame.toString());
+        sysout(currentGame.toString());
     }
 
     private static void stoneSyso(final IField[] gm, final int i) {
-        System.out.printf("%s-", gm[i].toString());
+        sysout(String.format("%s-", gm[i].toString()));
+    }
+
+    private static void sysout(String s) {
+        System.out.print(s);
     }
 
     @Override

@@ -134,8 +134,8 @@ public final class GameMap
     }
 
     @JsonIgnore
-    public void setUuid(final UUID _id) {
-        this._id = _id.toString();
+    public void setUuid(final UUID uuid) {
+        this._id = uuid.toString();
     }
 
     @JsonIgnore
@@ -200,7 +200,7 @@ public final class GameMap
 
     @JsonProperty("_id")
     public String getId() {
-        return _id.toString();
+        return _id;
     }
 
     @JsonProperty("_id")
