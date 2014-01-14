@@ -68,7 +68,16 @@ public class CoreTest {
 		c.setWinner(0);
 		assertTrue(c.click(0));
 		
+		assertFalse(c.click(26));
 		
+		c.getGameMap().setCurrentPlayer("black");
+		assertFalse(c.click(0));
+		
+		assertTrue(c.click(12));
+		assertFalse(c.click(22));
+		
+		assertTrue(c.click(12));
+		assertTrue(c.click(c.getDiceToDraw(0)));
 	}
 
 	@Test
