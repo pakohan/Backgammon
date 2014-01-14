@@ -14,7 +14,6 @@ public final class BackgammonFrame
 
     private static final long serialVersionUID = 1L;
 
-    //private final Game currentGame;
     private final Core currentGame;
     private final StatusPanel statusPanel;
     private int x;
@@ -46,8 +45,6 @@ public final class BackgammonFrame
     public void mouseClicked(final MouseEvent e) {
         final int x = e.getX();
         final int y = e.getY();
-        // convert coordinates in field number
-        //currentGame.setResult(getClickedField(x, y));
 
         currentGame.click(getClickedField(x, y));
     }
@@ -65,7 +62,6 @@ public final class BackgammonFrame
     public void windowClosing(final WindowEvent e) {
     }
     public void windowClosed(final WindowEvent e) {
-        //Main.INJECTOR.getInstance(Persister.class).closeDB();
     }
     public void windowIconified(final WindowEvent e) {
     }
@@ -151,7 +147,6 @@ public final class BackgammonFrame
     }
 
     public void mouseDragged(final MouseEvent e) {
-        // mouseHandler(e);
     }
 
     public void mouseMoved(final MouseEvent e) {

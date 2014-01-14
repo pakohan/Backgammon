@@ -181,15 +181,6 @@ public final class GameMap
         gameMap[FIELD_END_BLACK].setStoneColor(1); // 26
         gameMap[FIELD_END_WHITE].setStoneColor(0); // 27
 
-		/*
-         * endspiel tests gameMap[3].setStoneColor(1); gameMap[4].setStoneColor(1);
-		 * gameMap[5].setStoneColor(1); gameMap[3].setNumberStones(5);
-		 * gameMap[4].setNumberStones(5); gameMap[5].setNumberStones(5);
-		 *
-		 * gameMap[18].setStoneColor(0); gameMap[19].setStoneColor(0);
-		 * gameMap[20].setStoneColor(0); gameMap[18].setNumberStones(5);
-		 * gameMap[19].setNumberStones(5); gameMap[20].setNumberStones(5);
-		 */
     }
 
     @JsonIgnore

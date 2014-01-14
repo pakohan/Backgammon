@@ -1,7 +1,5 @@
 package controllers.de.htwg.upfaz.backgammon.gui;
 
-//import controllers.de.htwg.upfaz.backgammon.controller.Game;
-
 import controllers.de.htwg.upfaz.backgammon.controller.Core;
 import controllers.de.htwg.upfaz.backgammon.controller.Log;
 
@@ -30,7 +28,6 @@ public final class DrawDesk
     private final Image stoneb;
     private final Image stonew;
     private final Image background;
-    //private final Game currentGame;
     private final Core currentGame;
 
     public DrawDesk(final Core currentGame2) {

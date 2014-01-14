@@ -1,7 +1,5 @@
 package controllers.de.htwg.upfaz.backgammon.gui;
 
-//import controllers.de.htwg.upfaz.backgammon.controller.Game;
-
 import controllers.de.htwg.upfaz.backgammon.controller.Core;
 import controllers.de.htwg.upfaz.backgammon.entities.IField;
 
@@ -22,12 +20,10 @@ public final class Tui
         System.out.println("||---------------------------------------------------||---|");
         System.out.print("||");
         for (int i = 11; i > 6; i--) {
-            // System.out.printf("%s-", gameMap[i].toString());
             stoneSyso(gameMap, i);
         }
         System.out.printf("%s|%s|", gameMap[6].toString(), gameMap[24].toString());
         for (int i = 5; i > 0; i--) {
-            // System.out.printf("%s-", gameMap[i].toString());
             stoneSyso(gameMap, i);
         }
         System.out.printf("%s||%s|%n", gameMap[0].toString(), gameMap[26].toString());
@@ -36,12 +32,10 @@ public final class Tui
 
         System.out.printf("||");
         for (int i = 12; i < 17; i++) {
-            // System.out.printf("%s-", gameMap[i].toString());
             stoneSyso(gameMap, i);
         }
         System.out.printf("%s|%s|", gameMap[17].toString(), gameMap[25].toString());
         for (int i = 18; i < 23; i++) {
-            // System.out.printf("%s-", gameMap[i].toString());
             stoneSyso(gameMap, i);
         }
         System.out.printf("%s||%s|%n", gameMap[23].toString(), gameMap[27].toString());
