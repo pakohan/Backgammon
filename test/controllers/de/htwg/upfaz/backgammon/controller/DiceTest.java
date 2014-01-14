@@ -77,7 +77,7 @@ public class DiceTest {
 		assertTrue(p.renewJumpsEndPhase(p.getDiceAt(0) - 1));
 		
 		p.setNumberTurnsLeft(0);
-		assertFalse(p.move(p.getDiceAt(0)));
+		assertFalse(p.renewJumpsEndPhase(p.getDiceAt(0) - 1));
 	}
 
 	@Test
