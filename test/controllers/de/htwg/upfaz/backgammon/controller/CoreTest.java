@@ -11,6 +11,8 @@ import org.junit.Test;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+import controllers.de.htwg.upfaz.backgammon.gui.Constances;
+
 public class CoreTest {
 
 	private Core c;
@@ -68,7 +70,22 @@ public class CoreTest {
 		c.setWinner(0);
 		assertTrue(c.click(0));
 		
+		c.getGameMap().getField(GameMap.FIELD_END_WHITE).setNumberStones(Constances.STONES_TO_WIN);
+		assertFalse(c.click(26));
 		
+		c.getCurrentPlayer().changeCurrentPlayer();
+		assertFalse(c.click(0));
+		
+		assertTrue(c.click(12));
+		assertFalse(c.click(22));
+		
+		assertTrue(c.click(12));
+		assertTrue(c.click(c.getDiceToDraw(0)));
+		
+		assertFalse(c.click(26));
+		
+		c.getGameMap().getField(GameMap.FIELD_END_BLACK).setNumberStones(Constances.STONES_TO_WIN);
+		assertFalse(c.click(26));
 	}
 
 	@Test
