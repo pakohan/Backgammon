@@ -2,8 +2,6 @@ package controllers.de.htwg.upfaz.backgammon.gui;
 
 public final class Constances {
 
-    private Constances() {}
-
     public static final int DEFAULT_X_RESOLUTION = 740;
     public static final int DEFAULT_Y_RESOLUTION = 710;
     public static final long TIME_TO_SLEEP_IN_MS = 200;

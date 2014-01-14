@@ -46,6 +46,8 @@ public class DiceTest {
 	public void testHasTurnsLeft() {
 		Dice p = new Dice();
 		assertTrue(p.hasTurnsLeft());
+		p.setNumberTurnsLeft(0);
+		assertFalse(p.hasTurnsLeft());
 	}
 
 	@Test
@@ -64,12 +66,18 @@ public class DiceTest {
 	public void testMove() {
 		Dice p = new Dice();
 		assertTrue(p.move(p.getDiceAt(0)));
+		
+		p.setNumberTurnsLeft(0);
+		assertFalse(p.move(p.getDiceAt(0)));
 	}
 
 	@Test
 	public void testRenewJumpsEndPhase() {
 		Dice p = new Dice();
 		assertTrue(p.renewJumpsEndPhase(p.getDiceAt(0) - 1));
+		
+		p.setNumberTurnsLeft(0);
+		assertFalse(p.move(p.getDiceAt(0)));
 	}
 
 	@Test

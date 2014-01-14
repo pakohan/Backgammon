@@ -37,15 +37,15 @@ public class PlayerTest
     	assertNull(player.getCurrentPlayer());
     }
     
-//    @Test(expected = IllegalArgumentException.class)
-//    public void testSetCurrentPlayer(){
-//    	player.setCurrentPlayer("x");
-//    }
-//    
-//    @Test(expected = IllegalArgumentException.class)
-//    public void testChangeCurrentPlayer(){
-//    	player.changeCurrentPlayer();
-//    }
+    @Test
+    public void testSetCurrentPlayer(){
+    	player.setCurrentPlayer("x");
+    }
+    
+    @Test
+    public void testChangeCurrentPlayer(){
+    	player.changeCurrentPlayer();
+    }
    
     
 }
