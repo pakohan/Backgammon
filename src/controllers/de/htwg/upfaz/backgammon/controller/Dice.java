@@ -40,7 +40,6 @@ public final class Dice implements Serializable {
 
     @JsonIgnore
     public void rollTheDice() {
-
         for (int index = 0; index < 2; index++) {
             values[index] = (byte) (rand.nextInt(IGame.DICE_RANDOM) + 1);
         }
@@ -53,6 +52,9 @@ public final class Dice implements Serializable {
             values[3] = values[0].byteValue();
             numberTurns = 4;
             numberTurnsLeft = 4;
+        } else {
+            numberTurns = 2;
+            numberTurnsLeft = 2;
         }
         valuesToDraw = values.clone();
     }
