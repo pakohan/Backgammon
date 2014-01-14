@@ -143,7 +143,7 @@ public class GameMapTest {
 	@Test
 	public void testSetUuid() {
 		UUID x = new UUID(123, 123);
-		gm.setUuid(x);
+		gm.set_id(x);
 		assertEquals(x, gm.get_id());
 	}
 
