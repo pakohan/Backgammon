@@ -5,23 +5,25 @@ import org.junit.Before;
 import org.junit.Test;
 
 public final class LogTest {
-    @Before
+    
+	private Log l;
+	@Before
     public void setUp() throws Exception {
-
+    	l = new Log();
     }
 
     @After
     public void tearDown() throws Exception {
-
+    	l = null;
     }
 
     @Test
     public void testVerbose() throws Exception {
-        Log.verbose("TEST");
+        l.verbose("TEST");
     }
 
     @Test
     public void testVerboseEx() throws Exception {
-        Log.verbose(new Exception());
+        l.verbose(new Exception());
     }
 }
