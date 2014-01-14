@@ -43,10 +43,10 @@ public final class BackgammonFrame
     }
 
     public void mouseClicked(final MouseEvent e) {
-        final int X = e.getX();
-        final int Y = e.getY();
+        final int xx = e.getX();
+        final int yy = e.getY();
 
-        currentGame.click(getClickedField(X, Y));
+        currentGame.click(getClickedField(xx, yy));
     }
     public void update(final Observable o, final Object arg) {
         statusPanel.setText(x + ":" + y + " -#- " + currentGame.toString());

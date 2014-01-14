@@ -175,11 +175,11 @@ public final class GameMap
         gameMap[5].setStoneColor(1);
         gameMap[5].setNumberStones(5);
 
-        gameMap[FIELD_EATEN_BLACK].setStoneColor(1); // 24
-        gameMap[FIELD_EATEN_WHITE].setStoneColor(0); // 25
+        gameMap[FIELD_EATEN_BLACK].setStoneColor(1);
+        gameMap[FIELD_EATEN_WHITE].setStoneColor(0);
 
-        gameMap[FIELD_END_BLACK].setStoneColor(1); // 26
-        gameMap[FIELD_END_WHITE].setStoneColor(0); // 27
+        gameMap[FIELD_END_BLACK].setStoneColor(1);
+        gameMap[FIELD_END_WHITE].setStoneColor(0);
 
     }
 

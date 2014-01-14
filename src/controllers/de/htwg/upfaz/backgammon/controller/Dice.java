@@ -12,7 +12,7 @@ import java.util.Random;
 @Table(name = "DICE")
 public final class Dice implements Serializable {
 
-    private static final Random rand = new Random(System.currentTimeMillis());
+    private static final Random RAND = new Random(System.currentTimeMillis());
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -41,7 +41,7 @@ public final class Dice implements Serializable {
     @JsonIgnore
     public void rollTheDice() {
         for (int index = 0; index < 2; index++) {
-            values[index] = (byte) (rand.nextInt(IGame.DICE_RANDOM) + 1);
+            values[index] = (byte) (RAND.nextInt(IGame.DICE_RANDOM) + 1);
         }
 
         values[2] = 0;

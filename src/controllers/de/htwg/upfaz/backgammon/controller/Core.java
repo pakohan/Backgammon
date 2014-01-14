@@ -151,7 +151,8 @@ public class Core
     private void checkEndPhase() {
         int stonesInEndPhase = 0;
         if (players.getColor() == Players.PLAYER_COLOR_WHITE) {
-            for (int i = 18; i <= 23; i++) { // Fields 18-23 for white player
+            // Fields 18-23 for white player
+            for (int i = 18; i <= 23; i++) {
                 // are endphase fields
                 if (gameMap.getField(i).getStoneColor() == players.getColor()) {
                     stonesInEndPhase += gameMap.getField(i).getNumberStones();
@@ -159,7 +160,8 @@ public class Core
             }
             stonesInEndPhase += gameMap.getField(GameMap.FIELD_END_WHITE).getNumberStones();
         } else {
-            for (int i = 5; i >= 0; i--) { // Fields 0-5 for black player are
+            // Fields 0-5 for black player are
+            for (int i = 5; i >= 0; i--) {
                 // endphase fields
                 if (gameMap.getField(i).getStoneColor() == players.getColor()) {
                     stonesInEndPhase += gameMap.getField(i).getNumberStones();
