@@ -14,7 +14,7 @@ public class Core
 
     private IPlayer players;
     private GameMap gameMap;
-    private Dice dice;
+	private Dice dice;
 
     @Inject
     private Persister database;

@@ -83,9 +83,9 @@ public class GameMapTest {
 	@Test
 	public void testSetCurrentPlayer() {
 
-		String test = "test";
+		String test = "black";
 		gm.setCurrentPlayer(test);
-		assertEquals(gm.getCurrentPlayer(), test);
+		assertEquals(test, gm.getCurrentPlayer());
 	}
 
 	@Test
@@ -120,6 +120,7 @@ public class GameMapTest {
 
 	@Test
 	public void testGet_rev() {
+		gm.set_rev("xxx");
 		assertNotNull(gm.get_rev());
 	}
 
@@ -137,6 +138,7 @@ public class GameMapTest {
 
 	@Test
 	public void testGetRevision() {
+		gm.setRevision("xxx");
 		assertNotNull(gm.getRevision());
 	}
 
@@ -200,7 +202,7 @@ public class GameMapTest {
 	public void testSetWinner() {
 		GameMap xx = new GameMap();
 		xx.setWinner(10);
-		assertEquals(gm.getWinner(), 10);
+		assertEquals(10, gm.getWinner());
 	}
 
 	@Test
