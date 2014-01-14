@@ -16,6 +16,7 @@ public class CoreTest {
 	@Before
 	public void setUp() throws Exception {
 		c = new Core();
+		u = c.createGame();
 	}
 
 	@After
