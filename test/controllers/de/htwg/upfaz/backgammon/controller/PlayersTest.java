@@ -48,6 +48,11 @@ public class PlayersTest {
 		p.changeCurrentPlayer();
 		Player newPlayer = (Player) p.getCurrentPlayer();
 		assertThat(newPlayer, not(oldPlayer));
+		
+		oldPlayer = (Player)	 p.getCurrentPlayer();
+		p.changeCurrentPlayer();
+		newPlayer = (Player) p.getCurrentPlayer();
+		assertThat(newPlayer, not(oldPlayer));
 	}
 
 	@Test
@@ -67,7 +72,11 @@ public class PlayersTest {
 
 	@Test
 	public void testSetCurrentPlayer() {
+		p.setCurrentPlayer("white");
+		assertEquals(0, p.getCurrentPlayer().getColor());
 		
+		p.setCurrentPlayer("black");
+		assertEquals(1, p.getCurrentPlayer().getColor());
 	}
 
 }
