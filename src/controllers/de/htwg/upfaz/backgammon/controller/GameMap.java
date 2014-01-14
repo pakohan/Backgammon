@@ -144,7 +144,7 @@ public final class GameMap
     }
 
     @JsonIgnore
-    public void setUuid(final UUID uuid) {
+    public void set_id(final UUID uuid) {
         this._id = uuid.toString();
     }
 
