@@ -8,14 +8,19 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+
 public class CoreTest {
 
 	private Core c;
 	private UUID u;
 	
+	private static Injector inj = Guice.createInjector(new TestModule());
+	
 	@Before
 	public void setUp() throws Exception {
-		c = new Core();
+		c = inj.getInstance(Core.class);
 		u = c.createGame();
 	}
 
@@ -56,6 +61,14 @@ public class CoreTest {
 	public void testClick() {
 		assertTrue(c.click(0));
 		assertFalse(c.click(0));
+		
+		assertTrue(c.click(0));
+		assertTrue(c.click(c.getDiceToDraw(0)));
+		
+		c.setWinner(0);
+		assertTrue(c.click(0));
+		
+		
 	}
 
 	@Test

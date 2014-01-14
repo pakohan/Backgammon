@@ -24,7 +24,7 @@ public class Core
         gameMap = new GameMap(players, dice);
 
         players.changeCurrentPlayer();
-
+        
         final UUID uuid = database.createGame(gameMap);
         setChanged();
         notifyObservers();
