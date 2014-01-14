@@ -34,7 +34,7 @@ public class PlayerTest
     
     @Test
     public void testGetCurrentPlayer(){
-    	assertNotNull(player.getCurrentPlayer());
+    	assertNull(player.getCurrentPlayer());
     }
     
 //    @Test(expected = IllegalArgumentException.class)

@@ -43,6 +43,8 @@ public final class Players
             currentPlayer = 0;
         } else if (players[1].toString().equals(s)) {
             currentPlayer = 1;
+        } else {
+        	currentPlayer = -2;
         }
     }
 }
