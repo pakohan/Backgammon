@@ -21,6 +21,14 @@ public final class GameMap
     public static final int FIELD_EATEN_BLACK = 24;
     public static final int FIELD_END_WHITE = 27;
     public static final int FIELD_END_BLACK = 26;
+    private static final int FIELD_11 = 11;
+    private static final int FIELD_16 = 16;
+    private static final int FIELD_18 = 18;
+    private static final int FIELD_23 = 23;
+    private static final int FIELD_12 = 12;
+    private static final int FIELD_7 = 7;
+    private static final int FIELD_5 = 5;
+    private static final int NUMBER_5 = 5;
 
     @Id
     private String _id;
@@ -154,26 +162,26 @@ public final class GameMap
         gameMap[0].setStoneColor(0);
         gameMap[0].setNumberStones(2);
 
-        gameMap[11].setStoneColor(0);
-        gameMap[11].setNumberStones(5);
+        gameMap[FIELD_11].setStoneColor(0);
+        gameMap[FIELD_11].setNumberStones(NUMBER_5);
 
-        gameMap[16].setStoneColor(0);
-        gameMap[16].setNumberStones(3);
+        gameMap[FIELD_16].setStoneColor(0);
+        gameMap[FIELD_16].setNumberStones(3);
 
-        gameMap[18].setStoneColor(0);
-        gameMap[18].setNumberStones(5);
+        gameMap[FIELD_18].setStoneColor(0);
+        gameMap[FIELD_18].setNumberStones(NUMBER_5);
 
-        gameMap[23].setStoneColor(1);
-        gameMap[23].setNumberStones(2);
+        gameMap[FIELD_23].setStoneColor(1);
+        gameMap[FIELD_23].setNumberStones(2);
 
-        gameMap[12].setStoneColor(1);
-        gameMap[12].setNumberStones(5);
+        gameMap[FIELD_12].setStoneColor(1);
+        gameMap[FIELD_12].setNumberStones(NUMBER_5);
 
-        gameMap[7].setStoneColor(1);
-        gameMap[7].setNumberStones(3);
+        gameMap[FIELD_7].setStoneColor(1);
+        gameMap[FIELD_7].setNumberStones(3);
 
-        gameMap[5].setStoneColor(1);
-        gameMap[5].setNumberStones(5);
+        gameMap[FIELD_5].setStoneColor(1);
+        gameMap[FIELD_5].setNumberStones(NUMBER_5);
 
         gameMap[FIELD_EATEN_BLACK].setStoneColor(1);
         gameMap[FIELD_EATEN_WHITE].setStoneColor(0);
