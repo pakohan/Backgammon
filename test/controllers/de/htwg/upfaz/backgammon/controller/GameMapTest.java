@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.*;
 import controllers.de.htwg.upfaz.backgammon.entities.Field;
 import controllers.de.htwg.upfaz.backgammon.entities.IPlayer;
 
@@ -57,7 +58,7 @@ public class GameMapTest {
 		assertEquals(stonesTarBefore + 1, gm.getField(tar).getNumberStones());
 		assertEquals(stonesStartBefore - 1, gm.getField(start)
 				.getNumberStones());
-		assertNotEquals(-1, gm.getField(start).getStoneColor());
+		assertThat(-1, not(gm.getField(start).getStoneColor()));
 		gm.getField(start).setNumberStones(1);
 		gm.moveStone(start, tar);
 		assertEquals(-1, gm.getField(start).getStoneColor());
@@ -76,7 +77,7 @@ public class GameMapTest {
 		assertEquals(1, gm.getField(tar).getNumberStones());
 		assertEquals(stonesStartBefore - 1, gm.getField(start)
 				.getNumberStones());
-		assertNotEquals(-1, gm.getField(start).getStoneColor());
+		assertThat(-1, not(gm.getField(start).getStoneColor()));
 	}
 
 	@Test

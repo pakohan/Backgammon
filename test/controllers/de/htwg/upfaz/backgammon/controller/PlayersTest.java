@@ -7,7 +7,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
+import static org.hamcrest.CoreMatchers.*;
 import controllers.de.htwg.upfaz.backgammon.entities.IPlayer;
 import controllers.de.htwg.upfaz.backgammon.entities.Player;
 
@@ -47,7 +47,7 @@ public class PlayersTest {
 		Player oldPlayer = (Player) p.getCurrentPlayer();
 		p.changeCurrentPlayer();
 		Player newPlayer = (Player) p.getCurrentPlayer();
-//		assertNotEquals(newPlayer, oldPlayer);
+		assertThat(newPlayer, not(oldPlayer));
 	}
 
 	@Test
