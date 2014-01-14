@@ -77,9 +77,6 @@ public class PlayersTest {
 		
 		p.setCurrentPlayer("black");
 		assertEquals(1, p.getCurrentPlayer().getColor());
-		
-		p.setCurrentPlayer("test");
-		assertEquals(-2, p.getCurrentPlayer().getColor());
 	}
 
 }
