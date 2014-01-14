@@ -3,7 +3,7 @@ package controllers.de.htwg.upfaz.backgammon.controller;
 
 import controllers.de.htwg.upfaz.backgammon.entities.IPlayer;
 import controllers.de.htwg.upfaz.backgammon.gui.Constances;
-import controllers.de.htwg.upfaz.backgammon.gui.Log;
+import controllers.de.htwg.upfaz.backgammon.controller.Log;
 import controllers.de.htwg.util.observer.IObservable;
 import controllers.de.htwg.util.observer.Observable;
 

@@ -3,8 +3,6 @@ package controllers.de.htwg.upfaz.backgammon.controller;
 import com.google.inject.Inject;
 import controllers.de.htwg.upfaz.backgammon.entities.IPlayer;
 import controllers.de.htwg.upfaz.backgammon.gui.Constances;
-import controllers.de.htwg.upfaz.backgammon.gui.Log;
-import controllers.de.htwg.upfaz.backgammon.persist.Persister;
 
 import java.util.Observable;
 import java.util.UUID;

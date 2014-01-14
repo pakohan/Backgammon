@@ -1,4 +1,4 @@
-package controllers.de.htwg.upfaz.backgammon.persist;
+package controllers.de.htwg.upfaz.backgammon.controller;
 
 import controllers.de.htwg.upfaz.backgammon.controller.GameMap;
 

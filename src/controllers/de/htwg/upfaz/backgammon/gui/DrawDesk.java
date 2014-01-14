@@ -3,6 +3,7 @@ package controllers.de.htwg.upfaz.backgammon.gui;
 //import controllers.de.htwg.upfaz.backgammon.controller.Game;
 
 import controllers.de.htwg.upfaz.backgammon.controller.Core;
+import controllers.de.htwg.upfaz.backgammon.controller.Log;
 
 import javax.swing.*;
 import java.awt.*;

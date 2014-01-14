@@ -1,4 +1,4 @@
-package controllers.de.htwg.upfaz.backgammon.gui;
+package controllers.de.htwg.upfaz.backgammon.controller;
 
 public final class Log {
 
