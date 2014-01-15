@@ -18,8 +18,8 @@ public final class Tui
     }
 
     public void printField(final IField[] gameMap) {
-        sysout("||011-010-009-008-007-006|OUT|005-004-003-002-001-000||-s-|%n");
-        sysout("||---------------------------------------------------||---|%n");
+        sysout("||011-010-009-008-007-006|OUT|005-004-003-002-001-000||-s-|\n");
+        sysout("||---------------------------------------------------||---|\n");
         sysout(String.format("||"));
         for (int i = GameMap.FIELD_11; i > HALF_FIELDS; i--) {
             stoneSyso(gameMap, i);
@@ -28,9 +28,9 @@ public final class Tui
         for (int i = GameMap.NUMBER_5; i > 0; i--) {
             stoneSyso(gameMap, i);
         }
-        sysout(String.format("%s||%s|%n", gameMap[0].toString(), gameMap[GameMap.FIELD_END_BLACK].toString()));
+        sysout(String.format("%s||%s|\n", gameMap[0].toString(), gameMap[GameMap.FIELD_END_BLACK].toString()));
 
-        sysout("||---------------------------------------------------||---|%n");
+        sysout("||---------------------------------------------------||---|\n");
 
         sysout(String.format("||"));
         for (int i = GameMap.FIELD_12; i < GameMap.FIELD_17; i++) {
@@ -40,10 +40,10 @@ public final class Tui
         for (int i = GameMap.FIELD_18; i < GameMap.FIELD_23; i++) {
             stoneSyso(gameMap, i);
         }
-        sysout(String.format("%s||%s|%n", gameMap[GameMap.FIELD_23].toString(), gameMap[GameMap.FIELD_END_WHITE].toString()));
+        sysout(String.format("%s||%s|\n", gameMap[GameMap.FIELD_23].toString(), gameMap[GameMap.FIELD_END_WHITE].toString()));
 
-        sysout("||---------------------------------------------------||---|%n");
-        sysout("||012-013-014-015-016-017|OUT|018-019-020-021-022-023||-w-|%n");
+        sysout("||---------------------------------------------------||---|\n");
+        sysout("||012-013-014-015-016-017|OUT|018-019-020-021-022-023||-w-|\n");
     }
     public void update(final Observable o, final Object arg) {
         printField(currentGame.getGameMap().getFields());

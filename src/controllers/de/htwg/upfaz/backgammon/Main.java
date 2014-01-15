@@ -1,5 +1,13 @@
 package controllers.de.htwg.upfaz.backgammon;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+
+import controllers.de.htwg.upfaz.backgammon.controller.BackGammonCouchDBModule;
+import controllers.de.htwg.upfaz.backgammon.controller.Core;
+import controllers.de.htwg.upfaz.backgammon.gui.BackgammonFrame;
+import controllers.de.htwg.upfaz.backgammon.gui.Tui;
+
 public final class Main {
 
     
